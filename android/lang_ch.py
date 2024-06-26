@@ -1,12 +1,12 @@
-import time
-import unittest
+from time import sleep
 
-from android.base_test import BaseTest
 from appium.webdriver.common.appiumby import AppiumBy
 
+from android.base_test import AppiumHelper
 
-class TestAppium(BaseTest):
-    def __init__(self, methodName="runTest"):
+
+class LanguageHelper():
+    def __init__(self):
         capabilities = dict(
             platformName='Android',
             automationName='uiautomator2',
@@ -18,34 +18,32 @@ class TestAppium(BaseTest):
         )
 
         appium_server_url = 'http://localhost:4723'
-        # appium_server_url = 'http://147.139.208.135:4723'
-        super().__init__(methodName, appium_server_url=appium_server_url, capabilities=capabilities)
+        appium_helper = AppiumHelper(appium_server_url, capabilities)
+        self.appium_helper = appium_helper
 
     def test_ai_see(self):
-        self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView("System")')
-        time.sleep(2)
-        self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("System")').click()
+        wait_for_find = self.appium_helper.wait_for_find
+        wait_for_finds = self.appium_helper.wait_for_finds
+        wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView("System")')
+        sleep(2)
+        wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("System")').click()
         # 点击 Languages & input
-        self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("Languages & input")').click()
+        wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("Languages & input")').click()
         # 点击 Languages
-        self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("Languages")').click()
-        elements = self.driver.find_elements(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().textContains("简体中文（中国）")')
+        wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("Languages")').click()
+        elements = self.appium_helper.driver.find_elements(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().textContains("简体中文（中国）")')
         if not elements:
             # 点击 Add a language
-            self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("Add a language")').click()
+            wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("Add a language")').click()
             # 滑动到底部
-            self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR,
+            wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR,
                                value='new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView("简体中文")', timeout=10)
-            time.sleep(2)
+            sleep(2)
             # 找到简体中文
-            self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("简体中文")').click()
+            wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("简体中文")').click()
             # 点击中国
-            self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("中国")').click()
-        chinese = self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("简体中文（中国）").fromParent(new UiSelector().className("android.widget.ImageView"))')
-        first = self.wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("1").fromParent(new UiSelector().className("android.widget.ImageView"))')
-        self.driver.drag_and_drop(chinese, first)
-        time.sleep(3)
-
-
-if __name__ == '__main__':
-    unittest.main()
+            wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("中国")').click()
+        chinese = wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("简体中文（中国）").fromParent(new UiSelector().className("android.widget.ImageView"))')
+        first = wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("1").fromParent(new UiSelector().className("android.widget.ImageView"))')
+        self.appium_helper.driver.drag_and_drop(chinese, first)
+        sleep(3)

@@ -1,12 +1,12 @@
+import glob
+import os
 import time
 import unittest
-import os
-import glob
 
-from android.base_test import BaseTest
-from utils.upload_file import upload
+from base_test import AppiumHelper
 from utils.ai_api import send_AI_API
 from utils.img_compress import take_screenshot_and_compress
+from utils.upload_file import upload
 
 
 def clear_screenshots(directory='screen_shot'):
@@ -21,8 +21,8 @@ def clear_screenshots(directory='screen_shot'):
             print(f"Failed to delete {file}. Reason: {e}")
 
 
-class TestAppium(BaseTest):
-    def __init__(self, methodName="runTest"):
+class WatchTikTok():
+    def __init__(self):
         capabilities = dict(
             platformName='Android',
             automationName='uiautomator2',
@@ -34,13 +34,10 @@ class TestAppium(BaseTest):
             # locale='US'
         )
 
-        # appium_server_url = 'http://localhost:4723'
-        appium_server_url = 'http://147.139.208.135:4723'
-        super().__init__(methodName, appium_server_url=appium_server_url, capabilities=capabilities)
-
-    def setUp(self) -> None:
+        appium_server_url = 'http://localhost:4723'
+        appium_helper = AppiumHelper(appium_server_url, capabilities)
+        self.appium_helper = appium_helper
         clear_screenshots()
-        super().setUp()
 
     def test_ai_see(self) -> None:
         img_list = []
@@ -52,12 +49,12 @@ class TestAppium(BaseTest):
                 index = f"{time.time_ns()}-{i + 1}-{j + 1}"
                 file_path = f"screen_shot/{index}.png"
                 print(f"第{index}次截图")
-                if self.driver.get_screenshot_as_file(file_path):
+                if self.appium_helper.driver.get_screenshot_as_file(file_path):
                     take_screenshot_and_compress(file_path, index)
                     print(f"第{index}次上传")
                     img_url = upload(f"{index}.png", file_path)
                     img_list.append(img_url)
-            self.swipe()
+            self.appium_helper.swipe()
         send_AI_API(img_list)
 
 
