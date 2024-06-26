@@ -1,0 +1,2 @@
+# DingTalkOpenAPI
+存放一些服务端启动的OpenAPI，用于操作虚拟化Android手机
