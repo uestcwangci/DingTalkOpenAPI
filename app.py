@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+from android.dt_send_msg import TestAppium
 import logging
 app = Flask(__name__)
 
@@ -22,6 +23,7 @@ def send_message():
     app.logger.info(f'Sending message to {name}: {message}')
 
     # 实现发送钉钉消息的逻辑 (忽略)
+    TestAppium.test_send_msg()
 
     response = {
         'success': True,
