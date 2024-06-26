@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 import logging
 app = Flask(__name__)
 
-logging.basicConfig(filename='app.log', level=logging.INFO,
+logging.basicConfig(filename='trace.log', level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s')
 
 @app.route('/')
