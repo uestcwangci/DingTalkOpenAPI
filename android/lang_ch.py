@@ -2,7 +2,7 @@ from time import sleep
 
 from appium.webdriver.common.appiumby import AppiumBy
 
-from android.base_test import AppiumHelper
+from .base_test import AppiumHelper
 
 
 class LanguageHelper():
@@ -21,7 +21,7 @@ class LanguageHelper():
         appium_helper = AppiumHelper(appium_server_url, capabilities)
         self.appium_helper = appium_helper
 
-    def test_ai_see(self):
+    def change_to_ch(self):
         wait_for_find = self.appium_helper.wait_for_find
         wait_for_finds = self.appium_helper.wait_for_finds
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView("System")')

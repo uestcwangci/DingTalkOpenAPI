@@ -1,12 +1,12 @@
 import glob
 import os
 import time
-import unittest
 
-from base_test import AppiumHelper
+import test
 from utils.ai_api import send_AI_API
 from utils.img_compress import take_screenshot_and_compress
 from utils.upload_file import upload
+from .base_test import AppiumHelper
 
 
 def clear_screenshots(directory='screen_shot'):
@@ -59,4 +59,4 @@ class WatchTikTok():
 
 
 if __name__ == '__main__':
-    unittest.main()
+    test.main()

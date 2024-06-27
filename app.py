@@ -1,10 +1,46 @@
-from flask import Flask, request, jsonify, render_template
-from android.dt_send_msg import TestAppium
+import asyncio
 import logging
+from threading import Thread
+
+from flask import Flask, request, jsonify, render_template
+
+from android.dt_send_msg import MessageSender
+from android.lang_ch import LanguageHelper
+
 app = Flask(__name__)
 
 logging.basicConfig(filename='trace.log', level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s')
+
+
+def run_async(func, *args, **kwargs):
+    """
+    异步运行函数
+
+    Args:
+      func: 要异步运行的函数
+      *args: 函数的位置参数
+      **kwargs: 函数的关键字参数
+    """
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        if asyncio.iscoroutinefunction(func):
+            loop.run_until_complete(func(*args, **kwargs))
+        else:
+            loop.run_until_complete(loop.run_in_executor(None, func, *args, **kwargs))
+    finally:
+        loop.close()
+
+def change_language_async():
+    # 创建一个新的事件循环，因为在新的线程中无法使用默认循环
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        # 在新的事件循环中运行 change_to_ch()
+        loop.run_until_complete(LanguageHelper().change_to_ch())
+    finally:
+        loop.close()
 
 @app.route('/')
 def hello_world():
@@ -22,8 +58,11 @@ def send_message():
 
     app.logger.info(f'Sending message to {name}: {message}')
 
-    # 实现发送钉钉消息的逻辑 (忽略)
-    TestAppium.test_send_msg()
+    # 实现发送钉钉消息的逻辑
+    message_sender = MessageSender()
+
+    thread = Thread(target=run_async, args=(message_sender.send_message, name, message))
+    thread.start()
 
     response = {
         'success': True,
@@ -49,4 +88,4 @@ def update_status():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
