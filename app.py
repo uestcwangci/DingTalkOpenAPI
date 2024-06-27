@@ -4,7 +4,7 @@ from threading import Thread
 
 from flask import Flask, request, jsonify, render_template
 
-from android.dt_send_msg import MessageSender
+from android.dt_msg_helper import MessageHelper
 from android.lang_ch import LanguageHelper
 
 app = Flask(__name__)
@@ -42,6 +42,8 @@ def change_language_async():
     finally:
         loop.close()
 
+message_helper = MessageHelper(app.logger)
+
 @app.route('/')
 def hello_world():
     return 'hello world'
@@ -59,9 +61,8 @@ def send_message():
     app.logger.info(f'Sending message to {name}: {message}')
 
     # 实现发送钉钉消息的逻辑
-    message_sender = MessageSender()
 
-    thread = Thread(target=run_async, args=(message_sender.send_message, name, message))
+    thread = Thread(target=run_async, args=(message_helper.send_message, name, message))
     thread.start()
 
     response = {
@@ -71,6 +72,24 @@ def send_message():
     app.logger.info(response)
     return jsonify(response)
 
+@app.route('/v1/actions/openapi/dingtalk/reply_message', methods=['GET'])
+def send_message():
+    name = request.args.get('name')
+    group = request.args.get('group')
+
+    app.logger.info(f'Sending message to {group}: {name}')
+
+    # 实现发送钉钉消息的逻辑
+
+    thread = Thread(target=run_async, args=(message_helper.reply_message, group, name))
+    thread.start()
+
+    response = {
+        'success': True,
+        'message': f'Message sent to {group}: {name}'
+    }
+    app.logger.info(response)
+    return jsonify(response)
 
 @app.route('/v1/actions/openapi/dingtalk/update_status', methods=['GET'])
 def update_status():
