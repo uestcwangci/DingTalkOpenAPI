@@ -29,12 +29,15 @@ def send_request(payload):
             # 处理流数据
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:
-                    print(chunk)
-            print('End')
+                    pass
+                    # info(chunk)
+            # info('End')
         else:
-            print(f'Request failed with status code {response.status_code}')
+            pass
+            # info(f'Request failed with status code {response.status_code}')
     except Exception as e:
-        print(f'An error occurred: {e}')
+        pass
+        # info(f'An error occurred: {e}')
 
 
 def create_chat(input_text: str) -> str:
@@ -57,9 +60,10 @@ def create_chat(input_text: str) -> str:
         response = requests.post(url, json=payload)
         response.raise_for_status()  # 如果请求失败，抛出异常
         session_id = response.json().get("sessionId", "")
+        print(f'sessionId: {session_id}')
         return session_id
     except requests.exceptions.RequestException as e:
-        print(f"创建聊天会话失败: {e}")
+        # info(f"创建聊天会话失败: {e}")
         return ""
 
 
@@ -87,7 +91,7 @@ def send_chat_message(session_id: str, input_text: str) -> str:
         reply = response.json().get("data", "").get("content", "")
         return reply
     except requests.exceptions.RequestException as e:
-        print(f"发送聊天消息失败: {e}")
+        # info(f"发送聊天消息失败: {e}")
         return ""
 
 

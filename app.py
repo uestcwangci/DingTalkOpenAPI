@@ -42,7 +42,7 @@ def change_language_async():
     finally:
         loop.close()
 
-message_helper = MessageHelper(app.logger)
+
 
 @app.route('/')
 def hello_world():
@@ -61,6 +61,7 @@ def send_message():
     app.logger.info(f'Sending message to {name}: {message}')
 
     # 实现发送钉钉消息的逻辑
+    message_helper = MessageHelper()
 
     thread = Thread(target=run_async, args=(message_helper.send_message, name, message))
     thread.start()
@@ -73,13 +74,14 @@ def send_message():
     return jsonify(response)
 
 @app.route('/v1/actions/openapi/dingtalk/reply_message', methods=['GET'])
-def send_message():
+def reply_message():
     name = request.args.get('name')
     group = request.args.get('group')
 
     app.logger.info(f'Sending message to {group}: {name}')
 
     # 实现发送钉钉消息的逻辑
+    message_helper = MessageHelper()
 
     thread = Thread(target=run_async, args=(message_helper.reply_message, group, name))
     thread.start()
