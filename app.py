@@ -75,20 +75,40 @@ def send_message():
 
 @app.route('/v1/actions/openapi/dingtalk/reply_message', methods=['GET'])
 def reply_message():
-    name = request.args.get('name')
+    watcher_name = request.args.get('watcher_name')
     group = request.args.get('group')
 
-    app.logger.info(f'Sending message to {group}: {name}')
+    app.logger.info(f'Sending message to {group}: {watcher_name}')
 
     # 实现发送钉钉消息的逻辑
     message_helper = MessageHelper()
 
-    thread = Thread(target=run_async, args=(message_helper.reply_message, group, name))
+    thread = Thread(target=run_async, args=(message_helper.reply_message, group, watcher_name))
     thread.start()
 
     response = {
         'success': True,
-        'message': f'Message sent to {group}: {name}'
+        'message': f'Message sent to {group}: {watcher_name}'
+    }
+    app.logger.info(response)
+    return jsonify(response)
+
+@app.route('/v1/actions/openapi/dingtalk/check_read_status', methods=['GET'])
+def check_read_status():
+    group = request.args.get('group')
+    watcher_text = request.args.get('watcher_text')
+
+    app.logger.info(f'Checking read status in {group}: {watcher_text}')
+
+    # 实现发送钉钉消息的逻辑
+    message_helper = MessageHelper()
+
+    thread = Thread(target=run_async, args=(message_helper.check_read_status, group, watcher_text))
+    thread.start()
+
+    response = {
+        'success': True,
+        'message': f'Checking read status in {group}: {watcher_text}'
     }
     app.logger.info(response)
     return jsonify(response)
