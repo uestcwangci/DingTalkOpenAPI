@@ -26,12 +26,14 @@ class MessageHelper:
             deviceName='Android',
             appPackage='com.alibaba.android.rimet',
             appActivity='.biz.LaunchHomeActivity',
+            unicodeKeyboard=True,
+            resetKeyboard=True,
             noReset=True
 
             # language='en',
             # locale='US'
         )
-        appium_server_url = 'http://localhost:4723'
+        appium_server_url = 'http://8.219.235.114:4723'
         appium_helper = AppiumHelper(appium_server_url, capabilities)
         self.appium_helper = appium_helper
         self.openAI = OpenAI()
@@ -141,7 +143,7 @@ class MessageHelper:
                 unread_status_list = wait_for_finds(by=AppiumBy.ID, value='com.alibaba.android.rimet:id/chatting_unreadcount_tv1', timeout=5)
                 unread_texts_list = wait_for_finds(by=AppiumBy.ANDROID_UIAUTOMATOR, value='resourceId("com.alibaba.android.rimet:id/ll_msg_status").fromParent(new UiSelector().resourceId("com.alibaba.android.rimet:id/chatting_content_view_stub")).childSelector(new UiSelector().resourceId("com.alibaba.android.rimet:id/chatting_content_tv"))', timeout=5)
             else:
-                text_in_screen = wait_for_find(timeout=10, by=AppiumBy.ANDROID_UIAUTOMATOR, value=f'new UiScrollable(new UiSelector().scrollable(true)).setMaxSearchSwipes(5).scrollTextIntoView("{watcher_text}")')
+                text_in_screen = wait_for_find(timeout=10, by=AppiumBy.ANDROID_UIAUTOMATOR, value=f'new UiScrollable(new UiSelector().scrollable(true)).setMaxSearchSwipes(10).scrollTextIntoView("{watcher_text}")')
                 unread_status_list = text_in_screen.find_elements(by=AppiumBy.ID, value='com.alibaba.android.rimet:id/chatting_unreadcount_tv1')
                 unread_texts_list = text_in_screen.find_elements(by=AppiumBy.ANDROID_UIAUTOMATOR,
                                                    value='resourceId("com.alibaba.android.rimet:id/ll_msg_status").fromParent(new UiSelector().resourceId("com.alibaba.android.rimet:id/chatting_content_view_stub")).childSelector(new UiSelector().resourceId("com.alibaba.android.rimet:id/chatting_content_tv"))')
@@ -150,6 +152,8 @@ class MessageHelper:
                 return
             ready_to_send_text = ''
             for i in range(min(len(unread_texts_list),len(unread_status_list))):
+                if unread_texts_list[i].text != watcher_text:
+                    continue
                 ready_to_send_text += unread_texts_list[i].text + "\n"
                 sleep(1)
                 unread_status = unread_status_list[i]

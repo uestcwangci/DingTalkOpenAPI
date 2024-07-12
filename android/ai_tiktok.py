@@ -9,7 +9,7 @@ from utils.upload_file import upload
 from .base_test import AppiumHelper
 
 
-def clear_screenshots(directory='screen_shot'):
+def clear_screenshots(directory='screenshots'):
     # 使用glob模块获取指定目录下的所有文件
     files = glob.glob(os.path.join(directory, '*'))
 
@@ -47,7 +47,7 @@ class WatchTikTok():
             for j in range(5):
                 # 截图
                 index = f"{time.time_ns()}-{i + 1}-{j + 1}"
-                file_path = f"screen_shot/{index}.png"
+                file_path = f"screenshots/{index}.png"
                 print(f"第{index}次截图")
                 if self.appium_helper.driver.get_screenshot_as_file(file_path):
                     take_screenshot_and_compress(file_path, index)
