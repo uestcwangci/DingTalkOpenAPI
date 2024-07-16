@@ -8,7 +8,7 @@ from android.aqara_home import CameraHelper
 # lang_helper.change_to_ch()
 
 camera_helper = CameraHelper()
-camera_helper.screen_streaming()
+camera_helper.stream()
 
 # message_sender = MessageHelper()
-# message_sender.send_message("零封", "检测到cat")
+# message_sender.send_message("零封🌚", "检测到宠物")

@@ -49,7 +49,7 @@ def yolo_detect():
 
         # 检查是否已超过 10 秒
         elapsed_time = time.time() - start_time
-        if elapsed_time > 20 or detected >= 5:
+        if elapsed_time > 30 or detected >= 10:
             break
 
         frame_count += 1
@@ -68,7 +68,7 @@ def yolo_detect():
                 scores = detection[5:]
                 class_id = np.argmax(scores)
                 confidence = scores[class_id]
-                if confidence > 0.3:  # 只考虑置信度 > 50% 的检测结果
+                if confidence > 0.5:  # 只考虑置信度 > 50% 的检测结果
                     center_x = int(detection[0] * width)
                     center_y = int(detection[1] * height)
                     w = int(detection[2] * width)
@@ -87,8 +87,8 @@ def yolo_detect():
             if i in indexes:
                 x, y, w, h = boxes[i]
                 label = str(classes[class_ids[i]])
-                if label == "cat":  # 只显示检测到的猫
-                    print("detect cat")
+                if label == "cat" or label == 'dog':  # 只显示检测到的猫和狗
+                    print("detect " + label)
                     detected += 1
                     color = (0, 255, 0)
                     cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
@@ -96,7 +96,7 @@ def yolo_detect():
 
                     # 保存截图
                     timestamp = int(time.time())
-                    screenshot_filename = os.path.join(output_dir, f"cat_detected_{frame_count}_{timestamp}.png")
+                    screenshot_filename = os.path.join(output_dir, f"pet_detected_{frame_count}_{timestamp}.png")
                     cv2.imwrite(screenshot_filename, frame)
                 else:
                     print("detect other object: " + label)
@@ -104,7 +104,7 @@ def yolo_detect():
         # cv2.imshow("Video", frame)
         # if cv2.waitKey(1) & 0xFF == ord('q'):
         #     break
-        time.sleep(0.5)
+        time.sleep(0.2)
 
     cap.release()
     cv2.destroyAllWindows()
