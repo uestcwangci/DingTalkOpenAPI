@@ -103,12 +103,12 @@ class CameraHelper:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future = executor.submit(yolo_detect, label, 60, 20, 1)
             while loop:
-                time.sleep(30)  # 在实际应用中这个睡眠时间可以调整
-                print("Checking current activity:", self.appium_helper.driver.current_activity)
+                time.sleep(20)  # 在实际应用中这个睡眠时间可以调整
+                print("录屏心跳:", self.appium_helper.driver.current_activity)
                 if future.done():
                     result = future.result()  # 获取结果
                     loop = False
-                    print("YOLO detection completed, exiting loop.")
+                    print("Exiting loop.")
                     # 结束后停止串流
                     self.appium_helper.driver.execute_script('mobile: stopScreenStreaming')
                     if result:

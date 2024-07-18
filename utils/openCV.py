@@ -190,9 +190,9 @@ def yolo_detect(decect_lable:str, timeout=30, frame_rate=1, detect_count=10):
                     cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
                     # 保存截图
-                    screenshot_filename = os.path.join(output_dir, f"detected_{frame_count}.png")
+                    screenshot_filename = os.path.join(output_dir, f"detected_{frame_count}_{label}.png")
                     cv2.imwrite(screenshot_filename, frame)
-                    result.append(f"{str(int(start_time))}/detected_{frame_count}.png")
+                    result.append(f"{str(int(start_time))}/detected_{frame_count}_{label}.png")
                 else:
                     print("检测到其他物体：" + label)
         # 显示结果

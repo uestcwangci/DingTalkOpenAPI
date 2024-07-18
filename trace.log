@@ -646,3 +646,31 @@ ent server. Do not use it in a production deployment. Use a production WSGI serv
 2024-07-18 20:07:10,447 INFO  * Restarting with stat
 2024-07-18 20:07:11,273 WARNING  * Debugger is active!
 2024-07-18 20:07:11,274 INFO  * Debugger PIN: 737-937-816
+2024-07-18 20:15:36,158 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 20:15:36,327 INFO  * Restarting with stat
+2024-07-18 20:15:37,160 WARNING  * Debugger is active!
+2024-07-18 20:15:37,160 INFO  * Debugger PIN: 737-937-816
+2024-07-18 20:15:54,232 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 20:15:54,403 INFO  * Restarting with stat
+2024-07-18 20:15:55,236 WARNING  * Debugger is active!
+2024-07-18 20:15:55,236 INFO  * Debugger PIN: 737-937-816
+2024-07-18 20:16:00,263 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 20:16:00,433 INFO  * Restarting with stat
+2024-07-18 20:16:01,263 WARNING  * Debugger is active!
+2024-07-18 20:16:01,263 INFO  * Debugger PIN: 737-937-816
+2024-07-18 20:16:05,285 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 20:16:05,480 INFO  * Restarting with stat
+2024-07-18 20:16:06,308 WARNING  * Debugger is active!
+2024-07-18 20:16:06,308 INFO  * Debugger PIN: 737-937-816
+2024-07-18 20:16:26,391 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 20:16:26,560 INFO  * Restarting with stat
+2024-07-18 20:16:27,393 WARNING  * Debugger is active!
+2024-07-18 20:16:27,394 INFO  * Debugger PIN: 737-937-816
+2024-07-18 20:17:12,573 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 20:17:12,744 INFO  * Restarting with stat
+2024-07-18 20:17:13,578 WARNING  * Debugger is active!
+2024-07-18 20:17:13,579 INFO  * Debugger PIN: 737-937-816
+2024-07-18 20:17:20,614 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 20:17:20,798 INFO  * Restarting with stat
+2024-07-18 20:17:21,636 WARNING  * Debugger is active!
+2024-07-18 20:17:21,636 INFO  * Debugger PIN: 737-937-816

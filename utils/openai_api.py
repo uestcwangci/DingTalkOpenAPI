@@ -36,7 +36,6 @@ class Open_AI_API:
     # 定义一个函数，用于与 OpenAI 的 ChatGPT 进行对话
     def chat_with_gpt(self, user_input, img_url_list = None):
         print("prompt:" + user_input)
-        print("img_url_list:" + str(img_url_list))
         # 检查img_url_list是否为字符串
         if isinstance(img_url_list, str):
             print("img_url_list is a string")
