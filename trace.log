@@ -1,0 +1,845 @@
+nohup: failed to run command 'gunicorn': No such file or directory
+2024-07-17 14:25:50,919 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-17 14:25:50,919 INFO [33mPress CTRL+C to quit[0m
+2024-07-17 14:25:50,920 INFO  * Restarting with stat
+2024-07-17 14:25:51,740 WARNING  * Debugger is active!
+2024-07-17 14:25:51,742 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:26:05,373 INFO 139.162.3.237 - - [17/Jul/2024 14:26:05] "GET / HTTP/1.1" 200 -
+2024-07-17 14:26:05,902 INFO 139.162.3.237 - - [17/Jul/2024 14:26:05] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-07-17 14:26:11,597 INFO 139.162.3.237 - - [17/Jul/2024 14:26:11] "GET /screenshot HTTP/1.1" 200 -
+2024-07-17 14:26:12,688 INFO 139.162.3.237 - - [17/Jul/2024 14:26:12] "[33mGET /files/pet_detected_56_1720782747.png HTTP/1.1[0m" 404 -
+2024-07-17 14:26:14,223 INFO 139.162.3.237 - - [17/Jul/2024 14:26:14] "[33mGET /files/pet_detected_38_1720782741.png HTTP/1.1[0m" 404 -
+2024-07-17 14:26:15,327 INFO 139.162.3.237 - - [17/Jul/2024 14:26:15] "[33mGET /files/pet_detected_58_1720782748.png HTTP/1.1[0m" 404 -
+2024-07-17 14:26:27,109 INFO 139.162.3.237 - - [17/Jul/2024 14:26:27] "[33mGET /files/pet_detected_31_1720782739.png HTTP/1.1[0m" 404 -
+2024-07-17 14:27:54,178 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/app.py', reloading
+2024-07-17 14:27:54,364 INFO  * Restarting with stat
+2024-07-17 14:27:55,213 WARNING  * Debugger is active!
+2024-07-17 14:27:55,213 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:28:06,762 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-17 14:28:06,762 INFO [33mPress CTRL+C to quit[0m
+2024-07-17 14:28:06,763 INFO  * Restarting with stat
+2024-07-17 14:28:07,591 WARNING  * Debugger is active!
+2024-07-17 14:28:07,591 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:28:11,037 INFO 139.162.3.237 - - [17/Jul/2024 14:28:11] "GET /files/pet_detected_31_1720782739.png HTTP/1.1" 200 -
+2024-07-17 14:28:12,916 INFO 139.162.3.237 - - [17/Jul/2024 14:28:12] "GET /files/pet_detected_59_1720782748.png HTTP/1.1" 200 -
+2024-07-17 14:28:16,665 INFO 139.162.3.237 - - [17/Jul/2024 14:28:16] "GET /files/pet_detected_39_1720782742.png HTTP/1.1" 200 -
+2024-07-17 14:28:18,980 INFO 139.162.3.237 - - [17/Jul/2024 14:28:18] "GET /files/pet_detected_40_1720782742.png HTTP/1.1" 200 -
+2024-07-17 14:28:22,777 INFO 139.162.3.237 - - [17/Jul/2024 14:28:22] "GET /files/pet_detected_37_1720782741.png HTTP/1.1" 200 -
+2024-07-17 14:28:25,064 INFO 139.162.3.237 - - [17/Jul/2024 14:28:25] "GET /files/pet_detected_58_1720782748.png HTTP/1.1" 200 -
+2024-07-17 14:30:01,220 INFO 139.162.3.237 - - [17/Jul/2024 14:30:01] "[36mGET /files/pet_detected_39_1720782742.png HTTP/1.1[0m" 304 -
+2024-07-17 14:30:02,809 INFO 139.162.3.237 - - [17/Jul/2024 14:30:02] "GET /files/pet_detected_38_1720782741.png HTTP/1.1" 200 -
+2024-07-17 14:30:04,282 INFO 139.162.3.237 - - [17/Jul/2024 14:30:04] "[36mGET /files/pet_detected_40_1720782742.png HTTP/1.1[0m" 304 -
+2024-07-17 14:33:50,241 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-17 14:33:50,241 INFO [33mPress CTRL+C to quit[0m
+2024-07-17 14:33:50,242 INFO  * Restarting with stat
+2024-07-17 14:33:51,063 WARNING  * Debugger is active!
+2024-07-17 14:33:51,064 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:33:51,931 INFO 139.162.3.237 - - [17/Jul/2024 14:33:51] "[36mGET /files/pet_detected_40_1720782742.png HTTP/1.1[0m" 304 -
+2024-07-17 14:33:53,303 INFO 139.162.3.237 - - [17/Jul/2024 14:33:53] "[36mGET /files/pet_detected_58_1720782748.png HTTP/1.1[0m" 304 -
+2024-07-17 14:33:54,655 INFO 139.162.3.237 - - [17/Jul/2024 14:33:54] "[36mGET /files/pet_detected_31_1720782739.png HTTP/1.1[0m" 304 -
+2024-07-17 14:33:56,103 INFO 139.162.3.237 - - [17/Jul/2024 14:33:56] "[36mGET /files/pet_detected_39_1720782742.png HTTP/1.1[0m" 304 -
+2024-07-17 14:33:58,039 INFO 139.162.3.237 - - [17/Jul/2024 14:33:58] "GET /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 14:33:59,686 INFO 139.162.3.237 - - [17/Jul/2024 14:33:59] "GET /files/pet_detected_56_1720782747.png HTTP/1.1" 200 -
+2024-07-17 14:34:09,276 INFO 139.162.3.237 - - [17/Jul/2024 14:34:09] "[36mGET /files/pet_detected_57_1720782748.png HTTP/1.1[0m" 304 -
+2024-07-17 14:34:20,174 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 14:34:20,343 INFO  * Restarting with stat
+2024-07-17 14:34:21,161 WARNING  * Debugger is active!
+2024-07-17 14:34:21,161 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:35:40,447 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 14:35:40,612 INFO  * Restarting with stat
+2024-07-17 14:35:41,437 WARNING  * Debugger is active!
+2024-07-17 14:35:41,438 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:36:02,518 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 14:36:02,699 INFO  * Restarting with stat
+2024-07-17 14:36:03,530 WARNING  * Debugger is active!
+2024-07-17 14:36:03,530 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:36:42,674 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 14:36:42,865 INFO  * Restarting with stat
+2024-07-17 14:36:43,701 WARNING  * Debugger is active!
+2024-07-17 14:36:43,701 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:37:28,866 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 14:37:29,036 INFO  * Restarting with stat
+2024-07-17 14:37:29,872 WARNING  * Debugger is active!
+2024-07-17 14:37:29,872 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:37:46,939 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 14:37:47,106 INFO  * Restarting with stat
+2024-07-17 14:37:47,928 WARNING  * Debugger is active!
+2024-07-17 14:37:47,928 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:38:56,172 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai.py', reloading
+2024-07-17 14:38:56,340 INFO  * Restarting with stat
+2024-07-17 14:38:57,159 WARNING  * Debugger is active!
+2024-07-17 14:38:57,159 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:45:33,548 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai.py', reloading
+2024-07-17 14:45:33,717 INFO  * Restarting with stat
+2024-07-17 14:45:34,539 WARNING  * Debugger is active!
+2024-07-17 14:45:34,539 INFO  * Debugger PIN: 908-203-433
+2024-07-17 14:45:59,637 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai.py', reloading
+2024-07-17 14:45:59,805 INFO  * Restarting with stat
+2024-07-17 15:13:25,234 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-17 15:13:25,234 INFO [33mPress CTRL+C to quit[0m
+2024-07-17 15:13:25,234 INFO  * Restarting with stat
+2024-07-17 15:13:26,067 WARNING  * Debugger is active!
+2024-07-17 15:13:26,067 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:13:29,664 INFO 139.162.3.237 - - [17/Jul/2024 15:13:29] "GET /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:13:37,235 INFO 173.249.198.31 - - [17/Jul/2024 15:13:37] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:13:37,675 INFO 173.249.198.31 - - [17/Jul/2024 15:13:37] "GET /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:13:38,189 INFO 45.132.74.186 - - [17/Jul/2024 15:13:38] "GET /files/pet_detected_57_1720782748.png HTTP/1.0" 200 -
+2024-07-17 15:13:40,309 INFO 45.132.74.186 - - [17/Jul/2024 15:13:40] "GET /files/pet_detected_57_1720782748.png HTTP/1.0" 200 -
+2024-07-17 15:15:16,460 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 15:15:16,639 INFO  * Restarting with stat
+2024-07-17 15:15:17,464 WARNING  * Debugger is active!
+2024-07-17 15:15:17,465 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:15:55,380 INFO 8.219.235.114 - - [17/Jul/2024 15:15:55] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:17:21,802 INFO 8.219.235.114 - - [17/Jul/2024 15:17:21] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:22:24,050 INFO 8.219.235.114 - - [17/Jul/2024 15:22:24] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:22:57,076 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-17 15:22:57,245 INFO  * Restarting with stat
+2024-07-17 15:22:58,075 WARNING  * Debugger is active!
+2024-07-17 15:22:58,075 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:23:24,938 INFO 139.162.3.237 - - [17/Jul/2024 15:23:24] "[36mGET /files/pet_detected_57_1720782748.png HTTP/1.1[0m" 304 -
+2024-07-17 15:23:49,266 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-17 15:23:49,434 INFO  * Restarting with stat
+2024-07-17 15:23:50,262 WARNING  * Debugger is active!
+2024-07-17 15:23:50,263 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:23:52,160 INFO 8.219.235.114 - - [17/Jul/2024 15:23:52] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:25:28,616 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-17 15:25:28,784 INFO  * Restarting with stat
+2024-07-17 15:25:29,610 WARNING  * Debugger is active!
+2024-07-17 15:25:29,611 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:25:35,995 INFO 8.219.235.114 - - [17/Jul/2024 15:25:35] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:25:36,998 INFO 173.249.198.31 - - [17/Jul/2024 15:25:36] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:25:37,541 INFO 173.249.198.31 - - [17/Jul/2024 15:25:37] "GET /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:25:38,066 INFO 45.132.74.186 - - [17/Jul/2024 15:25:38] "GET /files/pet_detected_57_1720782748.png HTTP/1.0" 200 -
+2024-07-17 15:25:40,501 INFO 45.132.74.186 - - [17/Jul/2024 15:25:40] "GET /files/pet_detected_57_1720782748.png HTTP/1.0" 200 -
+2024-07-17 15:25:54,795 INFO 173.249.198.31 - - [17/Jul/2024 15:25:54] "HEAD /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:25:55,335 INFO 173.249.198.31 - - [17/Jul/2024 15:25:55] "GET /files/pet_detected_57_1720782748.png HTTP/1.1" 200 -
+2024-07-17 15:25:55,855 INFO 45.132.74.186 - - [17/Jul/2024 15:25:55] "GET /files/pet_detected_57_1720782748.png HTTP/1.0" 200 -
+2024-07-17 15:25:57,953 INFO 45.132.74.186 - - [17/Jul/2024 15:25:57] "GET /files/pet_detected_57_1720782748.png HTTP/1.0" 200 -
+2024-07-17 15:26:06,277 INFO 113.215.188.60 - - [17/Jul/2024 15:26:06] "GET / HTTP/1.1" 200 -
+2024-07-17 15:26:31,838 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-17 15:26:32,011 INFO  * Restarting with stat
+2024-07-17 15:26:32,837 WARNING  * Debugger is active!
+2024-07-17 15:26:32,838 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:26:50,906 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-17 15:26:51,074 INFO  * Restarting with stat
+2024-07-17 15:26:51,908 WARNING  * Debugger is active!
+2024-07-17 15:26:51,908 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:27:40,610 ERROR 206.168.34.124 - - [17/Jul/2024 15:27:40] code 400, message Bad request version ('À\x14À')
+2024-07-17 15:27:40,611 INFO 206.168.34.124 - - [17/Jul/2024 15:27:40] "[35m[1m\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03\x1d\x93(½¾\x15ñ\x14\x80\x16Ö·'m\x96ö\x96ë¦\x98¨\x97\x03Êbü\x88ï|Ýí\x96 o\x85U\x05x\x8eR¯\x96t\x1b\x1f¢\x7fI\x81õ®Ü'ÎFmQÓà0®°X\x0eÃ\x00&Ì¨Ì©À/À0À+À,À\x13À\x09À\x14À[0m" HTTPStatus.BAD_REQUEST -
+2024-07-17 15:27:44,162 INFO 206.168.34.124 - - [17/Jul/2024 15:27:44] "GET / HTTP/1.1" 200 -
+2024-07-17 15:27:47,812 INFO 206.168.34.124 - - [17/Jul/2024 15:27:47] "GET / HTTP/1.1" 200 -
+2024-07-17 15:27:49,208 ERROR 206.168.34.124 - - [17/Jul/2024 15:27:49] code 505, message Invalid HTTP version (2.0)
+2024-07-17 15:27:49,209 INFO 206.168.34.124 - - [17/Jul/2024 15:27:49] "[35m[1mPRI * HTTP/2.0[0m" HTTPStatus.HTTP_VERSION_NOT_SUPPORTED -
+2024-07-17 15:27:52,202 INFO 206.168.34.124 - - [17/Jul/2024 15:27:52] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-07-17 15:32:05,019 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 15:32:05,198 INFO  * Restarting with stat
+2024-07-17 15:32:06,039 WARNING  * Debugger is active!
+2024-07-17 15:32:06,039 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:33:02,241 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 15:33:02,408 INFO  * Restarting with stat
+2024-07-17 15:33:03,234 WARNING  * Debugger is active!
+2024-07-17 15:33:03,235 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:33:07,255 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 15:33:07,423 INFO  * Restarting with stat
+2024-07-17 15:33:08,260 WARNING  * Debugger is active!
+2024-07-17 15:33:08,260 INFO  * Debugger PIN: 908-203-433
+2024-07-17 15:39:41,511 INFO 59.82.83.113 - - [17/Jul/2024 15:39:41] "GET / HTTP/1.1" 200 -
+2024-07-17 15:42:23,068 INFO 198.235.24.240 - - [17/Jul/2024 15:42:23] "GET / HTTP/1.0" 200 -
+2024-07-17 16:16:31,308 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/app.py', reloading
+2024-07-17 16:16:31,476 INFO  * Restarting with stat
+2024-07-17 16:16:32,300 WARNING  * Debugger is active!
+2024-07-17 16:16:32,301 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:19:05,844 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 16:19:06,027 INFO  * Restarting with stat
+2024-07-17 16:19:06,859 WARNING  * Debugger is active!
+2024-07-17 16:19:06,859 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:25:41,292 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 16:25:41,505 INFO  * Restarting with stat
+2024-07-17 16:25:42,423 WARNING  * Debugger is active!
+2024-07-17 16:25:42,423 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:25:56,482 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 16:25:56,676 INFO  * Restarting with stat
+2024-07-17 16:25:57,601 WARNING  * Debugger is active!
+2024-07-17 16:25:57,601 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:50:06,642 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-17 16:50:06,811 INFO  * Restarting with stat
+2024-07-17 16:50:07,639 WARNING  * Debugger is active!
+2024-07-17 16:50:07,640 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:52:01,053 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 16:52:01,221 INFO  * Restarting with stat
+2024-07-17 16:52:02,047 WARNING  * Debugger is active!
+2024-07-17 16:52:02,047 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:52:25,135 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 16:52:25,303 INFO  * Restarting with stat
+2024-07-17 16:52:26,138 WARNING  * Debugger is active!
+2024-07-17 16:52:26,138 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:54:00,478 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 16:54:00,657 INFO  * Restarting with stat
+2024-07-17 16:54:01,483 WARNING  * Debugger is active!
+2024-07-17 16:54:01,484 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:56:57,119 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 16:56:57,300 INFO  * Restarting with stat
+2024-07-17 16:56:58,133 WARNING  * Debugger is active!
+2024-07-17 16:56:58,133 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:58:15,922 INFO Check aqara detect
+2024-07-17 16:58:20,590 INFO {'success': True, 'message': 'Start watching'}
+2024-07-17 16:58:20,592 INFO 59.82.21.204 - - [17/Jul/2024 16:58:20] "GET /v1/actions/openapi/aqara/detect?label=手机 HTTP/1.1" 200 -
+2024-07-17 16:59:07,597 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 16:59:07,766 INFO  * Restarting with stat
+2024-07-17 16:59:08,591 WARNING  * Debugger is active!
+2024-07-17 16:59:08,592 INFO  * Debugger PIN: 908-203-433
+2024-07-17 16:59:30,886 INFO Check aqara detect
+2024-07-17 16:59:35,701 INFO {'success': True, 'message': 'Start watching'}
+2024-07-17 16:59:35,702 INFO 59.82.135.80 - - [17/Jul/2024 16:59:35] "GET /v1/actions/openapi/aqara/detect?label=手机 HTTP/1.1" 200 -
+2024-07-17 16:59:42,350 INFO Check aqara detect
+2024-07-17 16:59:46,251 INFO {'success': True, 'message': 'Start watching'}
+2024-07-17 16:59:46,251 INFO 59.82.83.156 - - [17/Jul/2024 16:59:46] "GET /v1/actions/openapi/aqara/detect?label=手机 HTTP/1.1" 200 -
+2024-07-17 17:00:44,954 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-17 17:00:45,128 INFO  * Restarting with stat
+2024-07-17 17:00:45,953 WARNING  * Debugger is active!
+2024-07-17 17:00:45,953 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:02:57,443 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:02:57,635 INFO  * Restarting with stat
+2024-07-17 17:02:58,555 WARNING  * Debugger is active!
+2024-07-17 17:02:58,555 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:03:23,407 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-17 17:03:23,408 INFO [33mPress CTRL+C to quit[0m
+2024-07-17 17:03:23,408 INFO  * Restarting with stat
+2024-07-17 17:03:24,317 WARNING  * Debugger is active!
+2024-07-17 17:03:24,317 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:04:32,572 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:04:32,743 INFO  * Restarting with stat
+2024-07-17 17:04:33,566 WARNING  * Debugger is active!
+2024-07-17 17:04:33,566 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:04:38,445 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-17 17:04:38,445 INFO [33mPress CTRL+C to quit[0m
+2024-07-17 17:04:38,446 INFO  * Restarting with stat
+2024-07-17 17:04:39,281 WARNING  * Debugger is active!
+2024-07-17 17:04:39,282 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:06:09,613 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:06:09,811 INFO  * Restarting with stat
+2024-07-17 17:06:10,722 WARNING  * Debugger is active!
+2024-07-17 17:06:10,722 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:08:48,295 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:08:48,593 INFO  * Restarting with stat
+2024-07-17 17:08:49,654 WARNING  * Debugger is active!
+2024-07-17 17:08:49,655 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:12:09,376 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:12:09,581 INFO  * Restarting with stat
+2024-07-17 17:12:10,507 WARNING  * Debugger is active!
+2024-07-17 17:12:10,508 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:13:27,800 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:13:27,988 INFO  * Restarting with stat
+2024-07-17 17:13:28,889 WARNING  * Debugger is active!
+2024-07-17 17:13:28,889 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:14:43,173 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:14:43,384 INFO  * Restarting with stat
+2024-07-17 17:14:44,347 WARNING  * Debugger is active!
+2024-07-17 17:14:44,347 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:16:07,678 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:16:07,869 INFO  * Restarting with stat
+2024-07-17 17:16:08,794 WARNING  * Debugger is active!
+2024-07-17 17:16:08,794 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:19:07,449 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:19:07,649 INFO  * Restarting with stat
+2024-07-17 17:19:08,585 WARNING  * Debugger is active!
+2024-07-17 17:19:08,585 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:20:01,786 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:20:01,980 INFO  * Restarting with stat
+2024-07-17 17:20:02,911 WARNING  * Debugger is active!
+2024-07-17 17:20:02,911 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:20:16,971 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:20:17,170 INFO  * Restarting with stat
+2024-07-17 17:20:18,080 WARNING  * Debugger is active!
+2024-07-17 17:20:18,081 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:20:46,190 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:20:46,359 INFO  * Restarting with stat
+2024-07-17 17:20:47,181 WARNING  * Debugger is active!
+2024-07-17 17:20:47,182 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:20:59,233 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:20:59,447 INFO  * Restarting with stat
+2024-07-17 17:21:00,439 WARNING  * Debugger is active!
+2024-07-17 17:21:00,439 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:22:18,733 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:22:18,947 INFO  * Restarting with stat
+2024-07-17 17:22:19,922 WARNING  * Debugger is active!
+2024-07-17 17:22:19,922 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:25:57,717 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:25:57,910 INFO  * Restarting with stat
+2024-07-17 17:25:58,820 WARNING  * Debugger is active!
+2024-07-17 17:25:58,820 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:26:42,981 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:26:43,160 INFO  * Restarting with stat
+2024-07-17 17:26:43,985 WARNING  * Debugger is active!
+2024-07-17 17:26:43,986 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:28:14,309 INFO 8.219.235.114 - - [17/Jul/2024 17:28:14] "[32mHEAD /files//home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721208477/1721208477/detected_42_cell%20phone.png HTTP/1.1[0m" 308 -
+2024-07-17 17:28:14,313 INFO 8.219.235.114 - - [17/Jul/2024 17:28:14] "[33mHEAD /files/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721208477/1721208477/detected_42_cell%20phone.png HTTP/1.1[0m" 404 -
+2024-07-17 17:29:45,730 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:29:45,942 INFO  * Restarting with stat
+2024-07-17 17:29:46,896 WARNING  * Debugger is active!
+2024-07-17 17:29:46,896 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:30:11,998 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:30:12,186 INFO  * Restarting with stat
+2024-07-17 17:30:13,114 WARNING  * Debugger is active!
+2024-07-17 17:30:13,115 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:32:01,520 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:32:01,729 INFO  * Restarting with stat
+2024-07-17 17:32:02,733 WARNING  * Debugger is active!
+2024-07-17 17:32:02,734 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:32:02,752 INFO 8.219.235.114 - - [17/Jul/2024 17:32:02] "[32mHEAD /files//home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721208677.3676925/1721208677.3676925/detected_1_cell%20phone.png HTTP/1.1[0m" 308 -
+2024-07-17 17:32:02,759 INFO 8.219.235.114 - - [17/Jul/2024 17:32:02] "[33mHEAD /files/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721208677.3676925/1721208677.3676925/detected_1_cell%20phone.png HTTP/1.1[0m" 404 -
+2024-07-17 17:32:18,811 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:32:19,012 INFO  * Restarting with stat
+2024-07-17 17:32:19,942 WARNING  * Debugger is active!
+2024-07-17 17:32:19,942 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:34:03,570 INFO 8.219.235.114 - - [17/Jul/2024 17:34:03] "[32mHEAD /files//home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721208798/detected_26_cell%20phone.png HTTP/1.1[0m" 308 -
+2024-07-17 17:34:03,574 INFO 8.219.235.114 - - [17/Jul/2024 17:34:03] "[33mHEAD /files/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721208798/detected_26_cell%20phone.png HTTP/1.1[0m" 404 -
+2024-07-17 17:34:58,131 INFO 139.162.3.237 - - [17/Jul/2024 17:34:58] "GET / HTTP/1.1" 200 -
+2024-07-17 17:35:08,610 INFO 139.162.3.237 - - [17/Jul/2024 17:35:08] "GET /screenshot HTTP/1.1" 200 -
+2024-07-17 17:35:11,695 INFO 139.162.3.237 - - [17/Jul/2024 17:35:11] "[33mGET /files/1721208798 HTTP/1.1[0m" 404 -
+2024-07-17 17:36:10,232 ERROR 162.142.125.36 - - [17/Jul/2024 17:36:10] code 400, message Bad request version ('À\x14À')
+2024-07-17 17:36:10,233 INFO 162.142.125.36 - - [17/Jul/2024 17:36:10] "[35m[1m\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03xM0\x11ßK\x99"ô£mé\x96~H8'yÕK÷C³trG³XC±ý\x09 Ô¿¶´fÉÝ\x12Ok:.´z\x9cQ­ÐÒ\x0fëC¨\x9d\x83}\x0f0pÜ\x0b\x9e\x00&Ì¨Ì©À/À0À+À,À\x13À\x09À\x14À[0m" HTTPStatus.BAD_REQUEST -
+2024-07-17 17:36:13,682 INFO 162.142.125.36 - - [17/Jul/2024 17:36:13] "GET / HTTP/1.1" 200 -
+2024-07-17 17:36:19,123 INFO 162.142.125.36 - - [17/Jul/2024 17:36:19] "GET / HTTP/1.1" 200 -
+2024-07-17 17:36:19,997 ERROR 162.142.125.36 - - [17/Jul/2024 17:36:19] code 505, message Invalid HTTP version (2.0)
+2024-07-17 17:36:19,997 INFO 162.142.125.36 - - [17/Jul/2024 17:36:19] "[35m[1mPRI * HTTP/2.0[0m" HTTPStatus.HTTP_VERSION_NOT_SUPPORTED -
+2024-07-17 17:36:20,921 INFO 162.142.125.36 - - [17/Jul/2024 17:36:20] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-07-17 17:40:06,355 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-17 17:40:06,356 INFO [33mPress CTRL+C to quit[0m
+2024-07-17 17:40:06,356 INFO  * Restarting with stat
+2024-07-17 17:40:07,293 WARNING  * Debugger is active!
+2024-07-17 17:40:07,294 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:41:38,630 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:41:38,841 INFO  * Restarting with stat
+2024-07-17 17:41:39,834 WARNING  * Debugger is active!
+2024-07-17 17:41:39,834 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:41:41,418 INFO 8.219.235.114 - - [17/Jul/2024 17:41:41] "[32mHEAD /files//home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721209256/detected_40_cell%20phone.png HTTP/1.1[0m" 308 -
+2024-07-17 17:41:41,421 INFO 8.219.235.114 - - [17/Jul/2024 17:41:41] "[33mHEAD /files/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721209256/detected_40_cell%20phone.png HTTP/1.1[0m" 404 -
+2024-07-17 17:41:58,883 INFO 139.162.3.237 - - [17/Jul/2024 17:41:58] "GET /screenshot HTTP/1.1" 200 -
+2024-07-17 17:42:04,285 INFO 139.162.3.237 - - [17/Jul/2024 17:42:04] "GET /files/1721209256/detected_40_cell%20phone.png HTTP/1.1" 200 -
+2024-07-17 17:42:04,899 INFO 139.162.3.237 - - [17/Jul/2024 17:42:04] "GET /files/1721208798/detected_27_cell%20phone.png HTTP/1.1" 200 -
+2024-07-17 17:42:05,166 INFO 139.162.3.237 - - [17/Jul/2024 17:42:05] "GET /files/1721208798/detected_26_cell%20phone.png HTTP/1.1" 200 -
+2024-07-17 17:42:06,892 INFO 139.162.3.237 - - [17/Jul/2024 17:42:06] "GET /files/1721208798/detected_26_cell%20phone.png HTTP/1.1" 200 -
+2024-07-17 17:42:08,345 INFO 139.162.3.237 - - [17/Jul/2024 17:42:08] "GET /files/1721209256/detected_40_cell%20phone.png HTTP/1.1" 200 -
+2024-07-17 17:42:13,353 INFO 139.162.3.237 - - [17/Jul/2024 17:42:13] "[36mGET /files/1721209256/detected_40_cell%20phone.png HTTP/1.1[0m" 304 -
+2024-07-17 17:42:56,117 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-17 17:42:56,328 INFO  * Restarting with stat
+2024-07-17 17:42:57,260 WARNING  * Debugger is active!
+2024-07-17 17:42:57,261 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:46:17,023 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:46:17,223 INFO  * Restarting with stat
+2024-07-17 17:46:18,193 WARNING  * Debugger is active!
+2024-07-17 17:46:18,193 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:47:54,566 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:47:54,784 INFO  * Restarting with stat
+2024-07-17 17:47:55,770 WARNING  * Debugger is active!
+2024-07-17 17:47:55,771 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:47:56,780 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:47:57,002 INFO  * Restarting with stat
+2024-07-17 17:47:57,982 WARNING  * Debugger is active!
+2024-07-17 17:47:57,982 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:48:51,195 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-17 17:48:51,401 INFO  * Restarting with stat
+2024-07-17 17:48:52,384 WARNING  * Debugger is active!
+2024-07-17 17:48:52,385 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:50:22,781 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-17 17:50:22,974 INFO  * Restarting with stat
+2024-07-17 17:50:23,875 WARNING  * Debugger is active!
+2024-07-17 17:50:23,876 INFO  * Debugger PIN: 908-203-433
+2024-07-17 17:51:37,282 INFO 8.219.235.114 - - [17/Jul/2024 17:51:37] "[32mHEAD /files//home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721209852/detected_1_laptop.png HTTP/1.1[0m" 308 -
+2024-07-17 17:51:37,286 INFO 8.219.235.114 - - [17/Jul/2024 17:51:37] "[33mHEAD /files/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721209852/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 10:58:35,700 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-18 10:58:35,700 INFO [33mPress CTRL+C to quit[0m
+2024-07-18 10:58:35,700 INFO  * Restarting with stat
+2024-07-18 10:58:36,516 WARNING  * Debugger is active!
+2024-07-18 10:58:36,516 INFO  * Debugger PIN: 737-937-816
+2024-07-18 10:58:43,480 INFO 139.162.3.237 - - [18/Jul/2024 10:58:43] "GET /screenshot HTTP/1.1" 200 -
+2024-07-18 10:58:45,922 INFO 139.162.3.237 - - [18/Jul/2024 10:58:45] "GET /files/1721209852/detected_3_laptop.png HTTP/1.1" 200 -
+2024-07-18 10:58:48,150 INFO 139.162.3.237 - - [18/Jul/2024 10:58:48] "[36mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 304 -
+2024-07-18 10:59:54,926 INFO 42.120.75.40 - - [18/Jul/2024 10:59:54] "GET /files/1721209852/detected_6_laptop.png HTTP/1.1" 200 -
+2024-07-18 10:59:54,926 INFO 42.120.75.40 - - [18/Jul/2024 10:59:54] "GET /files/1721209852/detected_3_laptop.png HTTP/1.1" 200 -
+2024-07-18 10:59:54,928 INFO 42.120.75.40 - - [18/Jul/2024 10:59:54] "GET /files/1721209852/detected_8_laptop.png HTTP/1.1" 200 -
+2024-07-18 10:59:57,689 INFO 42.120.75.40 - - [18/Jul/2024 10:59:57] "[33mGET /files/1721209852/detected_10_laptop.png_1200x1200g.jpg_.avif?bizType=im HTTP/1.1[0m" 404 -
+2024-07-18 11:00:00,053 INFO 42.120.75.40 - - [18/Jul/2024 11:00:00] "[33mGET /files/1721209852/detected_10_laptop.png_1200x1200g.jpg_.avif?bizType=im HTTP/1.1[0m" 404 -
+2024-07-18 11:00:00,581 INFO 42.120.75.40 - - [18/Jul/2024 11:00:00] "[33mGET /files/1721208798/detected_27_cell%20phone.png_1200x1200g.jpg_.avif?bizType=im HTTP/1.1[0m" 404 -
+2024-07-18 11:00:01,039 INFO 42.120.75.40 - - [18/Jul/2024 11:00:01] "[33mGET /files/1721208798/detected_27_cell%20phone.png_1200x1200g.jpg_.avif?bizType=im HTTP/1.1[0m" 404 -
+2024-07-18 11:00:01,102 INFO 42.120.75.40 - - [18/Jul/2024 11:00:01] "[33mGET /files/1721209852/detected_10_laptop.png_1200x1200g.jpg_.avif?bizType=im HTTP/1.1[0m" 404 -
+2024-07-18 11:00:01,564 INFO 42.120.75.40 - - [18/Jul/2024 11:00:01] "[33mGET /files/1721209852/detected_10_laptop.png_1200x1200g.jpg_.avif?bizType=im HTTP/1.1[0m" 404 -
+2024-07-18 11:01:48,723 INFO 139.162.3.237 - - [18/Jul/2024 11:01:48] "GET /files/1721209852/detected_6_laptop.png HTTP/1.1" 200 -
+2024-07-18 11:01:48,723 INFO 139.162.3.237 - - [18/Jul/2024 11:01:48] "GET /files/1721209852/detected_3_laptop.png HTTP/1.1" 200 -
+2024-07-18 11:01:48,724 INFO 139.162.3.237 - - [18/Jul/2024 11:01:48] "GET /files/1721209852/detected_8_laptop.png HTTP/1.1" 200 -
+2024-07-18 11:03:36,072 INFO 139.162.3.237 - - [18/Jul/2024 11:03:36] "GET /files/1721209852/detected_6_laptop.png HTTP/1.1" 200 -
+2024-07-18 11:03:36,072 INFO 139.162.3.237 - - [18/Jul/2024 11:03:36] "GET /files/1721209852/detected_3_laptop.png HTTP/1.1" 200 -
+2024-07-18 11:03:36,072 INFO 139.162.3.237 - - [18/Jul/2024 11:03:36] "GET /files/1721209852/detected_8_laptop.png HTTP/1.1" 200 -
+2024-07-18 11:03:45,447 INFO 42.120.75.40 - - [18/Jul/2024 11:03:45] "[33mGET /files/1721208798/detected_27_cell%20phone.png_1200x1200g.jpg_.avif?bizType=im HTTP/1.1[0m" 404 -
+2024-07-18 11:05:36,739 INFO 139.162.3.237 - - [18/Jul/2024 11:05:36] "GET /files/1721209852/detected_3_laptop.png HTTP/1.1" 200 -
+2024-07-18 11:23:31,958 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 11:23:32,123 INFO  * Restarting with stat
+2024-07-18 11:23:32,944 WARNING  * Debugger is active!
+2024-07-18 11:23:32,944 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:25:48,451 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 11:25:48,620 INFO  * Restarting with stat
+2024-07-18 11:25:49,438 WARNING  * Debugger is active!
+2024-07-18 11:25:49,439 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:33:46,176 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 11:33:46,342 INFO  * Restarting with stat
+2024-07-18 11:33:47,171 WARNING  * Debugger is active!
+2024-07-18 11:33:47,171 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:35:14,351 INFO 59.82.83.6 - - [18/Jul/2024 11:35:14] "HEAD / HTTP/1.1" 200 -
+2024-07-18 11:36:07,719 INFO 59.82.83.146 - - [18/Jul/2024 11:36:07] "HEAD / HTTP/1.1" 200 -
+2024-07-18 11:36:46,811 INFO 59.82.83.202 - - [18/Jul/2024 11:36:46] "HEAD / HTTP/1.1" 200 -
+2024-07-18 11:37:57,102 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 11:37:57,273 INFO  * Restarting with stat
+2024-07-18 11:37:58,101 WARNING  * Debugger is active!
+2024-07-18 11:37:58,101 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:38:11,082 INFO 59.82.135.98 - - [18/Jul/2024 11:38:11] "HEAD / HTTP/1.1" 200 -
+2024-07-18 11:39:23,037 INFO 59.82.21.137 - - [18/Jul/2024 11:39:23] "HEAD / HTTP/1.1" 200 -
+2024-07-18 11:39:40,252 INFO Check aqara detect
+2024-07-18 11:39:40,287 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xf8e894c79d80>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:39:40,288 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xf8e894c79d20>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:39:40,289 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xf8e894c79a80>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:39:40,305 INFO 59.82.21.55 - - [18/Jul/2024 11:39:40] "[35m[1mGET /v1/actions/openapi/aqara/detect?label=电脑 HTTP/1.1[0m" 500 -
+2024-07-18 11:41:05,288 INFO 59.82.21.150 - - [18/Jul/2024 11:41:05] "GET / HTTP/1.1" 200 -
+2024-07-18 11:41:29,244 INFO Check aqara detect
+2024-07-18 11:41:29,266 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xf8e894cb35e0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:41:29,266 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xf8e894cb3730>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:41:29,267 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xf8e894cb3880>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:41:29,279 INFO 42.120.75.44 - - [18/Jul/2024 11:41:29] "[35m[1mGET /v1/actions/openapi/aqara/detect HTTP/1.1[0m" 500 -
+2024-07-18 11:41:41,564 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-18 11:41:41,564 INFO [33mPress CTRL+C to quit[0m
+2024-07-18 11:41:41,565 INFO  * Restarting with stat
+2024-07-18 11:41:42,386 WARNING  * Debugger is active!
+2024-07-18 11:41:42,386 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:41:43,304 INFO Check aqara detect
+2024-07-18 11:41:43,324 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xe1a4eaa5a440>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:41:43,325 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xe1a4eaa5a590>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:41:43,326 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0xe1a4eaa59c90>: Failed to establish a new connection: [Errno 111] Connection refused')': /session
+2024-07-18 11:41:43,341 INFO 42.120.75.44 - - [18/Jul/2024 11:41:43] "[35m[1mGET /v1/actions/openapi/aqara/detect HTTP/1.1[0m" 500 -
+2024-07-18 11:42:06,956 INFO 139.162.3.237 - - [18/Jul/2024 11:42:06] "GET / HTTP/1.1" 200 -
+2024-07-18 11:42:29,110 INFO Check aqara detect
+2024-07-18 11:42:34,052 INFO {'success': True, 'message': 'Start watching'}
+2024-07-18 11:42:34,053 INFO 42.120.75.44 - - [18/Jul/2024 11:42:34] "GET /v1/actions/openapi/aqara/detect HTTP/1.1" 200 -
+2024-07-18 11:43:43,970 INFO Check aqara detect
+2024-07-18 11:43:50,035 INFO {'success': True, 'message': 'Start watching'}
+2024-07-18 11:43:50,036 INFO 42.120.75.44 - - [18/Jul/2024 11:43:50] "GET /v1/actions/openapi/aqara/detect HTTP/1.1" 200 -
+2024-07-18 11:44:43,778 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-18 11:44:43,778 INFO [33mPress CTRL+C to quit[0m
+2024-07-18 11:44:43,779 INFO  * Restarting with stat
+2024-07-18 11:44:44,603 WARNING  * Debugger is active!
+2024-07-18 11:44:44,604 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:46:49,056 INFO 8.219.235.114 - - [18/Jul/2024 11:46:49] "[32mHEAD /files//home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721274363/detected_1_laptop.png HTTP/1.1[0m" 308 -
+2024-07-18 11:46:49,060 INFO 8.219.235.114 - - [18/Jul/2024 11:46:49] "[33mHEAD /files/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots/1721274363/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 11:48:33,475 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 11:48:33,663 INFO  * Restarting with stat
+2024-07-18 11:48:34,601 WARNING  * Debugger is active!
+2024-07-18 11:48:34,601 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:49:10,751 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 11:49:10,952 INFO  * Restarting with stat
+2024-07-18 11:49:11,869 WARNING  * Debugger is active!
+2024-07-18 11:49:11,869 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:51:15,370 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 11:51:15,559 INFO  * Restarting with stat
+2024-07-18 11:51:16,449 WARNING  * Debugger is active!
+2024-07-18 11:51:16,450 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:52:43,796 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/dingtalk_api.py', reloading
+2024-07-18 11:52:43,990 INFO  * Restarting with stat
+2024-07-18 11:52:44,905 WARNING  * Debugger is active!
+2024-07-18 11:52:44,905 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:52:56,964 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/dingtalk_api.py', reloading
+2024-07-18 11:52:57,154 INFO  * Restarting with stat
+2024-07-18 11:52:58,060 WARNING  * Debugger is active!
+2024-07-18 11:52:58,061 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:53:03,091 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/dingtalk_api.py', reloading
+2024-07-18 11:53:03,274 INFO  * Restarting with stat
+2024-07-18 11:53:04,176 WARNING  * Debugger is active!
+2024-07-18 11:53:04,176 INFO  * Debugger PIN: 737-937-816
+2024-07-18 11:53:08,199 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/dingtalk_api.py', reloading
+2024-07-18 11:53:08,393 INFO  * Restarting with stat
+2024-07-18 11:53:09,285 WARNING  * Debugger is active!
+2024-07-18 11:53:09,285 INFO  * Debugger PIN: 737-937-816
+2024-07-18 12:46:13,350 INFO 113.215.188.201 - - [18/Jul/2024 12:46:13] "GET / HTTP/1.1" 200 -
+2024-07-18 13:41:03,902 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/dingtalk_api.py', reloading
+2024-07-18 13:41:04,097 INFO  * Restarting with stat
+2024-07-18 13:41:05,017 WARNING  * Debugger is active!
+2024-07-18 13:41:05,017 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:43:50,532 INFO 173.249.198.31 - - [18/Jul/2024 13:43:50] "[33mHEAD /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:50,972 INFO 173.249.198.31 - - [18/Jul/2024 13:43:50] "[33mHEAD /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:51,520 INFO 173.249.198.31 - - [18/Jul/2024 13:43:51] "[33mHEAD /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:52,090 INFO 173.249.198.31 - - [18/Jul/2024 13:43:52] "[33mHEAD /files/detected_4_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:52,629 INFO 173.249.198.31 - - [18/Jul/2024 13:43:52] "[33mHEAD /files/detected_5_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:53,077 INFO 173.249.198.31 - - [18/Jul/2024 13:43:53] "[33mHEAD /files/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:53,536 INFO 173.249.198.31 - - [18/Jul/2024 13:43:53] "[33mHEAD /files/detected_7_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:54,094 INFO 173.249.198.31 - - [18/Jul/2024 13:43:54] "[33mHEAD /files/detected_8_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:54,531 INFO 173.249.198.31 - - [18/Jul/2024 13:43:54] "[33mHEAD /files/detected_9_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:54,987 INFO 173.249.198.31 - - [18/Jul/2024 13:43:54] "[33mHEAD /files/detected_10_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:55,511 INFO 45.132.74.186 - - [18/Jul/2024 13:43:55] "[33mGET /files/detected_1_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:56,015 INFO 45.132.74.186 - - [18/Jul/2024 13:43:56] "[33mGET /files/detected_2_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:56,518 INFO 45.132.74.186 - - [18/Jul/2024 13:43:56] "[33mGET /files/detected_3_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:57,009 INFO 45.132.74.186 - - [18/Jul/2024 13:43:57] "[33mGET /files/detected_4_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:57,408 INFO 139.162.3.237 - - [18/Jul/2024 13:43:57] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:57,500 INFO 45.132.74.186 - - [18/Jul/2024 13:43:57] "[33mGET /files/detected_5_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:58,003 INFO 45.132.74.186 - - [18/Jul/2024 13:43:58] "[33mGET /files/detected_6_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:58,507 INFO 45.132.74.186 - - [18/Jul/2024 13:43:58] "[33mGET /files/detected_7_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:59,016 INFO 45.132.74.186 - - [18/Jul/2024 13:43:59] "[33mGET /files/detected_8_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:59,057 INFO 139.162.3.237 - - [18/Jul/2024 13:43:59] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:43:59,507 INFO 45.132.74.186 - - [18/Jul/2024 13:43:59] "[33mGET /files/detected_9_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:43:59,694 INFO 139.162.3.237 - - [18/Jul/2024 13:43:59] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:44:00,011 INFO 45.132.74.186 - - [18/Jul/2024 13:44:00] "[33mGET /files/detected_10_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:44:19,829 INFO 139.162.3.237 - - [18/Jul/2024 13:44:19] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:44:19,830 INFO 139.162.3.237 - - [18/Jul/2024 13:44:19] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:44:19,831 INFO 139.162.3.237 - - [18/Jul/2024 13:44:19] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:44:19,987 INFO 139.162.3.237 - - [18/Jul/2024 13:44:19] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:44:19,988 INFO 139.162.3.237 - - [18/Jul/2024 13:44:19] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:44:19,990 INFO 139.162.3.237 - - [18/Jul/2024 13:44:19] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:44:40,747 INFO 139.162.3.237 - - [18/Jul/2024 13:44:40] "GET /screenshot HTTP/1.1" 200 -
+2024-07-18 13:44:47,902 INFO 139.162.3.237 - - [18/Jul/2024 13:44:47] "GET /files/1721209852/detected_6_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:44:52,577 INFO 139.162.3.237 - - [18/Jul/2024 13:44:52] "[36mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 304 -
+2024-07-18 13:44:56,142 INFO 139.162.3.237 - - [18/Jul/2024 13:44:56] "GET /screenshot HTTP/1.1" 200 -
+2024-07-18 13:44:56,867 INFO 139.162.3.237 - - [18/Jul/2024 13:44:56] "GET /files/1721281383/detected_5_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:44:59,779 INFO 139.162.3.237 - - [18/Jul/2024 13:44:59] "[36mGET /files/1721281383/detected_5_laptop.png HTTP/1.1[0m" 304 -
+2024-07-18 13:46:15,243 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 13:46:15,452 INFO  * Restarting with stat
+2024-07-18 13:46:16,367 WARNING  * Debugger is active!
+2024-07-18 13:46:16,367 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:47:09,587 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 13:47:09,781 INFO  * Restarting with stat
+2024-07-18 13:47:10,699 WARNING  * Debugger is active!
+2024-07-18 13:47:10,699 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:50:14,423 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 13:50:14,619 INFO  * Restarting with stat
+2024-07-18 13:50:15,517 WARNING  * Debugger is active!
+2024-07-18 13:50:15,517 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:51:26,807 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 13:51:26,998 INFO  * Restarting with stat
+2024-07-18 13:51:27,940 WARNING  * Debugger is active!
+2024-07-18 13:51:27,940 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:51:58,073 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 13:51:58,262 INFO  * Restarting with stat
+2024-07-18 13:51:59,206 WARNING  * Debugger is active!
+2024-07-18 13:51:59,207 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:53:44,924 INFO 173.249.198.31 - - [18/Jul/2024 13:53:44] "[33mHEAD /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:45,367 INFO 173.249.198.31 - - [18/Jul/2024 13:53:45] "[33mHEAD /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:45,801 INFO 173.249.198.31 - - [18/Jul/2024 13:53:45] "[33mHEAD /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:46,238 INFO 173.249.198.31 - - [18/Jul/2024 13:53:46] "[33mHEAD /files/1721281977.9003618/detected_4_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:46,704 INFO 173.249.198.31 - - [18/Jul/2024 13:53:46] "[33mHEAD /files/1721281977.9003618/detected_5_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:47,154 INFO 173.249.198.31 - - [18/Jul/2024 13:53:47] "[33mHEAD /files/1721281977.9003618/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:47,607 INFO 173.249.198.31 - - [18/Jul/2024 13:53:47] "[33mHEAD /files/1721281977.9003618/detected_7_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:48,052 INFO 173.249.198.31 - - [18/Jul/2024 13:53:48] "[33mHEAD /files/1721281977.9003618/detected_8_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:48,510 INFO 173.249.198.31 - - [18/Jul/2024 13:53:48] "[33mHEAD /files/1721281977.9003618/detected_9_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:49,043 INFO 173.249.198.31 - - [18/Jul/2024 13:53:49] "[33mHEAD /files/1721281977.9003618/detected_10_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:49,559 INFO 45.132.74.186 - - [18/Jul/2024 13:53:49] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:50,060 INFO 45.132.74.186 - - [18/Jul/2024 13:53:50] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:50,563 INFO 45.132.74.186 - - [18/Jul/2024 13:53:50] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:51,064 INFO 45.132.74.186 - - [18/Jul/2024 13:53:51] "[33mGET /files/1721281977.9003618/detected_4_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:51,566 INFO 45.132.74.186 - - [18/Jul/2024 13:53:51] "[33mGET /files/1721281977.9003618/detected_5_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:52,067 INFO 45.132.74.186 - - [18/Jul/2024 13:53:52] "[33mGET /files/1721281977.9003618/detected_6_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:52,186 INFO 139.162.3.237 - - [18/Jul/2024 13:53:52] "[33mGET /files/1721281977.9003618/detected_10_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:53:52,568 INFO 45.132.74.186 - - [18/Jul/2024 13:53:52] "[33mGET /files/1721281977.9003618/detected_7_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:53,073 INFO 45.132.74.186 - - [18/Jul/2024 13:53:53] "[33mGET /files/1721281977.9003618/detected_8_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:53,582 INFO 45.132.74.186 - - [18/Jul/2024 13:53:53] "[33mGET /files/1721281977.9003618/detected_9_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:53:54,083 INFO 45.132.74.186 - - [18/Jul/2024 13:53:54] "[33mGET /files/1721281977.9003618/detected_10_laptop.png HTTP/1.0[0m" 404 -
+2024-07-18 13:54:01,506 INFO 139.162.3.237 - - [18/Jul/2024 13:54:01] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:54:01,509 INFO 139.162.3.237 - - [18/Jul/2024 13:54:01] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:54:01,510 INFO 139.162.3.237 - - [18/Jul/2024 13:54:01] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:54:01,643 INFO 139.162.3.237 - - [18/Jul/2024 13:54:01] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:54:01,657 INFO 139.162.3.237 - - [18/Jul/2024 13:54:01] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:54:01,658 INFO 139.162.3.237 - - [18/Jul/2024 13:54:01] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:54:15,782 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 13:54:15,969 INFO  * Restarting with stat
+2024-07-18 13:54:16,882 WARNING  * Debugger is active!
+2024-07-18 13:54:16,883 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:54:46,009 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 13:54:46,199 INFO  * Restarting with stat
+2024-07-18 13:54:47,111 WARNING  * Debugger is active!
+2024-07-18 13:54:47,112 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:56:45,345 INFO 173.249.198.31 - - [18/Jul/2024 13:56:45] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:56:45,791 INFO 173.249.198.31 - - [18/Jul/2024 13:56:45] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:56:46,308 INFO 173.249.198.31 - - [18/Jul/2024 13:56:46] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:56:46,874 INFO 173.249.198.31 - - [18/Jul/2024 13:56:46] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:56:47,522 INFO 173.249.198.31 - - [18/Jul/2024 13:56:47] "HEAD /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:56:47,958 INFO 173.249.198.31 - - [18/Jul/2024 13:56:47] "GET /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:56:48,475 INFO 45.132.74.186 - - [18/Jul/2024 13:56:48] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:56:50,313 INFO 45.132.74.186 - - [18/Jul/2024 13:56:50] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:56:50,814 INFO 45.132.74.186 - - [18/Jul/2024 13:56:50] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:56:52,666 INFO 45.132.74.186 - - [18/Jul/2024 13:56:52] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:56:53,175 INFO 45.132.74.186 - - [18/Jul/2024 13:56:53] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:56:53,628 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 13:56:53,822 INFO  * Restarting with stat
+2024-07-18 13:56:54,716 WARNING  * Debugger is active!
+2024-07-18 13:56:54,717 INFO  * Debugger PIN: 737-937-816
+2024-07-18 13:56:54,728 INFO 45.132.74.186 - - [18/Jul/2024 13:56:54] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:56:58,513 INFO 139.162.3.237 - - [18/Jul/2024 13:56:58] "GET /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:11,265 INFO 139.162.3.237 - - [18/Jul/2024 13:57:11] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:19,624 INFO 173.249.198.31 - - [18/Jul/2024 13:57:19] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:20,080 INFO 173.249.198.31 - - [18/Jul/2024 13:57:20] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:20,599 INFO 173.249.198.31 - - [18/Jul/2024 13:57:20] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:21,049 INFO 173.249.198.31 - - [18/Jul/2024 13:57:21] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:21,674 INFO 173.249.198.31 - - [18/Jul/2024 13:57:21] "HEAD /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:22,218 INFO 173.249.198.31 - - [18/Jul/2024 13:57:22] "GET /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:22,732 INFO 45.132.74.186 - - [18/Jul/2024 13:57:22] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:24,579 INFO 45.132.74.186 - - [18/Jul/2024 13:57:24] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:25,087 INFO 45.132.74.186 - - [18/Jul/2024 13:57:25] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:26,976 INFO 45.132.74.186 - - [18/Jul/2024 13:57:26] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:27,477 INFO 45.132.74.186 - - [18/Jul/2024 13:57:27] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:29,394 INFO 45.132.74.186 - - [18/Jul/2024 13:57:29] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:34,009 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,011 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,013 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,016 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,017 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,019 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,182 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,183 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,185 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,185 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,187 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:34,310 INFO 139.162.3.237 - - [18/Jul/2024 13:57:34] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 13:57:50,167 INFO 173.249.198.31 - - [18/Jul/2024 13:57:50] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:50,708 INFO 173.249.198.31 - - [18/Jul/2024 13:57:50] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:51,328 INFO 173.249.198.31 - - [18/Jul/2024 13:57:51] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:51,862 INFO 173.249.198.31 - - [18/Jul/2024 13:57:51] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:52,382 INFO 173.249.198.31 - - [18/Jul/2024 13:57:52] "HEAD /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:52,818 INFO 173.249.198.31 - - [18/Jul/2024 13:57:52] "GET /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 13:57:53,330 INFO 45.132.74.186 - - [18/Jul/2024 13:57:53] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:55,176 INFO 45.132.74.186 - - [18/Jul/2024 13:57:55] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:55,677 INFO 45.132.74.186 - - [18/Jul/2024 13:57:55] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:57,574 INFO 45.132.74.186 - - [18/Jul/2024 13:57:57] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:58,075 INFO 45.132.74.186 - - [18/Jul/2024 13:57:58] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 13:57:59,964 INFO 45.132.74.186 - - [18/Jul/2024 13:57:59] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:00:42,107 INFO 139.162.3.237 - - [18/Jul/2024 14:00:42] "[36mGET /files/1721282158/detected_10_laptop.png HTTP/1.1[0m" 304 -
+2024-07-18 14:01:51,920 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:01:52,118 INFO  * Restarting with stat
+2024-07-18 14:01:53,034 WARNING  * Debugger is active!
+2024-07-18 14:01:53,034 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:02:07,046 INFO 173.249.198.31 - - [18/Jul/2024 14:02:07] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:07,490 INFO 173.249.198.31 - - [18/Jul/2024 14:02:07] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:08,024 INFO 173.249.198.31 - - [18/Jul/2024 14:02:08] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:08,584 INFO 173.249.198.31 - - [18/Jul/2024 14:02:08] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:09,216 INFO 173.249.198.31 - - [18/Jul/2024 14:02:09] "HEAD /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:09,655 INFO 173.249.198.31 - - [18/Jul/2024 14:02:09] "GET /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:10,170 INFO 45.132.74.186 - - [18/Jul/2024 14:02:10] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:12,063 INFO 45.132.74.186 - - [18/Jul/2024 14:02:12] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:12,577 INFO 45.132.74.186 - - [18/Jul/2024 14:02:12] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:14,532 INFO 45.132.74.186 - - [18/Jul/2024 14:02:14] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:15,045 INFO 45.132.74.186 - - [18/Jul/2024 14:02:15] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:16,947 INFO 45.132.74.186 - - [18/Jul/2024 14:02:16] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:42,941 INFO 173.249.198.31 - - [18/Jul/2024 14:02:42] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:43,503 INFO 173.249.198.31 - - [18/Jul/2024 14:02:43] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:44,111 INFO 173.249.198.31 - - [18/Jul/2024 14:02:44] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:44,545 INFO 173.249.198.31 - - [18/Jul/2024 14:02:44] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:45,062 INFO 173.249.198.31 - - [18/Jul/2024 14:02:45] "HEAD /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:45,643 INFO 173.249.198.31 - - [18/Jul/2024 14:02:45] "GET /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:02:46,168 INFO 45.132.74.186 - - [18/Jul/2024 14:02:46] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:48,106 INFO 45.132.74.186 - - [18/Jul/2024 14:02:48] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:48,621 INFO 45.132.74.186 - - [18/Jul/2024 14:02:48] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:50,506 INFO 45.132.74.186 - - [18/Jul/2024 14:02:50] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:51,014 INFO 45.132.74.186 - - [18/Jul/2024 14:02:51] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:02:52,930 INFO 45.132.74.186 - - [18/Jul/2024 14:02:52] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:03:12,140 INFO 173.249.198.31 - - [18/Jul/2024 14:03:12] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:03:12,710 INFO 173.249.198.31 - - [18/Jul/2024 14:03:12] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:03:13,243 INFO 173.249.198.31 - - [18/Jul/2024 14:03:13] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:03:13,693 INFO 173.249.198.31 - - [18/Jul/2024 14:03:13] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:03:14,301 INFO 173.249.198.31 - - [18/Jul/2024 14:03:14] "HEAD /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:03:14,856 INFO 173.249.198.31 - - [18/Jul/2024 14:03:14] "GET /files/1721282158/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:03:15,371 INFO 45.132.74.186 - - [18/Jul/2024 14:03:15] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:03:17,268 INFO 45.132.74.186 - - [18/Jul/2024 14:03:17] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:03:17,769 INFO 45.132.74.186 - - [18/Jul/2024 14:03:17] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:03:19,399 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:03:19,589 INFO  * Restarting with stat
+2024-07-18 14:03:20,517 WARNING  * Debugger is active!
+2024-07-18 14:03:20,517 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:03:20,528 INFO 45.132.74.186 - - [18/Jul/2024 14:03:20] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:03:21,042 INFO 45.132.74.186 - - [18/Jul/2024 14:03:21] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:03:23,020 INFO 45.132.74.186 - - [18/Jul/2024 14:03:23] "GET /files/1721282158/detected_30_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:05,711 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:04:05,924 INFO  * Restarting with stat
+2024-07-18 14:04:06,842 WARNING  * Debugger is active!
+2024-07-18 14:04:06,842 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:04:09,705 INFO 173.249.198.31 - - [18/Jul/2024 14:04:09] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:10,151 INFO 173.249.198.31 - - [18/Jul/2024 14:04:10] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:10,795 INFO 173.249.198.31 - - [18/Jul/2024 14:04:10] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:11,355 INFO 173.249.198.31 - - [18/Jul/2024 14:04:11] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:11,877 INFO 45.132.74.186 - - [18/Jul/2024 14:04:11] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:13,729 INFO 45.132.74.186 - - [18/Jul/2024 14:04:13] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:14,231 INFO 45.132.74.186 - - [18/Jul/2024 14:04:14] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:16,064 INFO 45.132.74.186 - - [18/Jul/2024 14:04:16] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:35,968 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:04:36,172 INFO  * Restarting with stat
+2024-07-18 14:04:37,147 WARNING  * Debugger is active!
+2024-07-18 14:04:37,148 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:04:37,749 INFO 173.249.198.31 - - [18/Jul/2024 14:04:37] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:38,202 INFO 173.249.198.31 - - [18/Jul/2024 14:04:38] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:38,836 INFO 173.249.198.31 - - [18/Jul/2024 14:04:38] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:39,269 INFO 173.249.198.31 - - [18/Jul/2024 14:04:39] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:04:39,786 INFO 45.132.74.186 - - [18/Jul/2024 14:04:39] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:41,646 INFO 45.132.74.186 - - [18/Jul/2024 14:04:41] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:42,147 INFO 45.132.74.186 - - [18/Jul/2024 14:04:42] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:04:44,030 INFO 45.132.74.186 - - [18/Jul/2024 14:04:44] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:05:09,676 INFO 173.249.198.31 - - [18/Jul/2024 14:05:09] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:05:10,113 INFO 173.249.198.31 - - [18/Jul/2024 14:05:10] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:05:10,628 INFO 173.249.198.31 - - [18/Jul/2024 14:05:10] "HEAD /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:05:11,062 INFO 173.249.198.31 - - [18/Jul/2024 14:05:11] "GET /files/1721282158/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:05:11,583 INFO 45.132.74.186 - - [18/Jul/2024 14:05:11] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:05:13,467 INFO 45.132.74.186 - - [18/Jul/2024 14:05:13] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:05:13,969 INFO 45.132.74.186 - - [18/Jul/2024 14:05:13] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:05:15,881 INFO 45.132.74.186 - - [18/Jul/2024 14:05:15] "GET /files/1721282158/detected_20_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:06:51,670 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:06:51,847 INFO  * Restarting with stat
+2024-07-18 14:06:52,693 WARNING  * Debugger is active!
+2024-07-18 14:06:52,693 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:06:55,978 INFO 173.249.198.31 - - [18/Jul/2024 14:06:55] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:06:56,540 INFO 173.249.198.31 - - [18/Jul/2024 14:06:56] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:06:57,064 INFO 45.132.74.186 - - [18/Jul/2024 14:06:57] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:06:59,050 INFO 45.132.74.186 - - [18/Jul/2024 14:06:59] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:07:32,005 INFO 173.249.198.31 - - [18/Jul/2024 14:07:32] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:07:32,569 INFO 173.249.198.31 - - [18/Jul/2024 14:07:32] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:07:33,098 INFO 45.132.74.186 - - [18/Jul/2024 14:07:33] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:07:35,105 INFO 45.132.74.186 - - [18/Jul/2024 14:07:35] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:07:55,525 INFO 173.249.198.31 - - [18/Jul/2024 14:07:55] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:07:55,965 INFO 173.249.198.31 - - [18/Jul/2024 14:07:55] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:07:56,483 INFO 45.132.74.186 - - [18/Jul/2024 14:07:56] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:07:58,436 INFO 45.132.74.186 - - [18/Jul/2024 14:07:58] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:08:42,412 INFO 173.249.198.31 - - [18/Jul/2024 14:08:42] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:08:42,856 INFO 173.249.198.31 - - [18/Jul/2024 14:08:42] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:08:43,369 INFO 45.132.74.186 - - [18/Jul/2024 14:08:43] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:08:45,402 INFO 45.132.74.186 - - [18/Jul/2024 14:08:45] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:10:23,207 INFO 173.249.198.31 - - [18/Jul/2024 14:10:23] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:10:23,641 INFO 173.249.198.31 - - [18/Jul/2024 14:10:23] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:10:24,155 INFO 45.132.74.186 - - [18/Jul/2024 14:10:24] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:10:26,223 INFO 45.132.74.186 - - [18/Jul/2024 14:10:26] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:16:13,782 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:16:13,959 INFO  * Restarting with stat
+2024-07-18 14:16:14,809 WARNING  * Debugger is active!
+2024-07-18 14:16:14,809 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:16:28,229 INFO 173.249.198.31 - - [18/Jul/2024 14:16:28] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:16:28,795 INFO 173.249.198.31 - - [18/Jul/2024 14:16:28] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:16:29,307 INFO 45.132.74.186 - - [18/Jul/2024 14:16:29] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:16:31,328 INFO 45.132.74.186 - - [18/Jul/2024 14:16:31] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:16:51,438 INFO 173.249.198.31 - - [18/Jul/2024 14:16:51] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:16:51,977 INFO 173.249.198.31 - - [18/Jul/2024 14:16:51] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:16:52,486 INFO 45.132.74.186 - - [18/Jul/2024 14:16:52] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:16:54,170 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,171 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,173 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,183 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,184 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,185 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,357 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,359 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,360 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,361 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,362 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:16:54,480 INFO 45.132.74.186 - - [18/Jul/2024 14:16:54] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:16:54,486 INFO 139.162.3.237 - - [18/Jul/2024 14:16:54] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:17:08,607 INFO 173.249.198.31 - - [18/Jul/2024 14:17:08] "HEAD /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:17:09,177 INFO 173.249.198.31 - - [18/Jul/2024 14:17:09] "GET /files/1721282158/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:17:09,691 INFO 45.132.74.186 - - [18/Jul/2024 14:17:09] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:17:11,693 INFO 45.132.74.186 - - [18/Jul/2024 14:17:11] "GET /files/1721282158/detected_10_laptop.png HTTP/1.0" 200 -
+2024-07-18 14:32:02,329 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:32:02,527 INFO  * Restarting with stat
+2024-07-18 14:32:03,383 WARNING  * Debugger is active!
+2024-07-18 14:32:03,383 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:35:37,191 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:35:37,371 INFO  * Restarting with stat
+2024-07-18 14:35:38,247 WARNING  * Debugger is active!
+2024-07-18 14:35:38,247 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:36:03,352 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:36:03,526 INFO  * Restarting with stat
+2024-07-18 14:36:04,371 WARNING  * Debugger is active!
+2024-07-18 14:36:04,372 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:37:43,755 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:37:43,931 INFO  * Restarting with stat
+2024-07-18 14:37:44,778 WARNING  * Debugger is active!
+2024-07-18 14:37:44,778 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:37:57,835 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 14:37:58,006 INFO  * Restarting with stat
+2024-07-18 14:37:58,839 WARNING  * Debugger is active!
+2024-07-18 14:37:58,839 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:39:21,186 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-18 14:39:21,399 INFO  * Restarting with stat
+2024-07-18 14:39:22,424 WARNING  * Debugger is active!
+2024-07-18 14:39:22,426 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:39:55,570 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 14:39:55,763 INFO  * Restarting with stat
+2024-07-18 14:39:56,679 WARNING  * Debugger is active!
+2024-07-18 14:39:56,679 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:40:41,611 INFO 139.162.3.237 - - [18/Jul/2024 14:40:41] "GET /files/1721284724/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:41:18,447 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,448 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,449 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,451 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,452 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,453 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,583 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "GET /files/1721284724/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:41:18,583 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "GET /files/1721284724/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:41:18,584 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "GET /files/1721284724/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:41:18,620 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,622 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,623 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,845 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/1721281977.9003618/detected_2_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,848 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/1721281977.9003618/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:18,849 INFO 139.162.3.237 - - [18/Jul/2024 14:41:18] "[33mGET /files/1721281977.9003618/detected_1_laptop.png HTTP/1.1[0m" 404 -
+2024-07-18 14:41:20,186 INFO 139.162.3.237 - - [18/Jul/2024 14:41:20] "GET /files/1721284724/detected_10_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:41:22,290 INFO 139.162.3.237 - - [18/Jul/2024 14:41:22] "GET /files/1721284724/detected_20_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:41:23,282 INFO 139.162.3.237 - - [18/Jul/2024 14:41:23] "GET /files/1721284724/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:41:44,115 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 14:41:44,313 INFO  * Restarting with stat
+2024-07-18 14:41:45,211 WARNING  * Debugger is active!
+2024-07-18 14:41:45,211 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:44:31,864 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:44:32,104 INFO  * Restarting with stat
+2024-07-18 14:44:33,148 WARNING  * Debugger is active!
+2024-07-18 14:44:33,148 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:48:18,012 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 14:48:18,225 INFO  * Restarting with stat
+2024-07-18 14:48:19,252 WARNING  * Debugger is active!
+2024-07-18 14:48:19,252 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:49:46,749 INFO 113.215.189.64 - - [18/Jul/2024 14:49:46] "[33mGET /files/1721282158/detected_20_laptop.png)" HTTP/1.1[0m" 404 -
+2024-07-18 14:49:58,818 INFO 139.162.3.237 - - [18/Jul/2024 14:49:58] "GET /files/1721285347/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:49:58,856 INFO 139.162.3.237 - - [18/Jul/2024 14:49:58] "GET /files/1721285347/detected_60_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:50:13,050 INFO 139.162.3.237 - - [18/Jul/2024 14:50:13] "GET /files/1721285347/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:50:14,328 INFO 139.162.3.237 - - [18/Jul/2024 14:50:14] "GET /files/1721285347/detected_60_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:50:51,094 INFO 139.162.3.237 - - [18/Jul/2024 14:50:51] "GET /files/1721285347/detected_30_laptop.png HTTP/1.1" 200 -
+2024-07-18 14:51:21,039 INFO 113.215.189.75 - - [18/Jul/2024 14:51:21] "[33mGET /files/1721282158/detected_10_laptop.png) HTTP/1.1[0m" 404 -
+2024-07-18 14:52:15,186 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 14:52:15,450 INFO  * Restarting with stat
+2024-07-18 14:52:16,490 WARNING  * Debugger is active!
+2024-07-18 14:52:16,491 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:52:20,515 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-18 14:52:20,764 INFO  * Restarting with stat
+2024-07-18 14:52:21,777 WARNING  * Debugger is active!
+2024-07-18 14:52:21,778 INFO  * Debugger PIN: 737-937-816
+2024-07-18 14:53:07,966 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openai_api.py', reloading
+2024-07-18 14:53:08,159 INFO  * Restarting with stat
+2024-07-18 14:53:09,166 WARNING  * Debugger is active!
+2024-07-18 14:53:09,166 INFO  * Debugger PIN: 737-937-816

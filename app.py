@@ -1,11 +1,14 @@
 import asyncio
 import logging
+import os
 from threading import Thread
 
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory, abort
+from werkzeug.utils import safe_join
 
 from android.dt_msg_helper import MessageHelper
 from android.lang_ch import LanguageHelper
+from android.aqara_home import CameraHelper
 
 app = Flask(__name__)
 
@@ -52,6 +55,29 @@ def hello_world():
 def index():
     return render_template('index.html', name="Flask")
 
+screenshot_directory = '/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots'
+
+@app.route('/files/<path:filename>')
+def serve_file(filename):
+    full_path = safe_join(screenshot_directory, filename)
+    if not os.path.isfile(full_path):
+        abort(404)
+    return send_from_directory(screenshot_directory, filename)
+
+@app.route('/screenshot')
+def screenshot():
+    files_list = list_files(screenshot_directory)
+    return f'<h1>File List</h1><ul>{files_list}</ul>'
+
+def list_files(root_dir):
+    files_list = []
+    for root, _, files in os.walk(root_dir):
+        for file in files:
+            # 生成相对于根目录的相对路径
+            relative_path = os.path.relpath(os.path.join(root, file), root_dir)
+            files_list.append(f'<li><a href="/files/{relative_path}">{relative_path}</a></li>')
+
+    return '\n'.join(files_list)
 
 @app.route('/v1/actions/openapi/dingtalk/send_message', methods=['GET'])
 def send_message():
@@ -123,6 +149,23 @@ def update_status():
     response = {
         'success': True,
         'message': f'Work status updated to: {status}'
+    }
+    app.logger.info(response)
+    return jsonify(response)
+
+@app.route('/v1/actions/openapi/aqara/detect', methods=['GET'])
+def detect_camera():
+    app.logger.info("Check aqara detect")
+
+    # 实现发送钉钉消息的逻辑
+    camera_helper = CameraHelper()
+
+    thread = Thread(target=run_async, args=(camera_helper.keep_watch))
+    thread.start()
+
+    response = {
+        'success': True,
+        'message': "Start watching"
     }
     app.logger.info(response)
     return jsonify(response)

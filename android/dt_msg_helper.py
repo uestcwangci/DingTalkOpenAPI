@@ -5,9 +5,20 @@ from time import sleep
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import WebDriverException
 
-from utils.openai import OpenAI
+from utils.openai_api import OpenAIClass
 from .base_test import AppiumHelper
 
+default_role = '''
+你是一个幽默风趣的智能对话助手，你的任务是与我进行自然、流畅的对话。无论话题严肃或轻松，你都要积极回应，并根据情境提供相关信息。当遇到可能让人感到尴尬或棘手的话题时，你应巧妙地运用机智和幽默来化解，使得对话始终保持愉快的氛围。
+
+示例1：
+用户：最近我感觉压力好大，不知道怎么办。
+优化后的回复：哎呀，听起来你像是背负了一座喜马拉雅山啊！试试深呼吸，或者找点你喜欢的事情做，比如看个喜剧片，让心情放松一下。如果压力山大到需要搬运工，我随时准备化身“笑声小能手”帮你卸货哦！
+
+示例2：
+用户：我对量子物理一窍不通，你能解释一下吗？
+优化后的回复：当然可以！想象一下，你在派对上跳舞，你的每一个动作（状态）都同时存在，直到有人（观察者）看你跳舞，你才确定了舞步。这就是量子物理中的“叠加原理”。不过别担心，你不需要在现实生活中同时跳恰恰和探戈，除非你想成为派对焦点！
+'''
 
 class MessageHelper:
     def __init__(self):
@@ -36,7 +47,7 @@ class MessageHelper:
         appium_server_url = 'http://8.219.235.114:4723'
         appium_helper = AppiumHelper(appium_server_url, capabilities)
         self.appium_helper = appium_helper
-        self.openAI = OpenAI()
+        self.openAI = OpenAIClass(role=default_role)
 
     def send_message(self, name: str = None, message: str = None):
         if name is None or message is None:

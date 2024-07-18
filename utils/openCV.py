@@ -6,11 +6,11 @@ import subprocess
 
 # 获取当前脚本文件的目录
 project_dir = os.path.dirname(os.path.abspath(__file__))
-output_dir = os.path.join(project_dir, '..', 'screenshots')
-os.makedirs(output_dir, exist_ok=True)
+screenshot_dir = os.path.join(project_dir, '..', 'screenshots')
+os.makedirs(screenshot_dir, exist_ok=True)
 
 
-def yolo_detect():
+def yolo_detect(frame_rate=1, detect_count=10):
     print("Starting YOLO detection...")
     weight_path = os.path.join(project_dir, '..', 'nn', 'darknet', 'yolov3.weights')
     cfg_path = os.path.join(project_dir, '..', 'nn', 'darknet', 'cfg', 'yolov3.cfg')
@@ -18,7 +18,7 @@ def yolo_detect():
     # 加载 YOLO
     net = cv2.dnn.readNet(weight_path, cfg_path)
     layer_names = net.getLayerNames()
-    print("Layer Names: ", layer_names)  # 调试信息
+    # print("Layer Names: ", layer_names)  # 调试信息
     output_layers_indexes = net.getUnconnectedOutLayers()
     print("Output Layers Indexes: ", output_layers_indexes)  # 调试信息
 
@@ -33,14 +33,15 @@ def yolo_detect():
         classes = [line.strip() for line in f.readlines()]
 
     # 打开视频
-    vidio_url = "http://8.219.235.114:8093"
-    # vidio_url = "/Users/lingfeng/Downloads/cat.mp4"
+    vidio_url = "http://localhost:8093"
     cap = cv2.VideoCapture(vidio_url)
 
     # 开始计时
     start_time = time.time()
     frame_count = 0
     detected = 0
+    processed_frame_count = 0
+    result = []
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
@@ -49,10 +50,19 @@ def yolo_detect():
 
         # 检查是否已超过 10 秒
         elapsed_time = time.time() - start_time
-        if elapsed_time > 30 or detected >= 10:
+        if elapsed_time > 30 or detected >= detect_count:
+            print(f"已超过 30 秒或检测到 {detect_count} 个物体，结束检测。")
             break
 
         frame_count += 1
+
+        # 只处理每 frame_rate 帧中的一帧
+        if frame_count % frame_rate != 0:
+            continue
+        print(f"处理第 {frame_count} 帧, 已跳过其他帧")
+
+        processed_frame_count += 1
+
         # 预处理图像
         height, width, channels = frame.shape
         blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
@@ -82,36 +92,36 @@ def yolo_detect():
         # 非最大值抑制
         indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
 
+        output_dir = os.path.join(screenshot_dir, str(int(start_time)))
+        os.makedirs(output_dir, exist_ok=True)
         # 绘制检测框
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
                 label = str(classes[class_ids[i]])
-                if label == "cat" or label == 'dog':  # 只显示检测到的猫和狗
-                    print("detect " + label)
+                if label == 'laptop':  # 只显示检测到的物体
+                    print(f"\033[32m检测到目标物体：{label}\033[0m")
                     detected += 1
                     color = (0, 255, 0)
                     cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
                     cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
                     # 保存截图
-                    timestamp = int(time.time())
-                    screenshot_filename = os.path.join(output_dir, f"pet_detected_{frame_count}_{timestamp}.png")
+                    screenshot_filename = os.path.join(output_dir, f"detected_{frame_count}_{label}.png")
                     cv2.imwrite(screenshot_filename, frame)
+                    result.append(f"{str(int(start_time))}/detected_{frame_count}_{label}.png")
                 else:
-                    print("detect other object: " + label)
+                    print("检测到其他物体：" + label)
         # 显示结果
         # cv2.imshow("Video", frame)
         # if cv2.waitKey(1) & 0xFF == ord('q'):
         #     break
-        time.sleep(0.2)
 
     cap.release()
     cv2.destroyAllWindows()
     print("YOLO detection completed.")
-    return "done"
+    return result
 
 
 if __name__ == '__main__':
-    # test()
     yolo_detect()
