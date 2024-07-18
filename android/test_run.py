@@ -5,7 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from android.dt_msg_helper import MessageHelper
 from android.aqara_home import CameraHelper
-from utils.openai_api import OpenAIClass
+from utils.openai_api import Open_AI_API
 
 # message_sender.reply_message("Virtual-Runtime", "")
 # message_sender.check_read_status("Virtual-Runtime", "八嘎呀路")

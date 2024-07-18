@@ -5,7 +5,7 @@ from time import sleep
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import WebDriverException
 
-from utils.openai_api import OpenAIClass
+from utils.openai_api import Open_AI_API
 from .base_test import AppiumHelper
 
 default_role = '''
@@ -47,7 +47,7 @@ class MessageHelper:
         appium_server_url = 'http://8.219.235.114:4723'
         appium_helper = AppiumHelper(appium_server_url, capabilities)
         self.appium_helper = appium_helper
-        self.openAI = OpenAIClass(role=default_role)
+        self.openAI = Open_AI_API(role=default_role)
 
     def send_message(self, name: str = None, message: str = None):
         if name is None or message is None:

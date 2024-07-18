@@ -101,7 +101,7 @@ if __name__ == '__main__':
         prepare_response = ding_api.send_prepare_request(
             open_conversation_id="cid41Nets4tls9Y3Zqa5SKhZFPyRniSmRS3/Qk15wyZkIo=",
             content=ding_api.build_request_content(
-                template_id="b9b2615c-a220-439d-a56b-74bb39baa618.schema",
+                template_id="02815812-c30b-4164-9ca6-8b7af45c93df.schema",
                 card_data={})
         )
         print("Prepare response:", prepare_response)
@@ -114,8 +114,8 @@ if __name__ == '__main__':
     # 调用 update 函数
     try:
         update_response = ding_api.send_update_request(
-            content=ding_api.build_request_content(template_id="b9b2615c-a220-439d-a56b-74bb39baa618.schema",
-                                                   card_data={"promot": "## 更新中...[元气满满]", "reply": "元气满满"})
+            content=ding_api.build_request_content(template_id="02815812-c30b-4164-9ca6-8b7af45c93df.schema",
+                                                   card_data={"promot": "## 更新中...[元气满满]", "reply": "元气满满", "imgList": ["http://8.219.235.114:5000/files/1721287161/detected_60_laptop.png"]})
         )
         print("Update response:", update_response)
     except requests.exceptions.RequestException as e:
