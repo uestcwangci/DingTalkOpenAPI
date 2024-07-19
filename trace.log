@@ -674,3 +674,225 @@ ent server. Do not use it in a production deployment. Use a production WSGI serv
 2024-07-18 20:17:20,798 INFO  * Restarting with stat
 2024-07-18 20:17:21,636 WARNING  * Debugger is active!
 2024-07-18 20:17:21,636 INFO  * Debugger PIN: 737-937-816
+2024-07-19 10:47:09,052 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 10:47:09,052 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 10:47:09,053 INFO  * Restarting with stat
+2024-07-19 10:47:13,352 WARNING  * Debugger is active!
+2024-07-19 10:47:13,353 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:49:15,078 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-19 10:49:15,919 INFO  * Restarting with stat
+2024-07-19 10:49:20,281 WARNING  * Debugger is active!
+2024-07-19 10:49:20,281 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:50:51,850 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-19 10:50:52,702 INFO  * Restarting with stat
+2024-07-19 10:50:56,956 WARNING  * Debugger is active!
+2024-07-19 10:50:56,957 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:51:04,011 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/test_run.py', reloading
+2024-07-19 10:51:04,853 INFO  * Restarting with stat
+2024-07-19 10:51:09,157 WARNING  * Debugger is active!
+2024-07-19 10:51:09,158 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:51:16,210 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:51:17,064 INFO  * Restarting with stat
+2024-07-19 10:51:21,337 WARNING  * Debugger is active!
+2024-07-19 10:51:21,337 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:51:30,402 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:51:31,261 INFO  * Restarting with stat
+2024-07-19 10:51:35,609 WARNING  * Debugger is active!
+2024-07-19 10:51:35,610 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:51:48,698 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:51:49,554 INFO  * Restarting with stat
+2024-07-19 10:51:53,834 WARNING  * Debugger is active!
+2024-07-19 10:51:53,834 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:51:57,868 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:51:58,719 INFO  * Restarting with stat
+2024-07-19 10:52:02,971 WARNING  * Debugger is active!
+2024-07-19 10:52:02,971 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:56:19,574 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:56:20,580 INFO  * Restarting with stat
+2024-07-19 10:56:25,873 WARNING  * Debugger is active!
+2024-07-19 10:56:25,876 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:56:53,083 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:56:54,115 INFO  * Restarting with stat
+2024-07-19 10:56:59,058 WARNING  * Debugger is active!
+2024-07-19 10:56:59,058 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:57:53,424 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:57:54,429 INFO  * Restarting with stat
+2024-07-19 10:57:59,401 WARNING  * Debugger is active!
+2024-07-19 10:57:59,401 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:59:37,052 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:59:38,083 INFO  * Restarting with stat
+2024-07-19 10:59:43,665 WARNING  * Debugger is active!
+2024-07-19 10:59:43,666 INFO  * Debugger PIN: 572-467-419
+2024-07-19 10:59:55,762 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 10:59:56,839 INFO  * Restarting with stat
+2024-07-19 11:00:02,365 WARNING  * Debugger is active!
+2024-07-19 11:00:02,365 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:00:05,394 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:00:06,436 INFO  * Restarting with stat
+2024-07-19 11:00:12,191 WARNING  * Debugger is active!
+2024-07-19 11:00:12,191 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:00:26,529 INFO 206.168.34.194 - - [19/Jul/2024 11:00:26] "GET / HTTP/1.1" 200 -
+2024-07-19 11:00:27,556 INFO 206.168.34.194 - - [19/Jul/2024 11:00:27] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-07-19 11:00:28,771 ERROR 206.168.34.194 - - [19/Jul/2024 11:00:28] code 505, message Invalid HTTP version (2.0)
+2024-07-19 11:00:28,771 INFO 206.168.34.194 - - [19/Jul/2024 11:00:28] "[35m[1mPRI * HTTP/2.0[0m" HTTPStatus.HTTP_VERSION_NOT_SUPPORTED -
+2024-07-19 11:00:30,328 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:00:31,388 INFO  * Restarting with stat
+2024-07-19 11:00:37,081 WARNING  * Debugger is active!
+2024-07-19 11:00:37,081 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:06:04,252 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:06:05,250 INFO  * Restarting with stat
+2024-07-19 11:06:10,234 WARNING  * Debugger is active!
+2024-07-19 11:06:10,234 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:10:42,936 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-19 11:10:43,802 INFO  * Restarting with stat
+2024-07-19 11:10:48,097 WARNING  * Debugger is active!
+2024-07-19 11:10:48,097 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:12:14,405 INFO 198.235.24.30 - - [19/Jul/2024 11:12:14] "GET / HTTP/1.0" 200 -
+2024-07-19 11:12:36,783 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:12:37,820 INFO  * Restarting with stat
+2024-07-19 11:12:43,035 WARNING  * Debugger is active!
+2024-07-19 11:12:43,035 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:13:44,434 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:13:45,376 INFO  * Restarting with stat
+2024-07-19 11:13:50,024 WARNING  * Debugger is active!
+2024-07-19 11:13:50,024 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:14:12,175 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:14:13,109 INFO  * Restarting with stat
+2024-07-19 11:14:18,140 WARNING  * Debugger is active!
+2024-07-19 11:14:18,140 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:16:04,828 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:16:05,772 INFO  * Restarting with stat
+2024-07-19 11:16:10,370 WARNING  * Debugger is active!
+2024-07-19 11:16:10,370 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:21:21,354 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:21:22,281 INFO  * Restarting with stat
+2024-07-19 11:21:26,919 WARNING  * Debugger is active!
+2024-07-19 11:21:26,919 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:25:22,405 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:25:23,350 INFO  * Restarting with stat
+2024-07-19 11:25:27,970 WARNING  * Debugger is active!
+2024-07-19 11:25:27,970 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:25:32,009 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:25:32,948 INFO  * Restarting with stat
+2024-07-19 11:25:37,850 WARNING  * Debugger is active!
+2024-07-19 11:25:37,851 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:26:40,272 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:26:41,291 INFO  * Restarting with stat
+2024-07-19 11:26:46,410 WARNING  * Debugger is active!
+2024-07-19 11:26:46,410 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:38:23,728 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:38:24,679 INFO  * Restarting with stat
+2024-07-19 11:38:29,325 WARNING  * Debugger is active!
+2024-07-19 11:38:29,325 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:44:43,692 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:44:44,643 INFO  * Restarting with stat
+2024-07-19 11:44:49,381 WARNING  * Debugger is active!
+2024-07-19 11:44:49,381 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:45:05,497 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:45:06,452 INFO  * Restarting with stat
+2024-07-19 11:45:11,085 WARNING  * Debugger is active!
+2024-07-19 11:45:11,085 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:47:57,162 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:47:58,195 INFO  * Restarting with stat
+2024-07-19 11:48:03,346 WARNING  * Debugger is active!
+2024-07-19 11:48:03,346 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:49:22,866 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:49:23,812 INFO  * Restarting with stat
+2024-07-19 11:49:28,475 WARNING  * Debugger is active!
+2024-07-19 11:49:28,475 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:51:26,234 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:51:27,180 INFO  * Restarting with stat
+2024-07-19 11:51:31,820 WARNING  * Debugger is active!
+2024-07-19 11:51:31,821 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:52:06,044 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:52:06,935 INFO  * Restarting with stat
+2024-07-19 11:52:11,961 WARNING  * Debugger is active!
+2024-07-19 11:52:11,961 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:52:47,220 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:52:48,237 INFO  * Restarting with stat
+2024-07-19 11:52:53,382 WARNING  * Debugger is active!
+2024-07-19 11:52:53,382 INFO  * Debugger PIN: 572-467-419
+2024-07-19 11:53:00,443 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 11:53:01,485 INFO  * Restarting with stat
+2024-07-19 11:53:06,588 WARNING  * Debugger is active!
+2024-07-19 11:53:06,588 INFO  * Debugger PIN: 572-467-419
+2024-07-19 13:27:57,518 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 13:27:58,580 INFO  * Restarting with stat
+2024-07-19 13:28:03,716 WARNING  * Debugger is active!
+2024-07-19 13:28:03,716 INFO  * Debugger PIN: 572-467-419
+2024-07-19 13:34:05,001 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-19 13:34:05,949 INFO  * Restarting with stat
+2024-07-19 14:05:09,003 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 14:05:09,003 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 14:05:09,004 INFO  * Restarting with stat
+2024-07-19 14:05:13,172 WARNING  * Debugger is active!
+2024-07-19 14:05:13,172 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:05:36,601 INFO 139.162.3.237 - - [19/Jul/2024 14:05:36] "[36mGET /files/1721302850/detected_150.png HTTP/1.1[0m" 304 -
+2024-07-19 14:05:51,278 INFO Check aqara detect with label: 手机, input: 帮我用摄像头看下我手机放哪里了
+2024-07-19 14:05:59,086 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 14:05:59,087 INFO 59.82.21.48 - - [19/Jul/2024 14:05:59] "GET /v1/actions/openapi/aqara/detect?input=帮我用摄像头看下我手机放哪里了&label=手机 HTTP/1.1" 200 -
+2024-07-19 14:07:40,198 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-19 14:07:41,047 INFO  * Restarting with stat
+2024-07-19 14:07:45,339 WARNING  * Debugger is active!
+2024-07-19 14:07:45,340 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:10:00,294 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/android/aqara_home.py', reloading
+2024-07-19 14:10:01,244 INFO  * Restarting with stat
+2024-07-19 14:10:06,574 WARNING  * Debugger is active!
+2024-07-19 14:10:06,574 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:11:33,272 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 14:11:34,799 INFO  * Restarting with stat
+2024-07-19 14:11:40,684 WARNING  * Debugger is active!
+2024-07-19 14:11:40,685 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:14:41,401 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 14:14:41,404 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 14:14:41,405 INFO  * Restarting with stat
+2024-07-19 14:14:46,326 WARNING  * Debugger is active!
+2024-07-19 14:14:46,327 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:20:31,174 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 14:20:31,174 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 14:20:31,175 INFO  * Restarting with stat
+2024-07-19 14:20:35,782 WARNING  * Debugger is active!
+2024-07-19 14:20:35,783 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:20:43,099 INFO Check aqara detect with label: 手机, input: 帮我用摄像头看下我手机放哪里了
+2024-07-19 14:20:51,227 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 14:20:51,228 INFO 59.82.21.105 - - [19/Jul/2024 14:20:51] "GET /v1/actions/openapi/aqara/detect?input=帮我用摄像头看下我手机放哪里了&label=手机 HTTP/1.1" 200 -
+2024-07-19 14:20:56,739 INFO Check aqara detect with label: 手机, input: 帮我用摄像头看下我手机放哪里了
+2024-07-19 14:21:05,752 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 14:21:05,752 INFO 59.82.21.229 - - [19/Jul/2024 14:21:05] "GET /v1/actions/openapi/aqara/detect?input=帮我用摄像头看下我手机放哪里了&label=手机 HTTP/1.1" 200 -
+2024-07-19 14:21:43,019 INFO 8.219.235.114 - - [19/Jul/2024 14:21:43] "HEAD /files/1721370087/detected_40.png HTTP/1.1" 200 -
+2024-07-19 14:21:43,480 INFO 40.84.182.35 - - [19/Jul/2024 14:21:43] "GET /files/1721370087/detected_40.png HTTP/1.1" 200 -
+2024-07-19 14:21:47,251 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 14:21:48,121 INFO 139.162.3.237 - - [19/Jul/2024 14:21:48] "GET /files/1721370087/detected_40.png HTTP/1.1" 200 -
+2024-07-19 14:22:07,110 INFO 139.162.3.237 - - [19/Jul/2024 14:22:07] "GET /files/1721370087/detected_40.png HTTP/1.1" 200 -
+2024-07-19 14:30:45,695 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 14:30:46,590 INFO  * Restarting with stat
+2024-07-19 14:30:50,843 WARNING  * Debugger is active!
+2024-07-19 14:30:50,843 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:31:13,142 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 14:31:13,142 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 14:31:13,143 INFO  * Restarting with stat
+2024-07-19 14:31:17,372 WARNING  * Debugger is active!
+2024-07-19 14:31:17,372 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:33:30,141 INFO Check aqara detect with label: 手机, input: 我手机忘带了，帮我用摄像头看看它放哪里了
+2024-07-19 14:33:38,050 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 14:33:38,051 INFO 59.82.83.146 - - [19/Jul/2024 14:33:38] "GET /v1/actions/openapi/aqara/detect?input=我手机忘带了，帮我用摄像头看看它放哪里了&label=手机 HTTP/1.1" 200 -
+2024-07-19 14:33:56,576 INFO 147.185.132.171 - - [19/Jul/2024 14:33:56] "GET / HTTP/1.1" 200 -
+2024-07-19 14:34:14,041 INFO 8.219.235.114 - - [19/Jul/2024 14:34:14] "HEAD /files/1721370838/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:34:14,506 INFO 40.84.182.33 - - [19/Jul/2024 14:34:14] "GET /files/1721370838/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:34:18,342 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 14:34:19,182 INFO 139.162.3.237 - - [19/Jul/2024 14:34:19] "GET /files/1721370838/detected_20.png HTTP/1.1" 200 -

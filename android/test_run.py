@@ -14,7 +14,9 @@ from utils.openai_api import Open_AI_API
 # lang_helper.change_to_ch()
 
 camera_helper = CameraHelper()
-camera_helper.keep_watch()
+# camera_helper.keep_watch("电脑", "帮我看看电脑在哪里")
+camera_helper.stream()
+
 
 # message_sender = MessageHelper()
 # message_sender.send_message("零封🌚", "检测到宠物")

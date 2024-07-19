@@ -4,7 +4,7 @@ from time import sleep
 
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import WebDriverException
-from utils.openCV import yolo_detect
+from utils.openCV import yolo10_detect
 from utils.dingtalk_api import DingTalkAPI
 
 from utils.openai_api import Open_AI_API
@@ -101,7 +101,7 @@ class CameraHelper:
 
         loop = True
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            future = executor.submit(yolo_detect, label, 60, 20, 1)
+            future = executor.submit(yolo10_detect, label, 60, 20, 1)
             while loop:
                 time.sleep(20)  # 在实际应用中这个睡眠时间可以调整
                 print("录屏心跳:", self.appium_helper.driver.current_activity)
@@ -162,7 +162,7 @@ class CameraHelper:
 
     #     loop = True
     #     with concurrent.futures.ThreadPoolExecutor() as executor:
-    #         future = executor.submit(yolo_detect, 10, 3)
+    #         future = executor.submit(yolo10_detect, 10, 3)
     #         while loop:
     #             time.sleep(50)  # 在实际应用中这个睡眠时间可以调整
     #             print("Checking current activity:", self.appium_helper.driver.current_activity)
@@ -173,17 +173,42 @@ class CameraHelper:
     #                     print("YOLO detection completed, exiting loop.")
     #     self.appium_helper.driver.execute_script('mobile: stopScreenStreaming')
 
-    # def stream(self):
+    def stream(self):
         # 开始串流
-        # self.appium_helper.driver.execute_script('mobile: startScreenStreaming', {
-        #     'host': '0.0.0.0',
-        #     'width': 720,
-        #     'height': 1280,
-        #     'considerRotation': True,
-        #     'quality': 45,
-        #     'bitRate': 500000,
-        # })
-
-        # while True:
-        #     self.appium_helper.driver.current_activity
-        #     sleep(50)
+        wait_for_find = self.appium_helper.wait_for_find
+        wait_for_finds = self.appium_helper.wait_for_finds
+        sleep(5)
+        # 点击设备按钮
+        wait_for_find(by=AppiumBy.ID, timeout=20, value="com.lumiunited.aqarahome:id/btn_device_list").click()
+        sleep(5)
+        # 找到对应的摄像头
+        cameras = wait_for_finds(by=AppiumBy.ID, value="com.lumiunited.aqarahome:id/tv_cell_left")
+        for camera in cameras:
+            if '主卧' in camera.text:
+                camera.click()
+                break
+        wait_for_find(by=AppiumBy.ID, value="com.lumiunited.aqarahome:id/iv_fullscreen").click()
+        sleep(1)
+        window_size = self.appium_helper.driver.get_window_size()
+        # width, height = self.appium_helper.driver.get_window_size().values()
+        # print(window_size)
+        # print(width)
+        # print(height)
+        # # self.appium_helper.driver.swipe(start_x=int(window_size.get("width")), start_y=int(window_size.get("height")), end_x=int(window_size.get("width")) + 100, end_y=int(window_size.get("height")), duration=500)
+        # for i in range(5):
+        #     self.appium_helper.driver.swipe(int(width/3), int(height/2), int(width*2/3), int(height/2))
+        #     print("滑动from", int(width/3), int(height/2), "to", int(width*2/3), int(height/2))
+        #     sleep(2)
+        # 开始串流
+        self.appium_helper.driver.execute_script('mobile: startScreenStreaming', {
+            'host': '0.0.0.0',
+            'width': window_size.get("width"),
+            'height': window_size.get("height"),
+            'considerRotation': True,
+            'quality': 45,
+            'bitRate': 500000,
+        })
+        while True:
+            sleep(30)
+            print("录屏心跳:", self.appium_helper.driver.current_activity)
+        

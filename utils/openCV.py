@@ -3,6 +3,9 @@ import numpy as np
 import os
 import time
 import subprocess
+from ultralytics import YOLOv10
+import random
+
 
 # 获取当前脚本文件的目录
 project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -13,8 +16,8 @@ label_convert = {
     '人': 'person',
     '自行车': 'bicycle',
     '汽车': 'car',
-    '摩托车': 'motorbike',
-    '飞机': 'aeroplane',
+    '摩托车': 'motorcycle',
+    '飞机': 'airplane',
     '公交车': 'bus',
     '火车': 'train',
     '卡车': 'truck',
@@ -67,12 +70,12 @@ label_convert = {
     '甜甜圈': 'donut',
     '蛋糕': 'cake',
     '椅子': 'chair',
-    '沙发': 'sofa',
-    '盆栽': 'pottedplant',
+    '沙发': 'couch',
+    '盆栽': 'potted plant',
     '床': 'bed',
-    '餐桌': 'diningtable',
+    '餐桌': 'dining table',
     '马桶': 'toilet',
-    '电视': 'tvmonitor',
+    '电视': 'tv',
     '电脑': 'laptop',
     '鼠标': 'mouse',
     '遥控器': 'remote',
@@ -92,7 +95,91 @@ label_convert = {
     '牙刷': 'toothbrush'
 }
 
+def yolo10_detect(decect_lable:str, timeout=60, frame_rate=10, detect_count=5):
+    print("Starting YOLOV10 detection...")
+    weight_path = os.path.join(project_dir, '..', 'nn', 'yolov10s.pt')
+    model = YOLOv10(weight_path)
+    # 打开视频
+    vidio_url = "http://localhost:8093"
+    cap = cv2.VideoCapture(vidio_url)
+     # 开始计时
+    start_time = time.time()
+    frame_count = 0
+    detected = 0
+    processed_frame_count = 0
+    detected_imgs = []
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            print("无法读取视频帧，可能是流的问题。")
+            break
 
+        # 检查是否已超过 10 秒
+        elapsed_time = time.time() - start_time
+        if elapsed_time > timeout or detected >= detect_count:
+            print(f"已超过 {timeout} 秒或检测到 {detect_count} 个物体，结束检测。")
+            break
+
+        frame_count += 1
+
+        # 只处理每 frame_rate 帧中的一帧
+        if frame_count % frame_rate != 0:
+            continue
+        print(f"处理第 {frame_count} 帧, 已跳过其他帧")
+
+        processed_frame_count += 1
+        
+        # 使用模型预测
+        results = model.predict(source=frame, save=False)
+
+        output_dir = os.path.join(screenshot_dir, str(int(start_time)))
+        os.makedirs(output_dir, exist_ok=True)
+        # 从结果中提取信息并绘制在帧上
+        for result in results:
+            boxes = result.boxes.xyxy.numpy()   # 获取边界框坐标
+            scores = result.boxes.conf.numpy()  # 获取置信度
+            labels = result.boxes.cls.numpy()   # 获取类别标签
+
+            for box, score, label in zip(boxes, scores, labels):
+                x1, y1, x2, y2 = box.astype(int)
+                lable_name = f"{model.names[int(label)]}"
+                score_name = f"{score:.2f}"
+                label_str = f"{lable_name}: {score_name}"
+                
+                # 生成随机颜色,尽量不用绿色
+                def get_random_color():
+                    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+                
+                if lable_name == label_convert[decect_lable]:  # 只显示检测到的物体
+                    print(f"\033[32m检测到目标物体：{label_str}\033[0m")
+                    detected += 1
+                    color = (0, 255, 0)
+                else:
+                    print("检测到其他物体：" + label_str)
+                    color = get_random_color()  # 随机颜色
+                cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                # 绘制文本
+                cv2.putText(frame, label_str, (x1 + 3, y1 + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            # 保存截图
+            screenshot_filename = os.path.join(output_dir, f"detected_{frame_count}.png")
+            cv2.imwrite(screenshot_filename, frame)
+            if detected > 0:
+                detected_imgs.append(f"{str(int(start_time))}/detected_{frame_count}.png")
+
+               
+        # # 显示处理后的帧
+        # cv2.imshow('YOLOv10 Detection', frame)
+        # # 按 'q' 键退出循环
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     break
+
+    # 释放资源
+    cap.release()
+    cv2.destroyAllWindows()
+    print("YOLOV10 detection completed.")
+    return detected_imgs
+    
+    
 def yolo_detect(decect_lable:str, timeout=30, frame_rate=1, detect_count=10):
     print("Starting YOLO detection...")
     weight_path = os.path.join(project_dir, '..', 'nn', 'darknet', 'yolov3.weights')
@@ -207,4 +294,4 @@ def yolo_detect(decect_lable:str, timeout=30, frame_rate=1, detect_count=10):
 
 
 if __name__ == '__main__':
-    yolo_detect()
+    yolo10_detect("手机")
