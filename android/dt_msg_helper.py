@@ -5,7 +5,7 @@ from time import sleep
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import WebDriverException
 
-from utils.openai_api import Open_AI_API
+from utils.openai_api import OpenAiApi
 from .base_test import AppiumHelper
 
 default_role = '''
@@ -47,7 +47,7 @@ class MessageHelper:
         appium_server_url = 'http://8.219.235.114:4723'
         appium_helper = AppiumHelper(appium_server_url, capabilities)
         self.appium_helper = appium_helper
-        self.openAI = Open_AI_API(role=default_role)
+        self.openAI = OpenAiApi(role=default_role)
 
     def send_message(self, name: str = None, message: str = None):
         if name is None or message is None:
@@ -92,7 +92,7 @@ class MessageHelper:
         # 点击第一个元素
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().resourceId("com.alibaba.android.rimet:id/list_view").childSelector(new UiSelector().index(1))', timeout=15).click()
         # 找到文本填充框
-        input = wait_for_find(by=AppiumBy.ID, value="com.alibaba.android.rimet:id/et_sendmessage")
+        input_slot = wait_for_find(by=AppiumBy.ID, value="com.alibaba.android.rimet:id/et_sendmessage")
         loop = True
         while loop:
             try:
@@ -116,7 +116,7 @@ class MessageHelper:
                     self.last_msg = text
                     reply = self.openAI.chat_with_gpt(text)
                     print(f'回复消息：{reply}')
-                    input.send_keys(reply)
+                    input_slot.send_keys(reply)
                     # 滑动回复
                     self.appium_helper.driver.swipe(msgs[-1].rect['x'] + msgs[-1].rect['width']/2, msgs[-1].rect['y'] + msgs[-1].rect['height']/2,
                                                     self.appium_helper.driver.get_window_size()['width'], msgs[-1].rect['y'] + msgs[-1].rect['height']/2, duration=500)

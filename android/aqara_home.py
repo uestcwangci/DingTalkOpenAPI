@@ -7,7 +7,7 @@ from selenium.common.exceptions import WebDriverException
 from utils.openCV import yolo10_detect
 from utils.dingtalk_api import DingTalkAPI
 
-from utils.openai_api import Open_AI_API
+from utils.openai_api import OpenAiApi
 from .base_test import AppiumHelper
 import concurrent.futures
 import time
@@ -52,12 +52,12 @@ class CameraHelper:
         appium_server_url = 'http://8.219.235.114:4723'
         appium_helper = AppiumHelper(appium_server_url, capabilities)
         self.appium_helper = appium_helper
-        self.openAI = Open_AI_API(
+        self.openAI = OpenAiApi(
             role="我会给你一组已经标记好的图片图片和一个问题，其中标记的内容就是我需要查看的内容，你可以忽略这个标记并且描述一下你看到的画面，并且根据图片回答问题。如果没有图片，请回复没有信息，无法识别。")
         self.dingtalk_api = DingTalkAPI("dingmyqgaxb9rwvqiuh5",
                                         "DshTZwI5kcRKlJNMXwoaxe1_MSkFnsKTpPnK5raWUtfu5Ut3t-ObzYy0LqudIDS2")
 
-    def keep_watch(self, label:str, input:str):
+    def keep_watch(self, label:str, original_input:str):
         wait_for_find = self.appium_helper.wait_for_find
         wait_for_finds = self.appium_helper.wait_for_finds
         sleep(5)
@@ -123,11 +123,11 @@ class CameraHelper:
 
                         # 使用列表推导式进行转换
                         full_urls = [base_url + filename for filename in result]
-                        reply = self.openAI.chat_with_gpt(input, img_url_list=full_urls)
+                        reply = self.openAI.chat_with_gpt(original_input, img_url_list=full_urls)
 
                         self.dingtalk_api.send_update_request(content=self.dingtalk_api.build_request_content(
                                 template_id="02815812-c30b-4164-9ca6-8b7af45c93df.schema",
-                                card_data={"prompt": input, "reply": reply, "imgList": full_urls}))
+                                card_data={"prompt": original_input, "reply": reply, "imgList": full_urls}))
                         self.dingtalk_api.send_finish_request()
             self.appium_helper.driver.quit()
             print("Appium driver quit.")

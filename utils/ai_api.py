@@ -1,6 +1,9 @@
 import json
+from traceback import print_exc
 
 import requests
+
+from nn.darknet.python.darknet import predict
 
 BASE_URL = "https://ai-api-runtime.dingtalk.com"
 
@@ -36,7 +39,7 @@ def send_request(payload):
             pass
             # info(f'Request failed with status code {response.status_code}')
     except Exception as e:
-        pass
+        print(e)
         # info(f'An error occurred: {e}')
 
 
@@ -64,6 +67,7 @@ def create_chat(input_text: str) -> str:
         return session_id
     except requests.exceptions.RequestException as e:
         # info(f"创建聊天会话失败: {e}")
+        print(e)
         return ""
 
 
@@ -91,6 +95,7 @@ def send_chat_message(session_id: str, input_text: str) -> str:
         reply = response.json().get("data", "").get("content", "")
         return reply
     except requests.exceptions.RequestException as e:
+        print(e)
         # info(f"发送聊天消息失败: {e}")
         return ""
 

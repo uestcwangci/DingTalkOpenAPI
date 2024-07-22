@@ -22,7 +22,7 @@ def is_accessible_url(img_url_list):
             return False
     return True
 
-class Open_AI_API:
+class OpenAiApi:
     def __init__(self, role = None):
         # 定义一个列表，用于存储对话的历史记录
         if role:
@@ -70,6 +70,6 @@ class Open_AI_API:
 
 # 测试示例
 if __name__ == '__main__':
-    api = Open_AI_API(
+    api = OpenAiApi(
             role="我会给你一组已经标记好的图片图片和一个问题，其中标记的内容就是我需要查看的内容，你可以忽略这个标记并且描述一下你看到的画面，并且根据图片回答问题。如果没有图片，请回复没有信息，无法识别。")
     reply = api.chat_with_gpt("帮我用摄像头找下我电脑在哪里", img_url_list=["http://8.219.235.114:5000/files/1721291685/detected_30.png"])

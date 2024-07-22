@@ -198,14 +198,14 @@ def update_status():
 @app.route('/v1/actions/openapi/aqara/detect', methods=['GET'])
 def detect_camera():
     label = request.args.get('label')
-    input = request.args.get('input') # 原始输入
-    app.logger.info(f"Check aqara detect with label: {label}, input: {input}")
-    print(f"Check aqara detect with label: {label}, input: {input}")
+    original_input = request.args.get('input') # 原始输入
+    app.logger.info(f"Check aqara detect with label: {label}, input: {original_input}")
+    print(f"Check aqara detect with label: {label}, input: {original_input}")
 
     # 实现发送钉钉消息的逻辑
     camera_helper = CameraHelper()
 
-    thread = Thread(target=run_async, args=(camera_helper.keep_watch, label, input)) # 中的逗号是必须的，以确保 args 是一个元组，当只传递一个元素时
+    thread = Thread(target=run_async, args=(camera_helper.keep_watch, label, original_input)) # 中的逗号是必须的，以确保 args 是一个元组，当只传递一个元素时
     thread.start()
 
     response = {

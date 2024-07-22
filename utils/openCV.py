@@ -149,7 +149,7 @@ def yolo10_detect(decect_lable:str, timeout=60, frame_rate=10, detect_count=5):
                 
                 # 生成随机颜色,尽量不用绿色
                 def get_random_color():
-                    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+                    return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
                 
                 if lable_name == label_convert[decect_lable]:  # 只显示检测到的物体
                     print(f"\033[32m检测到目标物体：{label_str}\033[0m")
@@ -199,7 +199,6 @@ def yolo_detect(decect_lable:str, timeout=30, frame_rate=1, detect_count=10):
     else:
         output_layers = [layer_names[i[0] - 1] for i in output_layers_indexes]
 
-    classes = []
     with open(coco_names_path, "r") as f:
         classes = [line.strip() for line in f.readlines()]
 

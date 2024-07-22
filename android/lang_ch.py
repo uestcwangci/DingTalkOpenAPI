@@ -5,7 +5,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from .base_test import AppiumHelper
 
 
-class LanguageHelper():
+class LanguageHelper:
     def __init__(self):
         capabilities = dict(
             platformName='Android',
@@ -23,7 +23,7 @@ class LanguageHelper():
 
     def change_to_ch(self):
         wait_for_find = self.appium_helper.wait_for_find
-        wait_for_finds = self.appium_helper.wait_for_finds
+        # wait_for_finds = self.appium_helper.wait_for_finds
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView("System")')
         sleep(2)
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("System")').click()

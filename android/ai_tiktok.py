@@ -21,7 +21,7 @@ def clear_screenshots(directory='screenshots'):
             print(f"Failed to delete {file}. Reason: {e}")
 
 
-class WatchTikTok():
+class WatchTikTok:
     def __init__(self):
         capabilities = dict(
             platformName='Android',

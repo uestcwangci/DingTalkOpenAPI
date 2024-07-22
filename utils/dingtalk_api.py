@@ -3,6 +3,16 @@ import json
 from time import sleep
 
 
+def send_post_request(url, headers, payload):
+    response = requests.post(url, headers=headers, json=payload)
+
+    # 检查请求是否成功
+    if response.status_code == 200:
+        return response.json()  # 返回响应的JSON内容
+    else:
+        response.raise_for_status()  # 抛出请求异常
+
+
 class DingTalkAPI:
     def __init__(self, app_key, app_secret):
         self.app_key = app_key
@@ -17,15 +27,6 @@ class DingTalkAPI:
             "cardData": card_data
         })
 
-    def send_post_request(self, url, headers, payload):
-        response = requests.post(url, headers=headers, json=payload)
-
-        # 检查请求是否成功
-        if response.status_code == 200:
-            return response.json()  # 返回响应的JSON内容
-        else:
-            response.raise_for_status()  # 抛出请求异常
-
     def get_access_token(self):
         if self.access_token:
             return self.access_token
@@ -38,7 +39,7 @@ class DingTalkAPI:
             "appSecret": self.app_secret
         }
 
-        response = self.send_post_request(url, headers, payload)
+        response = send_post_request(url, headers, payload)
         self.access_token = response["accessToken"]
         return self.access_token
 
@@ -56,11 +57,11 @@ class DingTalkAPI:
         }
 
         try:
-            response = self.send_post_request(url, headers, payload)
+            response = send_post_request(url, headers, payload)
             self.conversation_token = response["result"]["conversationToken"]
             return response
-        except requests.exceptions.RequestException as e:
-            print("Prepare request failed:", e)
+        except requests.exceptions.RequestException as exception:
+            print("Prepare request failed:", exception)
 
     def send_update_request(self, content, content_type="ai_card"):
         url = "https://api.dingtalk.com/v1.0/aiInteraction/update"
@@ -73,7 +74,7 @@ class DingTalkAPI:
             "contentType": content_type,
             "content": content
         }
-        return self.send_post_request(url, headers, payload)
+        return send_post_request(url, headers, payload)
 
     def send_finish_request(self):
         url = "https://api.dingtalk.com/v1.0/aiInteraction/finish"
@@ -84,7 +85,7 @@ class DingTalkAPI:
         payload = {
             "conversationToken": self.conversation_token
         }
-        return self.send_post_request(url, headers, payload)
+        return send_post_request(url, headers, payload)
 
 
 # 测试示例
