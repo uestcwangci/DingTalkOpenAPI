@@ -896,3 +896,183 @@ ent server. Do not use it in a production deployment. Use a production WSGI serv
 2024-07-19 14:34:14,506 INFO 40.84.182.33 - - [19/Jul/2024 14:34:14] "GET /files/1721370838/detected_20.png HTTP/1.1" 200 -
 2024-07-19 14:34:18,342 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2024-07-19 14:34:19,182 INFO 139.162.3.237 - - [19/Jul/2024 14:34:19] "GET /files/1721370838/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:42:24,417 ERROR 39.98.165.247 - - [19/Jul/2024 14:42:24] code 400, message Bad request syntax ('\x00\x00\x00\x00')
+2024-07-19 14:42:24,417 INFO 39.98.165.247 - - [19/Jul/2024 14:42:24] "[35m[1m\x00\x00\x00\x00[0m" HTTPStatus.BAD_REQUEST -
+2024-07-19 14:42:24,418 ERROR 39.98.165.247 - - [19/Jul/2024 14:42:24] code 400, message Bad request syntax ('\x00\x00\x00\x00')
+2024-07-19 14:42:24,419 INFO 39.98.165.247 - - [19/Jul/2024 14:42:24] "[35m[1m\x00\x00\x00\x00[0m" HTTPStatus.BAD_REQUEST -
+2024-07-19 14:42:24,435 ERROR 39.98.165.247 - - [19/Jul/2024 14:42:24] code 400, message Bad request syntax ('\x00\x00\x00\x00')
+2024-07-19 14:42:24,436 INFO 39.98.165.247 - - [19/Jul/2024 14:42:24] "[35m[1m\x00\x00\x00\x00[0m" HTTPStatus.BAD_REQUEST -
+2024-07-19 14:42:24,439 ERROR 39.98.165.247 - - [19/Jul/2024 14:42:24] code 400, message Bad request syntax ('\x00\x00\x00\x00')
+2024-07-19 14:42:24,439 INFO 39.98.165.247 - - [19/Jul/2024 14:42:24] "[35m[1m\x00\x00\x00\x00[0m" HTTPStatus.BAD_REQUEST -
+2024-07-19 14:42:24,446 ERROR 39.98.165.247 - - [19/Jul/2024 14:42:24] code 400, message Bad request syntax ('\x00\x00\x00\x00')
+2024-07-19 14:42:24,447 INFO 39.98.165.247 - - [19/Jul/2024 14:42:24] "[35m[1m\x00\x00\x00\x00[0m" HTTPStatus.BAD_REQUEST -
+2024-07-19 14:43:13,532 INFO 139.162.3.237 - - [19/Jul/2024 14:43:13] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 14:43:16,021 INFO 139.162.3.237 - - [19/Jul/2024 14:43:16] "GET /files/1721369448/detected_30.png HTTP/1.1" 200 -
+2024-07-19 14:43:19,011 INFO 139.162.3.237 - - [19/Jul/2024 14:43:19] "GET /files/1721369722/detected_550.png HTTP/1.1" 200 -
+2024-07-19 14:43:20,574 INFO 139.162.3.237 - - [19/Jul/2024 14:43:20] "GET /files/1721369722/detected_400.png HTTP/1.1" 200 -
+2024-07-19 14:43:22,273 INFO 139.162.3.237 - - [19/Jul/2024 14:43:22] "GET /files/1721369722/detected_500.png HTTP/1.1" 200 -
+2024-07-19 14:44:48,477 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/app.py', reloading
+2024-07-19 14:44:55,133 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 14:44:55,134 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 14:44:55,134 INFO  * Restarting with stat
+2024-07-19 14:44:59,420 WARNING  * Debugger is active!
+2024-07-19 14:44:59,421 INFO  * Debugger PIN: 572-467-419
+2024-07-19 14:44:59,443 INFO 139.162.3.237 - - [19/Jul/2024 14:44:59] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 14:44:59,444 INFO 139.162.3.237 - - [19/Jul/2024 14:44:59] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 14:44:59,445 INFO 139.162.3.237 - - [19/Jul/2024 14:44:59] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 14:44:59,446 INFO 139.162.3.237 - - [19/Jul/2024 14:44:59] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 14:45:20,275 INFO 139.162.3.237 - - [19/Jul/2024 14:45:20] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 14:49:25,257 INFO Check aqara detect with label: 手机, input: 我出门早，手机忘带了，帮我用摄像头看下它在哪里
+2024-07-19 14:49:32,902 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 14:49:32,902 INFO 59.82.21.172 - - [19/Jul/2024 14:49:32] "GET /v1/actions/openapi/aqara/detect?input=我出门早，手机忘带了，帮我用摄像头看下它在哪里&label=手机 HTTP/1.1" 200 -
+2024-07-19 14:50:10,332 INFO 8.219.235.114 - - [19/Jul/2024 14:50:10] "HEAD /files/1721371794/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:50:10,835 INFO 40.84.182.34 - - [19/Jul/2024 14:50:10] "GET /files/1721371794/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:50:21,279 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 14:50:21,932 INFO 139.162.3.237 - - [19/Jul/2024 14:50:21] "GET /files/1721371794/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:50:26,987 INFO 139.162.3.237 - - [19/Jul/2024 14:50:26] "GET /files/1721371794/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:53:30,627 INFO Check aqara detect with label: 手机, input: 我出门早，手机忘带了，帮我用摄像头看下它在哪里
+2024-07-19 14:53:38,488 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 14:53:38,488 INFO 59.82.21.35 - - [19/Jul/2024 14:53:38] "GET /v1/actions/openapi/aqara/detect?input=我出门早，手机忘带了，帮我用摄像头看下它在哪里&label=手机 HTTP/1.1" 200 -
+2024-07-19 14:54:16,495 INFO 8.219.235.114 - - [19/Jul/2024 14:54:16] "HEAD /files/1721372040/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:54:16,955 INFO 40.84.182.33 - - [19/Jul/2024 14:54:16] "GET /files/1721372040/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:54:20,969 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 14:54:21,643 INFO 139.162.3.237 - - [19/Jul/2024 14:54:21] "GET /files/1721372040/detected_20.png HTTP/1.1" 200 -
+2024-07-19 14:58:51,944 INFO 139.162.3.237 - - [19/Jul/2024 14:58:51] "GET /files/1721372040/detected_20.png HTTP/1.1" 200 -
+2024-07-19 15:04:21,339 INFO Check aqara detect with label: 杯子, input: 用摄像头帮我看下我杯子在哪
+2024-07-19 15:04:29,214 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 15:04:29,215 INFO 59.82.21.183 - - [19/Jul/2024 15:04:29] "GET /v1/actions/openapi/aqara/detect?input=用摄像头帮我看下我杯子在哪&label=杯子 HTTP/1.1" 200 -
+2024-07-19 15:05:05,684 INFO 8.219.235.114 - - [19/Jul/2024 15:05:05] "HEAD /files/1721372689/detected_60.png HTTP/1.1" 200 -
+2024-07-19 15:05:06,160 INFO 40.84.182.36 - - [19/Jul/2024 15:05:06] "GET /files/1721372689/detected_60.png HTTP/1.1" 200 -
+2024-07-19 15:05:10,489 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 15:05:11,347 INFO 139.162.3.237 - - [19/Jul/2024 15:05:11] "GET /files/1721372689/detected_60.png HTTP/1.1" 200 -
+2024-07-19 15:05:45,391 INFO 139.162.3.237 - - [19/Jul/2024 15:05:45] "GET /files/1721372689/detected_60.png HTTP/1.1" 200 -
+2024-07-19 15:16:19,099 INFO 139.162.3.237 - - [19/Jul/2024 15:16:19] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 15:16:21,952 INFO 139.162.3.237 - - [19/Jul/2024 15:16:21] "GET /files/1721358720/detected_2_63.0.png HTTP/1.1" 200 -
+2024-07-19 15:26:34,217 INFO 113.215.189.218 - - [19/Jul/2024 15:26:34] "GET / HTTP/1.1" 200 -
+2024-07-19 15:33:23,934 INFO 113.215.189.216 - - [19/Jul/2024 15:33:23] "GET / HTTP/1.1" 200 -
+2024-07-19 15:40:47,887 INFO 139.162.3.237 - - [19/Jul/2024 15:40:47] "[36mGET /files/1721371794/detected_20.png HTTP/1.1[0m" 304 -
+2024-07-19 15:47:14,807 INFO 139.162.3.237 - - [19/Jul/2024 15:47:14] "[36mGET /files/1721372040/detected_20.png HTTP/1.1[0m" 304 -
+2024-07-19 15:47:14,807 INFO 139.162.3.237 - - [19/Jul/2024 15:47:14] "[36mGET /files/1721372689/detected_60.png HTTP/1.1[0m" 304 -
+2024-07-19 15:47:20,163 INFO 139.162.3.237 - - [19/Jul/2024 15:47:20] "[36mGET /files/1721371794/detected_20.png HTTP/1.1[0m" 304 -
+2024-07-19 15:51:42,175 INFO 139.162.3.237 - - [19/Jul/2024 15:51:42] "[36mGET /files/1721358720/detected_2_63.0.png HTTP/1.1[0m" 304 -
+2024-07-19 15:51:54,365 INFO 139.162.3.237 - - [19/Jul/2024 15:51:54] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 15:53:21,515 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/app.py', reloading
+2024-07-19 15:53:22,405 INFO  * Restarting with stat
+2024-07-19 15:53:26,709 WARNING  * Debugger is active!
+2024-07-19 15:53:26,709 INFO  * Debugger PIN: 572-467-419
+2024-07-19 15:53:35,775 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/app.py', reloading
+2024-07-19 15:53:36,633 INFO  * Restarting with stat
+2024-07-19 15:53:40,919 WARNING  * Debugger is active!
+2024-07-19 15:53:40,919 INFO  * Debugger PIN: 572-467-419
+2024-07-19 15:53:48,573 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 15:53:48,573 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 15:53:48,574 INFO  * Restarting with stat
+2024-07-19 15:53:52,878 WARNING  * Debugger is active!
+2024-07-19 15:53:52,878 INFO  * Debugger PIN: 572-467-419
+2024-07-19 15:53:52,887 INFO 139.162.3.237 - - [19/Jul/2024 15:53:52] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 15:53:52,888 INFO 139.162.3.237 - - [19/Jul/2024 15:53:52] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 15:53:54,464 INFO 139.162.3.237 - - [19/Jul/2024 15:53:54] "GET /screenshot/1721372040 HTTP/1.1" 200 -
+2024-07-19 15:53:56,162 INFO 139.162.3.237 - - [19/Jul/2024 15:53:56] "GET /screenshot/1721358157 HTTP/1.1" 200 -
+2024-07-19 15:53:57,891 INFO 139.162.3.237 - - [19/Jul/2024 15:53:57] "GET /screenshot/1721358720 HTTP/1.1" 200 -
+2024-07-19 15:53:59,339 INFO 139.162.3.237 - - [19/Jul/2024 15:53:59] "GET /screenshot/1721370838 HTTP/1.1" 200 -
+2024-07-19 15:54:21,422 INFO 139.162.3.237 - - [19/Jul/2024 15:54:21] "GET /screenshot HTTP/1.1" 200 -
+2024-07-19 15:54:23,058 INFO 139.162.3.237 - - [19/Jul/2024 15:54:23] "GET /screenshot/pet_detected_59_1720782748.png HTTP/1.1" 200 -
+2024-07-19 15:54:25,033 INFO 139.162.3.237 - - [19/Jul/2024 15:54:25] "GET /screenshot/1721358720 HTTP/1.1" 200 -
+2024-07-19 15:54:26,205 INFO 139.162.3.237 - - [19/Jul/2024 15:54:26] "GET /screenshot/1721358720/detected_6_63.0.png HTTP/1.1" 200 -
+2024-07-19 15:54:31,219 INFO 139.162.3.237 - - [19/Jul/2024 15:54:31] "GET /screenshot/1721369989 HTTP/1.1" 200 -
+2024-07-19 15:54:31,849 INFO 139.162.3.237 - - [19/Jul/2024 15:54:31] "GET /screenshot/1721369989/detected_20.png HTTP/1.1" 200 -
+2024-07-19 15:54:33,596 INFO 139.162.3.237 - - [19/Jul/2024 15:54:33] "[36mGET /screenshot/1721369989/detected_20.png HTTP/1.1[0m" 304 -
+2024-07-19 15:54:34,983 INFO 139.162.3.237 - - [19/Jul/2024 15:54:34] "GET /screenshot/1721369989/detected_30.png HTTP/1.1" 200 -
+2024-07-19 15:56:09,011 INFO 139.162.3.237 - - [19/Jul/2024 15:56:09] "GET /screenshot/1721358720 HTTP/1.1" 200 -
+2024-07-19 15:56:09,929 INFO 139.162.3.237 - - [19/Jul/2024 15:56:09] "GET /screenshot/1721358720/detected_9_63.0.png HTTP/1.1" 200 -
+2024-07-19 15:58:09,442 INFO  * Detected change in '/home/ecs-user/dev/py/DingTalkOpenAPI/utils/openCV.py', reloading
+2024-07-19 15:58:10,299 INFO  * Restarting with stat
+2024-07-19 15:58:14,544 WARNING  * Debugger is active!
+2024-07-19 15:58:14,544 INFO  * Debugger PIN: 572-467-419
+2024-07-19 15:58:14,553 INFO 139.162.3.237 - - [19/Jul/2024 15:58:14] "GET /screenshot/1721370838 HTTP/1.1" 200 -
+2024-07-19 15:58:14,766 INFO 139.162.3.237 - - [19/Jul/2024 15:58:14] "GET /screenshot/1721371794 HTTP/1.1" 200 -
+2024-07-19 15:58:15,914 INFO 139.162.3.237 - - [19/Jul/2024 15:58:15] "GET /screenshot/1721371794/detected_20.png HTTP/1.1" 200 -
+2024-07-19 15:58:18,004 INFO 139.162.3.237 - - [19/Jul/2024 15:58:18] "GET /screenshot/1721361143 HTTP/1.1" 200 -
+2024-07-19 15:58:18,647 INFO 139.162.3.237 - - [19/Jul/2024 15:58:18] "GET /screenshot/1721361143/detected_50.png HTTP/1.1" 200 -
+2024-07-19 16:05:03,462 INFO 139.162.3.237 - - [19/Jul/2024 16:05:03] "[36mGET /files/1721372689/detected_60.png HTTP/1.1[0m" 304 -
+2024-07-19 16:05:56,976 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.23.234.52:5000
+2024-07-19 16:05:56,976 INFO [33mPress CTRL+C to quit[0m
+2024-07-19 16:05:56,976 INFO  * Restarting with stat
+2024-07-19 16:06:01,221 WARNING  * Debugger is active!
+2024-07-19 16:06:01,222 INFO  * Debugger PIN: 572-467-419
+2024-07-19 16:07:03,992 INFO Check aqara detect with label: 手机, input: 我今天下班走的急，你帮我用摄像头看下手机落在哪里了？
+2024-07-19 16:07:11,918 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 16:07:11,919 INFO 59.82.83.20 - - [19/Jul/2024 16:07:11] "GET /v1/actions/openapi/aqara/detect?input=我今天下班走的急，你帮我用摄像头看下手机落在哪里了？&label=手机 HTTP/1.1" 200 -
+2024-07-19 16:07:48,477 INFO 8.219.235.114 - - [19/Jul/2024 16:07:48] "HEAD /files/1721376452/detected_160.png HTTP/1.1" 200 -
+2024-07-19 16:07:48,981 INFO 40.84.182.40 - - [19/Jul/2024 16:07:48] "GET /files/1721376452/detected_160.png HTTP/1.1" 200 -
+2024-07-19 16:07:54,580 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 16:07:55,378 INFO 139.162.3.237 - - [19/Jul/2024 16:07:55] "GET /files/1721376452/detected_160.png HTTP/1.1" 200 -
+2024-07-19 16:08:00,445 INFO 139.162.3.237 - - [19/Jul/2024 16:08:00] "GET /files/1721376452/detected_160.png HTTP/1.1" 200 -
+2024-07-19 16:10:47,521 INFO Check aqara detect with label: 手机, input: 我今天下班走的急，你帮我用摄像头看下手机落在哪里了？
+2024-07-19 16:10:55,487 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 16:10:55,488 INFO 59.82.21.204 - - [19/Jul/2024 16:10:55] "GET /v1/actions/openapi/aqara/detect?input=我今天下班走的急，你帮我用摄像头看下手机落在哪里了？&label=手机 HTTP/1.1" 200 -
+2024-07-19 16:11:01,982 INFO Check aqara detect with label: 手机, input: 我今天下班走的急，你帮我用摄像头看下手机落在哪里了？
+2024-07-19 16:11:10,879 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 16:11:10,879 INFO 59.82.21.124 - - [19/Jul/2024 16:11:10] "GET /v1/actions/openapi/aqara/detect?input=我今天下班走的急，你帮我用摄像头看下手机落在哪里了？&label=手机 HTTP/1.1" 200 -
+2024-07-19 16:11:48,754 INFO 8.219.235.114 - - [19/Jul/2024 16:11:48] "HEAD /files/1721376692/detected_60.png HTTP/1.1" 200 -
+2024-07-19 16:11:49,224 INFO 40.84.182.33 - - [19/Jul/2024 16:11:49] "GET /files/1721376692/detected_60.png HTTP/1.1" 200 -
+2024-07-19 16:11:53,805 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 16:11:54,600 INFO 139.162.3.237 - - [19/Jul/2024 16:11:54] "GET /files/1721376692/detected_60.png HTTP/1.1" 200 -
+2024-07-19 16:12:05,129 INFO 139.162.3.237 - - [19/Jul/2024 16:12:05] "GET /files/1721376692/detected_60.png HTTP/1.1" 200 -
+2024-07-19 16:13:29,132 INFO Check aqara detect with label: 手机, input: 我今天下班走的急，你帮我用摄像头看下手机落在哪里了？
+2024-07-19 16:13:36,814 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 16:13:36,815 INFO 59.82.21.168 - - [19/Jul/2024 16:13:36] "GET /v1/actions/openapi/aqara/detect?input=我今天下班走的急，你帮我用摄像头看下手机落在哪里了？&label=手机 HTTP/1.1" 200 -
+2024-07-19 16:13:44,588 INFO Check aqara detect with label: 手机, input: 我今天下班走的急，你帮我用摄像头看下手机落在哪里了？
+2024-07-19 16:13:53,546 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 16:13:53,547 INFO 59.82.21.5 - - [19/Jul/2024 16:13:53] "GET /v1/actions/openapi/aqara/detect?input=我今天下班走的急，你帮我用摄像头看下手机落在哪里了？&label=手机 HTTP/1.1" 200 -
+2024-07-19 16:14:31,434 INFO 8.219.235.114 - - [19/Jul/2024 16:14:31] "HEAD /files/1721376855/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:14:31,893 INFO 40.84.182.42 - - [19/Jul/2024 16:14:31] "GET /files/1721376855/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:14:38,236 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 16:14:38,949 INFO 139.162.3.237 - - [19/Jul/2024 16:14:38] "GET /files/1721376855/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:14:48,578 INFO 139.162.3.237 - - [19/Jul/2024 16:14:48] "GET /files/1721376855/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:15:44,895 INFO Check aqara detect with label: 手机, input: 我今天下班走的急，你帮我用摄像头看看手机落在哪里了？
+2024-07-19 16:15:52,770 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 16:15:52,770 INFO 59.82.83.239 - - [19/Jul/2024 16:15:52] "GET /v1/actions/openapi/aqara/detect?input=我今天下班走的急，你帮我用摄像头看看手机落在哪里了？&label=手机 HTTP/1.1" 200 -
+2024-07-19 16:16:30,160 INFO 8.219.235.114 - - [19/Jul/2024 16:16:30] "HEAD /files/1721376974/detected_40.png HTTP/1.1" 200 -
+2024-07-19 16:16:30,626 INFO 40.84.182.38 - - [19/Jul/2024 16:16:30] "GET /files/1721376974/detected_40.png HTTP/1.1" 200 -
+2024-07-19 16:16:35,357 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 16:16:36,067 INFO 139.162.3.237 - - [19/Jul/2024 16:16:36] "GET /files/1721376974/detected_40.png HTTP/1.1" 200 -
+2024-07-19 16:16:45,756 INFO 139.162.3.237 - - [19/Jul/2024 16:16:45] "GET /files/1721376974/detected_40.png HTTP/1.1" 200 -
+2024-07-19 16:22:53,184 INFO 42.120.75.11 - - [19/Jul/2024 16:22:53] "GET /files/1721376974/detected_40.png HTTP/1.1" 200 -
+2024-07-19 16:24:50,793 INFO Check aqara detect with label: 手机, input: 我今天下班走的急，你用摄像头帮我看看手机落在哪里了？
+2024-07-19 16:24:58,568 INFO {'success': True, 'message': 'Start watching'}
+2024-07-19 16:24:58,569 INFO 59.82.21.49 - - [19/Jul/2024 16:24:58] "GET /v1/actions/openapi/aqara/detect?input=我今天下班走的急，你用摄像头帮我看看手机落在哪里了？&label=手机 HTTP/1.1" 200 -
+2024-07-19 16:25:35,795 INFO 8.219.235.114 - - [19/Jul/2024 16:25:35] "HEAD /files/1721377520/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:25:36,252 INFO 40.84.182.39 - - [19/Jul/2024 16:25:36] "GET /files/1721377520/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:25:40,705 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-19 16:25:41,439 INFO 42.120.75.11 - - [19/Jul/2024 16:25:41] "GET /files/1721377520/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:31:31,447 INFO 139.162.3.237 - - [19/Jul/2024 16:31:31] "GET /files/1721377520/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:31:32,848 INFO 139.162.3.237 - - [19/Jul/2024 16:31:32] "GET /files/1721377520/detected_20.png HTTP/1.1" 200 -
+2024-07-19 16:34:10,529 INFO 139.162.3.237 - - [19/Jul/2024 16:34:10] "[36mGET /files/1721377520/detected_20.png HTTP/1.1[0m" 304 -
+2024-07-19 17:42:29,894 INFO 139.162.3.237 - - [19/Jul/2024 17:42:29] "[33mGET /files/1721209852/detected_8_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:29,895 INFO 139.162.3.237 - - [19/Jul/2024 17:42:29] "[33mGET /files/1721209852/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:29,896 INFO 139.162.3.237 - - [19/Jul/2024 17:42:29] "[33mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:30,030 INFO 139.162.3.237 - - [19/Jul/2024 17:42:30] "[33mGET /files/1721209852/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:30,031 INFO 139.162.3.237 - - [19/Jul/2024 17:42:30] "[33mGET /files/1721209852/detected_8_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:30,034 INFO 139.162.3.237 - - [19/Jul/2024 17:42:30] "[33mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,287 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,298 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_8_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,298 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,520 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,521 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,524 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_8_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,694 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,715 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,721 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_8_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,893 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_6_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,916 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_3_laptop.png HTTP/1.1[0m" 404 -
+2024-07-19 17:42:49,989 INFO 42.120.75.17 - - [19/Jul/2024 17:42:49] "[33mGET /files/1721209852/detected_8_laptop.png HTTP/1.1[0m" 404 -

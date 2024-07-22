@@ -3,7 +3,7 @@ import logging
 import os
 from threading import Thread
 
-from flask import Flask, request, jsonify, render_template, send_from_directory, abort
+from flask import Flask, request, jsonify, render_template, send_from_directory, abort, url_for
 from werkzeug.utils import safe_join
 
 from android.dt_msg_helper import MessageHelper
@@ -57,27 +57,69 @@ def index():
 
 screenshot_directory = '/home/ecs-user/dev/py/DingTalkOpenAPI/screenshots'
 
+def list_files(directory, base_url):
+    file_tree = '<ul>'
+    for entry in os.listdir(directory):
+        full_path = os.path.join(directory, entry)
+        if os.path.isdir(full_path):
+            file_tree += f'<li><strong><a href="{base_url}/{entry}">{entry}/</a></strong></li>'
+        else:
+            file_tree += f'<li><a href="{base_url}/{entry}">{entry}</a></li>'
+    file_tree += '</ul>'
+    return file_tree
+
 @app.route('/files/<path:filename>')
 def serve_file(filename):
     full_path = safe_join(screenshot_directory, filename)
     if not os.path.isfile(full_path):
         abort(404)
-    return send_from_directory(screenshot_directory, filename)
+    directory = os.path.dirname(filename)
+    return send_from_directory(safe_join(screenshot_directory, directory), os.path.basename(filename))
 
-@app.route('/screenshot')
-def screenshot():
-    files_list = list_files(screenshot_directory)
-    return f'<h1>File List</h1><ul>{files_list}</ul>'
+@app.route('/screenshot', defaults={'path': ''})
+@app.route('/screenshot/<path:path>')
+def screenshot(path):
+    full_directory = safe_join(screenshot_directory, path)
+    if not os.path.exists(full_directory):
+        abort(404)
+    if os.path.isfile(full_directory):
+        return send_from_directory(screenshot_directory, path)
+    base_url = url_for('screenshot', path=path)
+    files_list = list_files(full_directory, base_url)
+    return f'<h1>Directory listing for {path if path else "root"}</h1>{files_list}'
 
-def list_files(root_dir):
-    files_list = []
-    for root, _, files in os.walk(root_dir):
-        for file in files:
-            # 生成相对于根目录的相对路径
-            relative_path = os.path.relpath(os.path.join(root, file), root_dir)
-            files_list.append(f'<li><a href="/files/{relative_path}">{relative_path}</a></li>')
+# @app.route('/files/<path:filename>')
+# def serve_file(filename):
+#     full_path = safe_join(screenshot_directory, filename)
+#     if not os.path.isfile(full_path):
+#         abort(404)
+#     return send_from_directory(screenshot_directory, filename)
 
-    return '\n'.join(files_list)
+# @app.route('/screenshot')
+# def screenshot():
+#     files_list = list_files(screenshot_directory)
+#     return f'<h1>File List</h1><ul>{files_list}</ul>'
+
+# def list_files(base_path):
+#     file_tree = ""
+#     for dirpath, dirnames, filenames in os.walk(base_path):
+#         relative_dir = os.path.relpath(dirpath, base_path)
+        
+#         if relative_dir == ".":
+#             relative_dir = ""
+        
+#         file_tree += f'<li><strong>{relative_dir}</strong><ul>'
+        
+#         for dirname in dirnames:
+#             file_tree += f'<li>{dirname}/</li>'
+        
+#         for filename in filenames:
+#             full_path = os.path.join(relative_dir, filename)
+#             file_tree += f'<li><a href="/files/{full_path}">{filename}</a></li>'
+            
+#         file_tree += '</ul></li>'
+        
+#     return file_tree
 
 @app.route('/v1/actions/openapi/dingtalk/send_message', methods=['GET'])
 def send_message():

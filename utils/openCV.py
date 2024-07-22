@@ -133,7 +133,8 @@ def yolo10_detect(decect_lable:str, timeout=60, frame_rate=10, detect_count=5):
         results = model.predict(source=frame, save=False)
 
         output_dir = os.path.join(screenshot_dir, str(int(start_time)))
-        os.makedirs(output_dir, exist_ok=True)
+        if results:
+            os.makedirs(output_dir, exist_ok=True)
         # 从结果中提取信息并绘制在帧上
         for result in results:
             boxes = result.boxes.xyxy.numpy()   # 获取边界框坐标
