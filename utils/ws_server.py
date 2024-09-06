@@ -12,13 +12,25 @@ def message_received(client, server, message):
     print(f"Received message from client {client['id']}: {message}")
 
     # 这里可以添加对接收到消息的处理逻辑
-    data = json.loads(message)
-    url = data.get('targetUrl')
-    if url:
-        result = SearchHelper().search_for(url)
-        response = result
-    else:
-        response = {"error":" I don't understand what you are saying."}
+    try:
+        # 尝试将消息解析为 JSON
+        data = json.loads(message)
+        print("Received JSON data:", data)
+        url = data.get('targetUrl')
+        if url:
+            result = SearchHelper().search_for(url)
+            response = result
+        else:
+            response = {"error": " I don't understand what you are saying."}
+        # 在这里可以处理 JSON 数据
+        response_data = {"response": "Received JSON", "data": data}
+    except json.JSONDecodeError:
+        # 如果解析失败，则将其视为普通字符串
+        print("Received plain string:", message)
+
+        # 在这里可以处理普通字符串
+        response = {"response": "Received string", "data": message}
+
     print(response)
     server.send_message(client, json.dumps(response))  # 发送字符串
 
