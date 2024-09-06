@@ -14,7 +14,7 @@ def new_client(client, server):
 # 定义处理接收到消息的函数
 def message_received(client, server, message):
     print(f"Received message from client {client['id']}: {message}")
-
+    server.send_message(client, f"I have receive: {message} wait...")  # 发送字符串
     # 这里可以添加对接收到消息的处理逻辑
     try:
         # 尝试将消息解析为 JSON
