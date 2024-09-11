@@ -3,7 +3,9 @@ import subprocess
 from time import sleep
 
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import TimeoutException
+
 from utils.dingtalk_api import DingTalkAPI
 
 from .base_test import AppiumHelper
@@ -17,13 +19,12 @@ class SearchHelper:
             deviceName='Android',
             appPackage='org.chromium.webview_shell',
             appActivity='.WebViewBrowserActivity',
-            unicodeKeyboard=True,
-            resetKeyboard=True
-            # browserName='Chromium',
-            # chromedriverExecutableDir='/home/ecs-user/dev/chromedriver',
+            chromedriverExecutableDir='/home/ecs-user/dev/chromedriver125',
+            ensureWebviewsHavePages=True, # Appium是否应该增强它的页面webview检测，以保证任何webview上下文显示在上下文列表有活动的页面。 这可以防止在Chromedriver无法找到任何页面的情况下选择上下文时发生的错误。
+            nativeWebScreenshot=True
             # nativeWebScreenshot=True, # 在Web上下文中，使用nat ive（adb）方法获取屏幕截图，而不是代理ChromeDriver
             # recreateChromeDriverSessions=True, # 移至非ChromeDriver网页浏览时，请停用ChromeDriver会话
-            # noReset=True
+            # noReset=False
         )
 
         appium_server_url = 'http://127.0.7.1:4723'
@@ -32,41 +33,33 @@ class SearchHelper:
         self.dingtalk_api = DingTalkAPI("dingmyqgaxb9rwvqiuh5",
                                         "DshTZwI5kcRKlJNMXwoaxe1_MSkFnsKTpPnK5raWUtfu5Ut3t-ObzYy0LqudIDS2")
 
-    def search_for(self, url:str):
-        wait_for_find = self.appium_helper.wait_for_find
-        wait_for_finds = self.appium_helper.wait_for_finds
-        # 搜索网页
-        search_block = wait_for_find(AppiumBy.ID, 'url_field')
-        search_block.clear()
-        search_block.send_keys(url)
-        wait_for_find(AppiumBy.ACCESSIBILITY_ID, 'Load URL').click()
-        # 等待跳转
-        sleep(10)
+    def search_for(self, url: str):
 
-        # 定位元素
-        all_text_view = wait_for_finds(AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().className("android.widget.TextView")')
-        text_list = []
-        # 打印页面中class_name为android.widget.TextView元素的文本内容
-        for i in all_text_view:
-            stripped_text = i.text.strip()
-            if stripped_text:  # 仅当不为空时添加到 text_list
-                text_list.append(stripped_text)
-        print(text_list)
-        result = {}
-        if text_list and text_list[0].startswith("WebView"):
-            text_list = text_list[1:]
-        if len(text_list) < 3:
-            result = {}
-        if len(text_list) > 3:
-            result["title"] = text_list[0]
-            result["time"] = text_list[1]
-            result["content"] = text_list[2]
-            result["extension"] = text_list[3:]
-        else:
-            result["title"] = text_list[0]
-            result["time"] = text_list[1]
-            result["content"] = text_list[2]
-            result["extension"] = []
-        self.appium_helper.driver.quit()
-        print("Appium driver quit.")
-        return result
+        try:
+            wait_for_find = self.appium_helper.wait_for_find
+            # 搜索网页
+            # self.appium_helper.driver.get(url)
+            search_block = wait_for_find(AppiumBy.ID, 'url_field')
+            search_block.clear()
+            search_block.send_keys(url)
+            wait_for_find(AppiumBy.ACCESSIBILITY_ID, 'Load URL').click()
+            # 切换到webView context
+            self.appium_helper.driver.switch_to.context("WEBVIEW_org.chromium.webview_shell")
+            # 等待页面加载完成
+            WebDriverWait(self.appium_helper.driver, 20).until(
+                lambda driver: driver.execute_script("return document.readyState") == "complete"
+            )
+            # 等待加载
+            # sleep(10)
+
+            # 获取当前url
+            print(self.appium_helper.driver.current_url)
+
+            # 定位元素
+            html = self.appium_helper.driver.execute_script("return document.documentElement.outerHTML")
+            self.appium_helper.driver.quit()
+            print("Appium driver quit.")
+            return {"html": html}
+        except TimeoutException:
+            print("页面加载超时，未能完成加载。")
+            return {"error": "TimeoutException"}

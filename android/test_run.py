@@ -24,4 +24,4 @@ from android.web_search import SearchHelper
 # openai = OpenAIClass()
 # openai.chat_with_gpt("我的猫是否在床上", "http://8.219.235.114:5000/files/pet_detected_57_1720782748.png")
 
-SearchHelper().search_for("https://www.nmpa.gov.cn/xxgk/fxjzh/hzhpfxjch/hzhpfxjcgjj/20240813171706163.html")
+print(SearchHelper().search_for("https://www.nmpa.gov.cn/xxgk/fxjzh/hzhpfxjch/hzhpfxjcgjj/20240813171706163.html?type=pc&m="))
