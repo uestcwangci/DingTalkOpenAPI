@@ -3,6 +3,7 @@ import logging
 import os
 from threading import Thread
 
+import requests
 from flask import Flask, request, jsonify, render_template, send_from_directory, abort, url_for
 from werkzeug.utils import safe_join
 
@@ -215,6 +216,72 @@ def detect_camera():
     app.logger.info(response)
     return jsonify(response)
 
+@app.route('/v1/actions/openapi/dingtalk/updateSheet', methods=['POST'])
+def update_sheet():
+    access_token = get_dingtalk_access_token()
+    if access_token is None:
+        return jsonify({"success": False, "message": "Failed to get access"})
+    # 获取请求body
+    body = request.json
+    # 获取body中的workbookId字段
+    workbook_id = body.get("workbookId")
+    sheet_name = body.get("sheetName")
+    ranges = body.get("ranges")
+    operator_id = body.get("operatorId")
+    values = body.get("values")
+
+    url = f"https://api.dingtalk.com/v1.0/doc/workbooks/{workbook_id}/sheets/{sheet_name}/ranges/{ranges}?operatorId={operator_id}"
+
+    headers = {
+        "x-acs-dingtalk-access-token": access_token,
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "values": values
+    }
+
+    response = requests.put(url, headers=headers, json=payload)
+
+    # 打印响应内容
+    if response.status_code == 200:
+        print("成功获取访问令牌:")
+        response_data = response.json()  # 解析 JSON 响应
+        a1Notation = response_data.get("a1Notation")  # 获取 accessToken
+        print("a1Notation:", a1Notation)
+        return jsonify({"success": True, "message": "Update sheet success", "a1Notation": a1Notation})
+    else:
+        print("请求失败，状态码:", response.status_code)
+        print("响应内容:", response.text)
+        return jsonify({"success": False, "message": "Update sheet failed"})
+
+
+def get_dingtalk_access_token():
+    # 定义请求的 URL
+    url = "https://api.dingtalk.com/v1.0/oauth2/accessToken"
+
+    # 定义请求体
+    payload = {
+        "appKey": "ding3fsubpczmmihoerg",
+        "appSecret": "7C9x2xqrMnOr_bzOC3w6kpE1zj1DkgPHiDnc-9CMewPgOw6yXtBvNXo8_UKuK57N"
+    }
+
+    # 发送 POST 请求
+    response = requests.post(url, json=payload)
+
+    # 打印响应内容
+    if response.status_code == 200:
+        print("成功获取访问令牌:")
+        response_data = response.json()  # 解析 JSON 响应
+        access_token = response_data.get("accessToken")  # 获取 accessToken
+        expire_in = response_data.get("expireIn")  # 获取 token 过期时间
+        print("Access Token:", access_token)
+        print("Token 过期时间（秒）:", expire_in)
+        return access_token
+    else:
+        print("请求失败，状态码:", response.status_code)
+        print("响应内容:", response.text)
+        return None
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
