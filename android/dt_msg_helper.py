@@ -1,9 +1,14 @@
 # dt_msg_helper.py
 import subprocess
+import time
 from time import sleep
 
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.actions import interaction
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
+from selenium.webdriver.common.actions.pointer_input import PointerInput
 
 from utils.openai_api import OpenAiApi
 from .base_test import AppiumHelper
@@ -33,21 +38,24 @@ class MessageHelper:
 
         capabilities = dict(
             platformName='Android',
-            automationName='uiautomator2',
+            automationName='UiAutomator2',
             deviceName='Android',
             appPackage='com.alibaba.android.rimet',
             appActivity='.biz.LaunchHomeActivity',
             unicodeKeyboard=True,
             resetKeyboard=True,
-            noReset=True
+            noReset=True,
+            newCommandTimeout=0,
+            autoGrantPermissions=True,
+            allowTestPackages=True
 
             # language='en',
             # locale='US'
         )
-        appium_server_url = 'http://8.219.235.114:4723'
+        appium_server_url = 'http://localhost:4723'
         appium_helper = AppiumHelper(appium_server_url, capabilities)
         self.appium_helper = appium_helper
-        self.openAI = OpenAiApi(role=default_role)
+        # self.openAI = OpenAiApi(role=default_role)
 
     def send_message(self, name: str = None, message: str = None):
         if name is None or message is None:
@@ -131,6 +139,142 @@ class MessageHelper:
                 sleep(3)
                 continue
 
+    def summarize_message(self, group: str):
+        # 1. 打开【项目群】钉钉 manus 2.浏览群消息 3.总结群消息 4.新建钉钉文档 5.粘贴总结的消息 6.把钉钉文档转发给李乔
+        wait_for_find = self.appium_helper.wait_for_find
+        wait_for_finds = self.appium_helper.wait_for_finds
+        scroll = self.appium_helper.scroll
+        click = self.appium_helper.click
+        type = self.appium_helper.type
+        doubleClick = self.appium_helper.doubleClick
+        paste_text = self.appium_helper.paste_text
+        longClick = self.appium_helper.longClick
+        copy_text = self.appium_helper.copy_text
+        show_toast = self.appium_helper.show_toast
+
+        stream_args = {
+            "host": "0.0.0.0",
+            "quality": 45,
+            "bitRate": 500000,
+            "considersRotation": True
+        }
+        self.appium_helper.driver.execute_script("mobile: startScreenStreaming", stream_args)
+        sleep(3)
+        # 点击搜索框
+        # show_toast("123")
+        wait_for_find(by=AppiumBy.ID, value="com.alibaba.android.rimet:id/search_btn").click()
+        # 点击群组
+        # show_toast("456")
+        wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR,
+                      value='new UiSelector().resourceId("com.alibaba.android.rimet:id/tv_name").fromParent(new UiSelector().text("群组"))',
+                      timeout=15).click()
+        # 搜索群组
+        # show_toast("789")
+        wait_for_find(by=AppiumBy.ID, value="android:id/search_src_text", timeout=15).send_keys(group)
+        # 点击第一个元素
+        wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR,
+                      value='new UiSelector().resourceId("com.alibaba.android.rimet:id/list_view").childSelector(new UiSelector().index(1))',
+                      timeout=15).click()
+
+        # 扫描5次屏幕
+        for i in range(8):
+            scroll([370, 180], [370, 960])
+            time.sleep(1)
+
+        # 再点返回
+        # wait_for_find(by=AppiumBy.ID, value='com.alibaba.android.rimet:id/img_back').click()
+
+        self.appium_helper.driver.back()
+        sleep(1)
+        self.appium_helper.driver.back()
+        sleep(1)
+        self.appium_helper.driver.back()
+        # # 返回
+        # wait_for_find(by=AppiumBy.ID, value='com.alibaba.android.rimet:id/ui_common_base_ui_activity_toolbar').click()
+
+        # 点击搜索
+        wait_for_find(by=AppiumBy.ID, value="com.alibaba.android.rimet:id/search_btn").click()
+        # 搜索我
+        wait_for_find(by=AppiumBy.ID, value="android:id/search_src_text", timeout=15).send_keys("我")
+        # 点击第一个元素
+        wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR,
+                      value='new UiSelector().resourceId("com.alibaba.android.rimet:id/list_view").childSelector(new UiSelector().index(2))',
+                      timeout=15).click()
+
+        # 点击+号
+        wait_for_find(by=AppiumBy.ID, value='com.alibaba.android.rimet:id/btn_add_app').click()
+
+        # 滑动一屏
+        sleep(1)
+
+        # 点击钉钉文档
+        click(107, 1010)
+        sleep(5)
+
+        # 点击+号
+        wait_for_find(by=AppiumBy.ID, value='com.alibaba.android.rimet:id/more_icon').click()
+        sleep(5)
+
+        # 根据坐标点击新建文档
+        click(124, 674)
+        sleep(5)
+
+        # 清空标题
+        click(360, 874)
+        sleep(1)
+        click(640, 885)
+
+        # 文档命名
+        type(360, 874, "weekly_summary")
+        sleep(2)
+
+        # 点击新建发送
+        click(342, 1096)
+        sleep(5)
+
+
+        # 填充内容
+        sleep(3)
+        doubleClick(136, 372)
+        sleep(2)
+        paste_text(136, 372)
+        sleep(5)
+
+        # # 点击...按钮
+        # click(664, 95)
+        #
+        # # 长按分享
+        # sleep(2)
+        # click(455, 486)
+
+        # 点击保存
+        click(139, 97)
+
+        # 点击返回
+        click(45, 95)
+
+        # 点击通知
+        wait_for_find(by=AppiumBy.ID, value='android:id/button1').click()
+
+
+        #
+        # wait_for_find(by=AppiumBy.ID, value="com.alibaba.android.rimet:id/search_btn").click()
+        # # 搜索群组
+        # wait_for_find(by=AppiumBy.ID, value="android:id/search_src_text", timeout=15).send_keys("我")
+        # # 点击第一个元素
+        # wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR,
+        #               value='new UiSelector().resourceId("com.alibaba.android.rimet:id/list_view").childSelector(new UiSelector().index(1))',
+        #               timeout=15).click()
+        # type(172, 1175, "week")
+        #
+        # #点击发送
+        # wait_for_find(by=AppiumBy.ID, value="com.alibaba.android.rimet:id/tv").click()
+
+
+
+
+
+
     def check_read_status(self, group: str, watcher_text: str):
         # 查看消息已读、未读情况
         wait_for_find = self.appium_helper.wait_for_find
@@ -203,6 +347,7 @@ class MessageHelper:
             wait_for_find(by=AppiumBy.ID, value="com.alibaba.android.rimet:id/btn_send").click()
         except WebDriverException as e:
             raise e
+
 
 
 

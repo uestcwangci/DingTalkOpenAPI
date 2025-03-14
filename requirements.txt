@@ -1,5 +1,5 @@
-appium-python-client~=4.1.0
-selenium~=4.24.0
+appium-python-client
+selenium
 requests~=2.32.3
 opencv-python~=4.10.0.84
 numpy~=2.1.1
