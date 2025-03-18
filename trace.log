@@ -1,0 +1,204 @@
+2025-03-18 17:45:58,477 INFO 启动HTTP服务器...
+2025-03-18 17:45:58,481 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.25.206.89:5000
+2025-03-18 17:45:58,481 INFO [33mPress CTRL+C to quit[0m
+2025-03-18 17:45:58,554 INFO server listening on 0.0.0.0:8765
+2025-03-18 17:45:58,555 INFO WebSocket服务器启动在 ws://0.0.0.0:8765
+2025-03-18 17:45:58,664 INFO Websocket connected
+2025-03-18 17:45:58,664 INFO Connected to external WebSocket server
+2025-03-18 17:45:58,665 INFO Sent heartbeat: ping
+2025-03-18 17:46:15,834 INFO connection open
+2025-03-18 17:46:15,834 INFO 新的客户端已连接: ('42.120.75.25', 57739)
+2025-03-18 17:46:18,264 INFO Received action: {'action': 'start', 'data': {'x': 100, 'y': 330, 'value': '考勤'}}
+2025-03-18 17:46:18,265 INFO Executing action: start with data: {'x': 100, 'y': 330, 'value': '考勤'}
+2025-03-18 17:46:28,686 INFO Sent heartbeat: ping
+2025-03-18 17:46:46,183 INFO Appium driver initialized
+2025-03-18 17:46:46,336 INFO Application .biz.LaunchHomeActivity is ready
+2025-03-18 17:46:49,339 INFO Action result: {'message': 'Appium driver started', 'success': True}
+2025-03-18 17:46:49,340 INFO [2025-03-18 17:46:49] 收到消息: {
+    "action": "start",
+    "data": {
+        "x": 100,
+        "y": 330,  
+        "value": "考勤"
+    }
+}
+2025-03-18 17:46:58,715 INFO Sent heartbeat: ping
+2025-03-18 17:47:07,058 INFO Received action: {'action': 'enter_app', 'data': {'x': 100, 'y': 330, 'value': '考勤'}}
+2025-03-18 17:47:07,058 INFO Executing action: enter_app with data: {'x': 100, 'y': 330, 'value': '考勤'}
+2025-03-18 17:47:27,688 INFO Found target element with text: '工作台' in horizontal scroll
+2025-03-18 17:47:28,743 INFO Sent heartbeat: ping
+2025-03-18 17:47:34,070 ERROR Execution error: Message: An unknown server-side error occurred while processing the command. Original error: An unknown server-side error occurred while processing the command. Original error: unknown error: unable to discover open window in chrome
+  (Session info: =)
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: An unknown server-side error occurred while processing the command. Original error: unknown error: unable to discover open window in chrome
+  (Session info: =)
+    at getResponseForW3CError (/home/ecs-user/.nvm/versions/node/v20.17.0/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/errors.js:1143:9)
+    at asyncHandler (/home/ecs-user/.nvm/versions/node/v20.17.0/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:487:57)
+2025-03-18 17:47:34,070 INFO Action result: {'message': 'Error: Message: An unknown server-side error occurred while processing the command. Original error: An unknown server-side error occurred while processing the command. Original error: unknown error: unable to discover open window in chrome\n  (Session info: =)\nStacktrace:\nUnknownError: An unknown server-side error occurred while processing the command. Original error: An unknown server-side error occurred while processing the command. Original error: unknown error: unable to discover open window in chrome\n  (Session info: =)\n    at getResponseForW3CError (/home/ecs-user/.nvm/versions/node/v20.17.0/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/errors.js:1143:9)\n    at asyncHandler (/home/ecs-user/.nvm/versions/node/v20.17.0/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:487:57)', 'success': False}
+2025-03-18 17:47:34,071 INFO [2025-03-18 17:47:34] 收到消息: {
+    "action": "enter_app",
+    "data": {
+        "x": 100,
+        "y": 330,  
+        "value": "考勤"
+    }
+}
+2025-03-18 17:47:58,774 INFO Sent heartbeat: ping
+2025-03-18 17:48:28,802 INFO Sent heartbeat: ping
+2025-03-18 17:48:58,829 INFO Sent heartbeat: ping
+2025-03-18 17:49:28,858 INFO Sent heartbeat: ping
+2025-03-18 17:49:58,885 INFO Sent heartbeat: ping
+2025-03-18 17:50:28,900 INFO Sent heartbeat: ping
+2025-03-18 17:50:58,929 INFO Sent heartbeat: ping
+2025-03-18 17:51:28,958 INFO Sent heartbeat: ping
+2025-03-18 17:51:58,980 INFO Sent heartbeat: ping
+2025-03-18 17:52:29,007 INFO Sent heartbeat: ping
+2025-03-18 17:52:59,037 INFO Sent heartbeat: ping
+2025-03-18 17:53:29,067 INFO Sent heartbeat: ping
+2025-03-18 17:53:59,097 INFO Sent heartbeat: ping
+2025-03-18 17:54:29,126 INFO Sent heartbeat: ping
+2025-03-18 17:54:59,154 INFO Sent heartbeat: ping
+2025-03-18 17:55:29,180 INFO Sent heartbeat: ping
+2025-03-18 17:55:59,208 INFO Sent heartbeat: ping
+2025-03-18 17:56:29,237 INFO Sent heartbeat: ping
+2025-03-18 17:56:59,267 INFO Sent heartbeat: ping
+2025-03-18 17:57:07,058 INFO Timeout: No action received in 60s, quitting Appium
+2025-03-18 17:57:07,365 INFO Appium driver quit
+2025-03-18 17:57:29,297 INFO Sent heartbeat: ping
+2025-03-18 17:57:59,325 INFO Sent heartbeat: ping
+2025-03-18 17:58:29,352 INFO Sent heartbeat: ping
+2025-03-18 17:58:59,382 INFO Sent heartbeat: ping
+2025-03-18 17:59:29,410 INFO Sent heartbeat: ping
+2025-03-18 17:59:59,440 INFO Sent heartbeat: ping
+2025-03-18 18:00:29,469 INFO Sent heartbeat: ping
+2025-03-18 18:00:59,497 INFO Sent heartbeat: ping
+2025-03-18 18:01:29,525 INFO Sent heartbeat: ping
+2025-03-18 18:01:59,545 INFO Sent heartbeat: ping
+2025-03-18 18:02:29,576 INFO Sent heartbeat: ping
+2025-03-18 18:02:59,606 INFO Sent heartbeat: ping
+2025-03-18 18:03:29,636 INFO Sent heartbeat: ping
+2025-03-18 18:03:59,661 INFO Sent heartbeat: ping
+2025-03-18 18:04:29,684 INFO Sent heartbeat: ping
+2025-03-18 18:04:59,713 INFO Sent heartbeat: ping
+2025-03-18 18:05:29,743 INFO Sent heartbeat: ping
+2025-03-18 18:05:59,773 INFO Sent heartbeat: ping
+2025-03-18 18:06:29,798 INFO Sent heartbeat: ping
+2025-03-18 18:06:59,827 INFO Sent heartbeat: ping
+2025-03-18 18:07:29,857 INFO Sent heartbeat: ping
+2025-03-18 18:07:59,887 INFO Sent heartbeat: ping
+2025-03-18 18:08:29,914 INFO Sent heartbeat: ping
+2025-03-18 18:08:59,939 INFO Sent heartbeat: ping
+2025-03-18 18:09:29,969 INFO Sent heartbeat: ping
+2025-03-18 18:09:59,997 INFO Sent heartbeat: ping
+2025-03-18 18:10:30,028 INFO Sent heartbeat: ping
+2025-03-18 18:11:00,048 INFO Sent heartbeat: ping
+2025-03-18 18:11:30,068 INFO Sent heartbeat: ping
+2025-03-18 18:12:00,099 INFO Sent heartbeat: ping
+2025-03-18 18:12:30,103 INFO Sent heartbeat: ping
+2025-03-18 18:13:00,117 INFO Sent heartbeat: ping
+2025-03-18 18:13:30,147 INFO Sent heartbeat: ping
+2025-03-18 18:14:00,178 INFO Sent heartbeat: ping
+2025-03-18 18:14:30,198 INFO Sent heartbeat: ping
+2025-03-18 18:15:00,227 INFO Sent heartbeat: ping
+2025-03-18 18:15:30,257 INFO Sent heartbeat: ping
+2025-03-18 18:16:00,284 INFO Sent heartbeat: ping
+2025-03-18 18:16:30,313 INFO Sent heartbeat: ping
+2025-03-18 18:17:00,342 INFO Sent heartbeat: ping
+2025-03-18 18:17:30,373 INFO Sent heartbeat: ping
+2025-03-18 18:18:00,401 INFO Sent heartbeat: ping
+2025-03-18 18:18:30,421 INFO Sent heartbeat: ping
+2025-03-18 18:19:00,445 INFO Sent heartbeat: ping
+2025-03-18 18:19:30,472 INFO Sent heartbeat: ping
+2025-03-18 18:20:00,501 INFO Sent heartbeat: ping
+2025-03-18 18:20:30,532 INFO Sent heartbeat: ping
+2025-03-18 18:21:00,562 INFO Sent heartbeat: ping
+2025-03-18 18:21:30,592 INFO Sent heartbeat: ping
+2025-03-18 18:22:00,621 INFO Sent heartbeat: ping
+2025-03-18 18:22:30,649 INFO Sent heartbeat: ping
+2025-03-18 18:23:00,680 INFO Sent heartbeat: ping
+2025-03-18 18:23:30,710 INFO Sent heartbeat: ping
+2025-03-18 18:24:00,737 INFO Sent heartbeat: ping
+2025-03-18 18:24:30,757 INFO Sent heartbeat: ping
+2025-03-18 18:25:00,759 INFO Sent heartbeat: ping
+2025-03-18 18:25:30,790 INFO Sent heartbeat: ping
+2025-03-18 18:26:00,818 INFO Sent heartbeat: ping
+2025-03-18 18:26:30,849 INFO Sent heartbeat: ping
+2025-03-18 18:27:00,879 INFO Sent heartbeat: ping
+2025-03-18 18:27:30,910 INFO Sent heartbeat: ping
+2025-03-18 18:28:00,940 INFO Sent heartbeat: ping
+2025-03-18 18:28:30,968 INFO Sent heartbeat: ping
+2025-03-18 18:29:00,997 INFO Sent heartbeat: ping
+2025-03-18 18:29:31,025 INFO Sent heartbeat: ping
+2025-03-18 18:30:01,055 INFO Sent heartbeat: ping
+2025-03-18 18:30:31,083 INFO Sent heartbeat: ping
+2025-03-18 18:31:01,113 INFO Sent heartbeat: ping
+2025-03-18 18:31:31,136 INFO Sent heartbeat: ping
+2025-03-18 18:32:01,164 INFO Sent heartbeat: ping
+2025-03-18 18:32:31,190 INFO Sent heartbeat: ping
+2025-03-18 18:33:01,219 INFO Sent heartbeat: ping
+2025-03-18 18:33:31,249 INFO Sent heartbeat: ping
+2025-03-18 18:34:01,274 INFO Sent heartbeat: ping
+2025-03-18 18:34:31,303 INFO Sent heartbeat: ping
+2025-03-18 18:35:01,333 INFO Sent heartbeat: ping
+2025-03-18 18:35:31,360 INFO Sent heartbeat: ping
+2025-03-18 18:36:01,387 INFO Sent heartbeat: ping
+2025-03-18 18:36:31,417 INFO Sent heartbeat: ping
+2025-03-18 18:37:01,445 INFO Sent heartbeat: ping
+2025-03-18 18:37:31,474 INFO Sent heartbeat: ping
+2025-03-18 18:38:01,503 INFO Sent heartbeat: ping
+2025-03-18 18:38:31,531 INFO Sent heartbeat: ping
+2025-03-18 18:39:01,561 INFO Sent heartbeat: ping
+2025-03-18 18:39:31,587 INFO Sent heartbeat: ping
+2025-03-18 18:40:01,617 INFO Sent heartbeat: ping
+2025-03-18 18:40:31,643 INFO Sent heartbeat: ping
+2025-03-18 18:41:01,673 INFO Sent heartbeat: ping
+2025-03-18 18:41:31,703 INFO Sent heartbeat: ping
+2025-03-18 18:42:01,733 INFO Sent heartbeat: ping
+2025-03-18 18:42:31,762 INFO Sent heartbeat: ping
+2025-03-18 18:43:01,791 INFO Sent heartbeat: ping
+2025-03-18 18:43:31,816 INFO Sent heartbeat: ping
+2025-03-18 18:44:01,845 INFO Sent heartbeat: ping
+2025-03-18 18:44:31,873 INFO Sent heartbeat: ping
+2025-03-18 18:45:01,897 INFO Sent heartbeat: ping
+2025-03-18 18:45:31,927 INFO Sent heartbeat: ping
+2025-03-18 18:46:01,944 INFO Sent heartbeat: ping
+2025-03-18 18:46:31,967 INFO Sent heartbeat: ping
+2025-03-18 18:47:01,997 INFO Sent heartbeat: ping
+2025-03-18 18:47:32,026 INFO Sent heartbeat: ping
+2025-03-18 18:48:02,053 INFO Sent heartbeat: ping
+2025-03-18 18:48:32,084 INFO Sent heartbeat: ping
+2025-03-18 18:49:02,113 INFO Sent heartbeat: ping
+2025-03-18 18:49:32,141 INFO Sent heartbeat: ping
+2025-03-18 18:50:02,169 INFO Sent heartbeat: ping
+2025-03-18 18:50:32,198 INFO Sent heartbeat: ping
+2025-03-18 18:51:02,227 INFO Sent heartbeat: ping
+2025-03-18 18:51:32,254 INFO Sent heartbeat: ping
+2025-03-18 18:52:02,285 INFO Sent heartbeat: ping
+2025-03-18 18:52:32,311 INFO Sent heartbeat: ping
+2025-03-18 18:53:02,331 INFO Sent heartbeat: ping
+2025-03-18 18:53:32,358 INFO Sent heartbeat: ping
+2025-03-18 18:54:02,387 INFO Sent heartbeat: ping
+2025-03-18 18:54:32,413 INFO Sent heartbeat: ping
+2025-03-18 18:55:02,442 INFO Sent heartbeat: ping
+2025-03-18 18:55:32,471 INFO Sent heartbeat: ping
+2025-03-18 18:56:02,501 INFO Sent heartbeat: ping
+2025-03-18 18:56:32,528 INFO Sent heartbeat: ping
+2025-03-18 18:57:02,547 INFO Sent heartbeat: ping
+2025-03-18 18:57:32,577 INFO Sent heartbeat: ping
+2025-03-18 18:58:02,607 INFO Sent heartbeat: ping
+2025-03-18 18:58:32,637 INFO Sent heartbeat: ping
+2025-03-18 18:59:02,666 INFO Sent heartbeat: ping
+2025-03-18 18:59:32,696 INFO Sent heartbeat: ping
+2025-03-18 19:00:02,718 INFO Sent heartbeat: ping
+2025-03-18 19:00:32,747 INFO Sent heartbeat: ping
+2025-03-18 19:01:02,773 INFO Sent heartbeat: ping
+2025-03-18 19:01:32,801 INFO Sent heartbeat: ping
+2025-03-18 19:02:02,830 INFO Sent heartbeat: ping
+2025-03-18 19:02:32,861 INFO Sent heartbeat: ping
+2025-03-18 19:03:02,887 INFO Sent heartbeat: ping
+2025-03-18 19:03:32,914 INFO Sent heartbeat: ping
+2025-03-18 19:04:02,942 INFO Sent heartbeat: ping
+2025-03-18 19:04:05,123 INFO WebSocket client closed: None - None

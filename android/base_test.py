@@ -169,29 +169,6 @@ class AppiumHelper:
 
         return True
 
-    def show_toast(self, message, duration=2):
-        """
-        使用 UiAutomator2 显示 Toast
-        """
-        try:
-            # 使用 UiAutomator2 的脚本执行 Toast
-            script = f"""
-            UiDevice.getInstance().executeShellCommand(
-                "am broadcast -a android.intent.action.SHOW_TOAST " +
-                "-e message \\"{message}\\" " +
-                "-e duration \\"{duration * 1000}\\""
-            );
-            """
-            self.driver.execute_script(script)
-        except Exception as e:
-            print(f"Toast显示失败: {str(e)}")
-            # 备用方案：使用 adb shell
-            try:
-                adb_command = f'am broadcast -a android.intent.action.SHOW_TOAST -e message "{message}" -e duration "{duration * 1000}"'
-                self.driver.execute_script('mobile: shell', {'command': adb_command})
-            except Exception as e2:
-                print(f"备用方案失败: {str(e2)}")
-                raise
 
 
 

@@ -9,6 +9,8 @@ import time
 from threading import Thread
 
 import requests
+import websockets
+from datetime import datetime
 from flask import Flask, request, jsonify, render_template, send_from_directory, abort, url_for
 from werkzeug.utils import safe_join
 
@@ -24,6 +26,10 @@ WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/
 MJPEG_PORT = 8093  # Appium MJPEG流端口
 HLS_PORT = 5000    # HLS流服务端口
 PUBLIC_IP = "121.43.49.135"  # 公网IP地址
+task_time = 600 # 60s不操作，退出appium
+timer = None
+# 用于客户端的事件循环
+client_loop = asyncio.new_event_loop()
 # 全局变量存储FFmpeg进程
 ffmpeg_process = None
 # 全局Appium实例（避免每次请求都创建新实例）
@@ -35,6 +41,7 @@ logging.basicConfig(level=logging.INFO,
                        logging.FileHandler('trace.log', encoding='utf-8'),
                        logging.StreamHandler(sys.stdout)
                    ])
+logger = logging.getLogger(__name__)
 
 
 def run_async(func, *args, **kwargs):
@@ -147,7 +154,7 @@ def send_message():
     name = request.args.get('name')
     message = request.args.get('message')
 
-    app.logger.info(f'Sending message to {name}: {message}')
+    logger.info(f'Sending message to {name}: {message}')
 
     # 实现发送钉钉消息的逻辑
     message_helper = MessageHelper()
@@ -159,7 +166,7 @@ def send_message():
         'success': True,
         'message': f'Message sent to {name}: {message}'
     }
-    app.logger.info(response)
+    logger.info(response)
     return jsonify(response)
 
 @app.route('/v1/actions/openapi/dingtalk/reply_message', methods=['GET'])
@@ -167,7 +174,7 @@ def reply_message():
     watcher_name = request.args.get('watcher_name')
     group = request.args.get('group')
 
-    app.logger.info(f'Sending message to {group}: {watcher_name}')
+    logger.info(f'Sending message to {group}: {watcher_name}')
 
     # 实现发送钉钉消息的逻辑
     message_helper = MessageHelper()
@@ -179,7 +186,7 @@ def reply_message():
         'success': True,
         'message': f'Message sent to {group}: {watcher_name}'
     }
-    app.logger.info(response)
+    logger.info(response)
     return jsonify(response)
 
 @app.route('/v1/actions/openapi/dingtalk/summarize', methods=['POST'])
@@ -188,7 +195,7 @@ def summarize():
     # 获取body中的workbookId字段
     group = body.get("group")
 
-    app.logger.info(f'summarize message to {group}')
+    logger.info(f'summarize message to {group}')
 
     # 实现发送钉钉消息的逻辑
     message_helper = MessageHelper()
@@ -200,7 +207,7 @@ def summarize():
         'success': True,
         'message': f'Summarize sent to {group}'
     }
-    app.logger.info(response)
+    logger.info(response)
     return jsonify(response)
 
 @app.route('/v1/actions/openapi/dingtalk/check_read_status', methods=['GET'])
@@ -208,7 +215,7 @@ def check_read_status():
     group = request.args.get('group')
     watcher_text = request.args.get('watcher_text')
 
-    app.logger.info(f'Checking read status in {group}: {watcher_text}')
+    logger.info(f'Checking read status in {group}: {watcher_text}')
 
     # 实现发送钉钉消息的逻辑
     message_helper = MessageHelper()
@@ -220,13 +227,13 @@ def check_read_status():
         'success': True,
         'message': f'Checking read status in {group}: {watcher_text}'
     }
-    app.logger.info(response)
+    logger.info(response)
     return jsonify(response)
 
 @app.route('/v1/actions/openapi/dingtalk/update_status', methods=['GET'])
 def update_status():
     status = request.args.get('status')
-    app.logger.info(f'Update status to {status}')
+    logger.info(f'Update status to {status}')
 
     # 实现修改工作状态的逻辑 (忽略)
 
@@ -234,15 +241,15 @@ def update_status():
         'success': True,
         'message': f'Work status updated to: {status}'
     }
-    app.logger.info(response)
+    logger.info(response)
     return jsonify(response)
 
 @app.route('/v1/actions/openapi/aqara/detect', methods=['GET'])
 def detect_camera():
     # label = request.args.get('label')
     # original_input = request.args.get('input') # 原始输入
-    # app.logger.info(f"Check aqara detect with label: {label}, input: {original_input}")
-    # print(f"Check aqara detect with label: {label}, input: {original_input}")
+    # logger.info(f"Check aqara detect with label: {label}, input: {original_input}")
+    # logger.info(f"Check aqara detect with label: {label}, input: {original_input}")
     #
     # # 实现发送钉钉消息的逻辑
     # camera_helper = CameraHelper()
@@ -254,7 +261,7 @@ def detect_camera():
         'success': True,
         'message': "Start watching"
     }
-    app.logger.info(response)
+    logger.info(response)
     return jsonify(response)
 
 @app.route('/v1/actions/openapi/dingtalk/updateSheet', methods=['POST'])
@@ -286,14 +293,14 @@ def update_sheet():
 
     # 打印响应内容
     if response.status_code == 200:
-        print("成功获取访问令牌:")
+        logger.info("成功获取访问令牌:")
         response_data = response.json()  # 解析 JSON 响应
         a1Notation = response_data.get("a1Notation")  # 获取 accessToken
-        print("a1Notation:", a1Notation)
+        logger.info("a1Notation:", a1Notation)
         return jsonify({"success": True, "message": "Update sheet success", "a1Notation": a1Notation})
     else:
-        print("请求失败，状态码:", response.status_code)
-        print("响应内容:", response.text)
+        logger.error("请求失败，状态码:", response.status_code)
+        logger.error("响应内容:", response.text)
         return jsonify({"success": False, "message": "Update sheet failed"})
 
 
@@ -312,16 +319,16 @@ def get_dingtalk_access_token():
 
     # 打印响应内容
     if response.status_code == 200:
-        print("成功获取访问令牌:")
+        logger.info("成功获取访问令牌:")
         response_data = response.json()  # 解析 JSON 响应
         access_token = response_data.get("accessToken")  # 获取 accessToken
         expire_in = response_data.get("expireIn")  # 获取 token 过期时间
-        print("Access Token:", access_token)
-        print("Token 过期时间（秒）:", expire_in)
+        logger.info("Access Token:", access_token)
+        logger.info("Token 过期时间（秒）:", expire_in)
         return access_token
     else:
-        print("请求失败，状态码:", response.status_code)
-        print("响应内容:", response.text)
+        logger.error("请求失败，状态码:", response.status_code)
+        logger.error("响应内容:", response.text)
         return None
 
 def start_ffmpeg_transcoding():
@@ -339,13 +346,13 @@ def start_ffmpeg_transcoding():
                 sock.close()
 
                 if result == 0:
-                    app.logger.info(f"MJPEG stream ready at port {MJPEG_PORT}")
+                    logger.info(f"MJPEG stream ready at port {MJPEG_PORT}")
                     break
             except Exception as e:
-                app.logger.error(f"MJPEG stream not ready: {str(e)}")
+                logger.error(f"MJPEG stream not ready: {str(e)}")
                 time.sleep(1)
         else:
-            app.logger.error("MJPEG stream not available after 10 seconds")
+            logger.error("MJPEG stream not available after 10 seconds")
 
         cmd = [
             "ffmpeg",
@@ -359,157 +366,19 @@ def start_ffmpeg_transcoding():
             hls_output
         ]
         ffmpeg_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        app.logger.info(f"Started FFmpeg transcoding MJPEG to HLS at {hls_output}")
+        logger.info(f"Started FFmpeg transcoding MJPEG to HLS at {hls_output}")
         time.sleep(2)
         if ffmpeg_process.poll() is not None:
             stdout, stderr = ffmpeg_process.communicate()
-            app.logger.error(f"FFmpeg failed: {stderr.decode()}")
+            logger.error(f"FFmpeg failed: {stderr.decode()}")
 
 def stop_ffmpeg_transcoding():
     global ffmpeg_process
     if ffmpeg_process and ffmpeg_process.poll() is None:
         ffmpeg_process.terminate()
         ffmpeg_process.wait()
-        app.logger.info("Stopped FFmpeg transcoding")
+        logger.info("Stopped FFmpeg transcoding")
         ffmpeg_process = None
-
-
-# WebSocket函数
-def send_heartbeat(ws):
-    while True:
-        try:
-            if ws.sock and ws.sock.connected:
-                ws.send(json.dumps({"actionType": "ping"}))
-                app.logger.info("Sent heartbeat: ping")
-            else:
-                break
-        except Exception as e:
-            app.logger.error(f"Heartbeat error: {str(e)}")
-            break
-        time.sleep(30)
-
-
-def on_open(ws):
-    app.logger.info("Connected to DingTalk WebSocket server")
-    global appium_handler
-    if appium_handler is None:
-        appium_handler = AppiumAction()
-    threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
-
-
-def on_message(ws, message):
-    try:
-        action_data = json.loads(message)
-        app.logger.info(f"Received action: {action_data}")
-        action_type = action_data.get("action")
-
-        global appium_handler
-        if appium_handler:
-            result = appium_handler.execute(action_data)
-            if action_type == "start":
-                ws.send(json.dumps({
-                    "data": {
-                        "videoUrl": "http://121.43.49.135:8093/"
-                    },
-                    "action": "openVideo"
-                }))
-            elif action_type == "startScreenStreaming":
-                # start_ffmpeg_transcoding()
-                # result["message"] = f"Screen streaming started at http://{PUBLIC_IP}:{HLS_PORT}/stream.m3u8"
-                result["message"] = f"Screen streaming started at http://121.43.49.135:8093/"
-            elif action_type == "stopScreenStreaming":
-                stop_ffmpeg_transcoding()
-            ws.send(json.dumps({
-                "action": "execSuccess",
-                "data": {
-                    "execAction": action_type,
-                    "url": result.get("screenshot", "")  # 默认返回截图
-                },
-                "message": result.get("message", "Action executed")
-            }))
-
-    except Exception as e:
-        app.logger.error(f"Error processing message: {str(e)}")
-        ws.send(json.dumps({"status": "error", "result": str(e)}))
-
-
-def on_error(ws, error):
-    app.logger.error(f"WebSocket error: {str(error)}")
-
-
-def on_close(ws, close_status_code, close_msg):
-    app.logger.info(f"WebSocket closed: {close_status_code} - {close_msg}")
-    stop_ffmpeg_transcoding()
-
-
-def run_websocket():
-    ws = websocket.WebSocketApp(
-        WS_URL,
-        on_open=on_open,
-        on_message=on_message,
-        on_error=on_error,
-        on_close=on_close
-    )
-    ws.run_forever()
-
-
-# HTTP接口
-@app.route('/v1/actions/execute', methods=['POST'])
-def execute_action():
-    global appium_handler
-    try:
-        body = request.get_json()
-        if not body:
-            return jsonify({"status": "error", "result": "No JSON data provided"}), 400
-
-        app.logger.info(f"HTTP request: {body}")
-        action = body.get("action")  # 改为actionType与WebSocket一致
-
-        # if action == "start" and appium_handler is None:
-        if action == "start":
-            appium_handler = AppiumAction()
-            return jsonify({
-                "data": {
-                    "videoUrl": "http://121.43.49.135:8093/"
-                },
-                "action": "openVideo"
-            })
-        elif action == "quit" and appium_handler:
-            appium_handler.quit()
-            appium_handler = None
-            return jsonify({"status": "success", "result": "Appium driver quit"}), 200
-
-        if appium_handler is None:
-            return jsonify({"status": "error", "result": "Appium driver not started"}), 400
-
-        result = appium_handler.execute(body)
-
-        # 处理屏幕流转码
-        if action == "startScreenStreaming":
-            # start_ffmpeg_transcoding()
-            hls_url = f"http://{PUBLIC_IP}:{HLS_PORT}/stream.m3u8"
-            return jsonify({
-                "data": {
-                    "execAction": "startScreenStreaming",
-                    "url": "http://121.43.49.135:8093/"
-                },
-                "action": "execSuccess"
-            }), 200
-        elif action == "stopScreenStreaming":
-            stop_ffmpeg_transcoding()
-
-        return jsonify({
-            "data": {
-                "execAction": action,
-                "url": result.get("screenshot", "")  # 默认返回截图
-            },
-            "message": result.get("message", "Action executed"),
-            "action": "execSuccess"
-        }), 200
-    except Exception as e:
-        app.logger.error(f"HTTP error: {str(e)}")
-        return jsonify({"status": "error", "result": str(e)}), 500
-
 
 @app.route('/stream.m3u8')
 def serve_hls():
@@ -520,20 +389,206 @@ def serve_hls():
 def serve_hls_segment(filename):
     return app.send_static_file(filename)
 
+# 定时器相关函数
+def quit_appium():
+    global appium_handler
+    if appium_handler:
+        logger.info("Timeout: No action received in 60s, quitting Appium")
+        appium_handler.quit()
+        appium_handler = None
+
+def reset_timer():
+    global timer
+    if timer:
+        timer.cancel()
+    timer = threading.Timer(task_time, quit_appium)
+    timer.start()
+
+# WebSocket 客户端函数（连接外部服务器）
+def send_heartbeat(ws):
+    while True:
+        try:
+            if ws.sock and ws.sock.connected:
+                ws.send(json.dumps({"action": "ping"}))
+                logger.info("Sent heartbeat: ping")
+            else:
+                break
+        except Exception as e:
+            logger.error(f"Heartbeat error: {str(e)}")
+            break
+        time.sleep(30)
+
+def on_open(ws):
+    logger.info("Connected to external WebSocket server")
+    threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
+
+# 统一的异步消息处理函数
+async def on_message(ws, message):
+    try:
+        action_data = json.loads(message)
+    except json.JSONDecodeError:
+        response = json.dumps({"status": "error", "result": "Invalid JSON format"})
+        if isinstance(ws, websockets.WebSocketServerProtocol):
+            await ws.send(response)
+        else:
+            ws.send(response)
+        return
+
+    try:
+        logger.info(f"Received action: {action_data}")
+        action = action_data.get("action")
+        if not action:
+            response = json.dumps({"status": "error", "result": "No action specified"})
+            if isinstance(ws, websockets.WebSocketServerProtocol):
+                await ws.send(response)
+            else:
+                ws.send(response)
+            return
+
+        global appium_handler, timer
+        if action == "start" and appium_handler is None:
+            appium_handler = AppiumAction()  # 假设 AppiumAction 已定义
+            reset_timer()
+            response = json.dumps({
+                "data": {"videoUrl": "http://121.43.49.135:8093/"},
+                "action": "openVideo"
+            })
+            if isinstance(ws, websockets.WebSocketServerProtocol):
+                await ws.send(response)
+            else:
+                ws.send(response)
+        elif action == "done":
+            if timer:
+                timer.cancel()
+            if appium_handler:
+                appium_handler.quit()
+                appium_handler = None
+                logger.info("Appium driver quit")
+            response = json.dumps({"status": "success", "result": "Appium driver quit"})
+            if isinstance(ws, websockets.WebSocketServerProtocol):
+                await ws.send(response)
+            else:
+                ws.send(response)
+            return
+
+        if appium_handler is None:
+            logger.error("Appium driver not started")
+            response = json.dumps({"status": "error", "result": "Appium driver not started"})
+            if isinstance(ws, websockets.WebSocketServerProtocol):
+                await ws.send(response)
+            else:
+                ws.send(response)
+            return
+
+        reset_timer()
+        result = appium_handler.execute(action_data)
+        logger.info(f"Action result: {result}")
+        response = json.dumps({
+            "action": "execSuccess" if result.get("success") else "execFail",
+            "data": {
+                "execAction": action,
+                "url": result.get("screenshot", "")
+            },
+            "message": result.get("message", "Action executed")
+        })
+        if isinstance(ws, websockets.WebSocketServerProtocol):
+            await ws.send(response)
+        else:
+            ws.send(response)
+
+    except Exception as e:
+        logger.error(f"Error processing message: {str(e)}")
+        response = json.dumps({"status": "error", "result": str(e)})
+        if isinstance(ws, websockets.WebSocketServerProtocol):
+            await ws.send(response)
+        else:
+            ws.send(response)
+
+def on_message_client(ws, message):
+    logger.info(f"Received from external server: {message}")
+    # 在客户端的同步线程中安全调用异步函数
+    asyncio.run_coroutine_threadsafe(on_message(ws, message), client_loop)
+
+def on_error(ws, error):
+    logger.error(f"WebSocket client error: {str(error)}")
+
+def on_close(ws, close_status_code, close_msg):
+    logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
+    global timer
+    if timer:
+        timer.cancel()
+    if appium_handler:
+        appium_handler.quit()
+        logger.info("on_close Appium driver quit")
+
+def run_websocket_client():
+    # 在单独的线程中运行客户端事件循环
+    def run_client_loop():
+        asyncio.set_event_loop(client_loop)
+        client_loop.run_forever()
+
+    threading.Thread(target=run_client_loop, daemon=True).start()
+
+    ws = websocket.WebSocketApp(
+        WS_URL,
+        on_open=on_open,
+        on_message=on_message_client,
+        on_error=on_error,
+        on_close=on_close
+    )
+    ws.run_forever()
+
+# WebSocket 服务器处理函数
+async def handle_connection(websocket, path):
+    try:
+        await websocket.send("欢迎连接到WebSocket服务器!")
+        logger.info(f"新的客户端已连接: {websocket.remote_address}")
+        async for message in websocket:
+            await on_message(websocket, message)
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            logger.info(f"[{current_time}] 收到消息: {message}")
+            # 可选：添加额外的服务器响应
+            # await websocket.send(f"服务器收到: {message}")
+    except websockets.ConnectionClosed:
+        logger.info(f"客户端断开连接: {websocket.remote_address}")
+    except Exception as e:
+        logger.error(f"发生错误: {e}")
+
+# 运行 WebSocket 服务器
+async def run_websocket_server():
+    WS_HOST = "0.0.0.0"
+    WS_PORT = 8765
+    server = await websockets.serve(handle_connection, WS_HOST, WS_PORT)
+    logger.info(f"WebSocket服务器启动在 ws://{WS_HOST}:{WS_PORT}")
+    await server.wait_closed()
+
+def start_websocket_server():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(run_websocket_server())
+
 if __name__ == '__main__':
     try:
         import os
 
         if not os.path.exists("static"):
             os.makedirs("static")
-        ws_thread = threading.Thread(target=run_websocket, daemon=True)
-        ws_thread.start()
-        app.run(host="0.0.0.0", port=HLS_PORT, debug=True)
+        # 启动 WebSocket 客户端（连接外部服务器）
+        ws_client_thread = threading.Thread(target=run_websocket_client, daemon=True)
+        ws_client_thread.start()
+
+        # 启动 WebSocket 服务器
+        server_thread = threading.Thread(target=start_websocket_server, daemon=True)
+        server_thread.start()
+
+        # 启动 Flask HTTP 服务器
+        logger.info("启动HTTP服务器...")
+        app.run(host="0.0.0.0", port=HLS_PORT)
     except KeyboardInterrupt:
+        logger.info("Server stopped")
         if appium_handler:
             appium_handler.quit()
-        app.logger.info("Server stopped")
     except Exception as e:
-        app.logger.error(f"Server startup error: {str(e)}")
+        logger.error(f"Server startup error: {str(e)}")
         if appium_handler:
             appium_handler.quit()
