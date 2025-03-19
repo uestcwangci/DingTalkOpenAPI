@@ -1,6 +1,6 @@
 import asyncio
 import json
-import logging
+from android import logger
 import os
 import socket
 import subprocess
@@ -35,13 +35,6 @@ ffmpeg_process = None
 # 全局Appium实例（避免每次请求都创建新实例）
 appium_handler = None
 message_helper = None
-logging.basicConfig(level=logging.INFO,
-                   format='%(asctime)s %(levelname)s %(message)s',
-                   handlers=[
-                       logging.FileHandler('trace.log', encoding='utf-8'),
-                       logging.StreamHandler(sys.stdout)
-                   ])
-logger = logging.getLogger(__name__)
 
 
 def run_async(func, *args, **kwargs):
@@ -410,7 +403,7 @@ def send_heartbeat(ws):
         try:
             if ws.sock and ws.sock.connected:
                 ws.send(json.dumps({"action": "ping"}))
-                logger.info("Sent heartbeat: ping")
+                logger.debug("Sent heartbeat: ping")
             else:
                 break
         except Exception as e:
@@ -428,10 +421,7 @@ async def on_message(ws, message):
         action_data = json.loads(message)
     except json.JSONDecodeError:
         response = json.dumps({"status": "error", "result": "Invalid JSON format"})
-        if isinstance(ws, websockets.WebSocketServerProtocol):
-            await ws.send(response)
-        else:
-            ws.send(response)
+        await ws.send(response)
         return
 
     try:
@@ -439,10 +429,7 @@ async def on_message(ws, message):
         action = action_data.get("action")
         if not action:
             response = json.dumps({"status": "error", "result": "No action specified"})
-            if isinstance(ws, websockets.WebSocketServerProtocol):
-                await ws.send(response)
-            else:
-                ws.send(response)
+            await ws.send(response)
             return
 
         global appium_handler, timer
@@ -453,10 +440,7 @@ async def on_message(ws, message):
                 "data": {"videoUrl": "http://121.43.49.135:8093/"},
                 "action": "openVideo"
             })
-            if isinstance(ws, websockets.WebSocketServerProtocol):
-                await ws.send(response)
-            else:
-                ws.send(response)
+            await ws.send(response)
         elif action == "done":
             if timer:
                 timer.cancel()
@@ -465,19 +449,13 @@ async def on_message(ws, message):
                 appium_handler = None
                 logger.info("Appium driver quit")
             response = json.dumps({"status": "success", "result": "Appium driver quit"})
-            if isinstance(ws, websockets.WebSocketServerProtocol):
-                await ws.send(response)
-            else:
-                ws.send(response)
+            await ws.send(response)
             return
 
         if appium_handler is None:
             logger.error("Appium driver not started")
             response = json.dumps({"status": "error", "result": "Appium driver not started"})
-            if isinstance(ws, websockets.WebSocketServerProtocol):
-                await ws.send(response)
-            else:
-                ws.send(response)
+            await ws.send(response)
             return
 
         reset_timer()
@@ -491,18 +469,12 @@ async def on_message(ws, message):
             },
             "message": result.get("message", "Action executed")
         })
-        if isinstance(ws, websockets.WebSocketServerProtocol):
-            await ws.send(response)
-        else:
-            ws.send(response)
+        await ws.send(response)
 
     except Exception as e:
         logger.error(f"Error processing message: {str(e)}")
         response = json.dumps({"status": "error", "result": str(e)})
-        if isinstance(ws, websockets.WebSocketServerProtocol):
-            await ws.send(response)
-        else:
-            ws.send(response)
+        await ws.send(response)
 
 def on_message_client(ws, message):
     logger.info(f"Received from external server: {message}")
@@ -539,7 +511,7 @@ def run_websocket_client():
     ws.run_forever()
 
 # WebSocket 服务器处理函数
-async def handle_connection(websocket, path):
+async def handle_connection(websocket):
     try:
         await websocket.send("欢迎连接到WebSocket服务器!")
         logger.info(f"新的客户端已连接: {websocket.remote_address}")

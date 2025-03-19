@@ -9,21 +9,13 @@ from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 import time
 import base64
-import logging
+from android import logger
 from typing import Literal
 import os
 from android.molecular import Molecular
 
 from selenium.webdriver.support.wait import WebDriverWait
 
-# 配置日志
-logging.basicConfig(level=logging.INFO,
-                   format='%(asctime)s %(levelname)s %(message)s',
-                   handlers=[
-                       logging.FileHandler('trace.log', encoding='utf-8'),
-                       logging.StreamHandler(sys.stdout)
-                   ])
-logger = logging.getLogger(__name__)
 
 ACCESS_TOKEN = "lGqMusyvAMqNJEJLmgZanGPAgPNdEtNBwZJAnAxndkE"  # 替换为你的DingTalk token
 
@@ -78,8 +70,8 @@ class AppiumAction:
             "appium:chromeOptions": {
                 "androidProcess": "com.alibaba.android:rimet"
             },
-            "appium:ensureWebviewsHavePages": True,
-            "appium:chromedriverExecutable": "/usr/bin/chromedriver",  # 替换为你的chromedriver路径
+            # "appium:ensureWebviewsHavePages": True,
+            # "appium:chromedriverExecutable": "/home/ecs-user/.appium/drivers/chromedriver/chrome-linux64",  # 替换为你的chromedriver路径
             "appium:unicodeKeyboard": False,
             "appium:resetKeyboard": False,
             "appium:noReset": True,
@@ -116,7 +108,7 @@ class AppiumAction:
                     return {"message": "Appium driver quit", "success": True}
                 return {"message": "No Appium driver to quit", "success": False}
             elif action == "home":
-                # 方法1：重新启动应用
+                # 重新启动应用
                 self.driver.terminate_app(self.desired_caps["appium:appPackage"])  # 先关闭应用
                 self.driver.activate_app(self.desired_caps["appium:appPackage"])  # 重新启动应用
 

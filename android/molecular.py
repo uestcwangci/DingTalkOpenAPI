@@ -1,38 +1,68 @@
-import logging
-import sys
 import time
 
+from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
-from typing import Union, Dict
-
+from typing import Union, Dict, List
+from android import logger
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 配置日志
-logging.basicConfig(level=logging.INFO,
-                   format='%(asctime)s %(levelname)s %(message)s',
-                   handlers=[
-                       logging.FileHandler('trace.log', encoding='utf-8'),
-                       logging.StreamHandler(sys.stdout)
-                   ])
-logger = logging.getLogger(__name__)
-
 
 class Molecular:
     def __init__(self, driver):
         self.driver = driver
+        self.webview_context = "WEBVIEW_com.alibaba.android.rimet"  # 可配置的 WebView 上下文
 
-    def wait_for_find(self, by: str = AppiumBy.ID, value: Union[str, Dict, None] = None, timeout: int = 5):
-        # timeout 单位s
-        element = WebDriverWait(self.driver, timeout).until(lambda x: self.driver.find_element(by=by, value=value))
+    def _switch_context_for_by(self, by: str) -> None:
+        """
+        根据定位策略自动切换上下文。
+        """
+        # WebView 支持的定位方式
+        webview_strategies = [AppiumBy.CSS_SELECTOR]
+
+        current_context = self.driver.current_context
+        available_contexts = self.driver.contexts
+
+        if by in webview_strategies:
+            if self.webview_context in available_contexts:
+                if current_context != self.webview_context:
+                    logger.info(f"Switching context from '{current_context} to '{self.webview_context}")
+                    self.driver.switch_to.context(self.webview_context)
+            else:
+                raise Exception(f"WebView context '{self.webview_context}' not available. Available contexts: {available_contexts}")
+        else:
+            if current_context != "NATIVE_APP":
+                logger.info(f"Switching context from '{current_context} to 'NATIVE_APP'")
+                self.driver.switch_to.context("NATIVE_APP")
+
+    def wait_for_find(self, by: str = AppiumBy.ID, value: Union[str, Dict, None] = None, timeout: int = 5) -> WebElement:
+        """
+        等待并查找单个元素，自动切换上下文。
+        :param by: 定位策略 (e.g., AppiumBy.ID, AppiumBy.CSS_SELECTOR)
+        :param value: 定位值
+        :param timeout: 等待超时时间（单位：秒）
+        :return: 找到的元素
+        """
+        self._switch_context_for_by(by)
+        element = WebDriverWait(self.driver, timeout).until(
+            lambda x: self.driver.find_element(by=by, value=value)
+        )
         return element
 
-
-    def wait_for_finds(self, by: str = AppiumBy.ID, value: Union[str, Dict, None] = None, timeout: int = 5):
-        # timeout 单位s
-        elements = WebDriverWait(self.driver, timeout).until(lambda x: self.driver.find_elements(by=by, value=value))
+    def wait_for_finds(self, by: str = AppiumBy.ID, value: Union[str, Dict, None] = None, timeout: int = 5) -> List[WebElement]:
+        """
+        等待并查找多个元素，自动切换上下文。
+        :param by: 定位策略 (e.g., AppiumBy.ID, AppiumBy.CSS_SELECTOR)
+        :param value: 定位值
+        :param timeout: 等待超时时间（单位：秒）
+        :return: 找到的元素列表
+        """
+        self._switch_context_for_by(by)
+        elements = WebDriverWait(self.driver, timeout).until(
+            lambda x: self.driver.find_elements(by=by, value=value)
+        )
         return elements
 
     def scroll_into_text(self, parent_value, text, direction="vertical", timeout=10):
@@ -104,14 +134,12 @@ class Molecular:
             time.sleep(2)
             # 等待 WebView 可用
             WebDriverWait(self.driver, 30).until(lambda d: len(d.contexts) > 1)
-            self.driver.switch_to.context("WEBVIEW_com.alibaba.android.rimet")
             # 点击第一个搜索结果
             self.wait_for_find(
                 by=AppiumBy.CSS_SELECTOR,
                 value='.dtm-list-item:first-of-type .dtm-button-button',
                 timeout=5
             ).click()
-            self.driver.switch_to.context("NATIVE_APP")
             return {"message": f"Entered {chat_type} chat with {value}", "success": True}
         else:
             # Native页面
