@@ -155,6 +155,7 @@ class AppiumAction:
                     actions.w3c_actions.pointer_action.pause(0.1)
                     actions.w3c_actions.pointer_action.release()
                     actions.perform()
+                    self.molecular.show_toast(f"click at ({x}, {y})")
                     return {"message": f"Clicked at ({x}, {y})", "success": True}
                 return {"message": "Error: Missing x or y coordinates", "success": False}
             elif action == "long_press":
@@ -277,7 +278,9 @@ class AppiumAction:
                 # PS: 未识别的action要求返回成功，以便后端处理
                 return {"message": f"Error: Unsupported actionType '{action}'", "success": True}
         except Exception as e:
-            logger.error(f"Execution error: {str(e)}")
+            import traceback
+            # Replace the selected line with this
+            logger.error(f"Execution error: {str(e)}\n{traceback.format_exc()}")
             return {"message": f"Error: {str(e)}", "success": False}
 
     def quit(self):
