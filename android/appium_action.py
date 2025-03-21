@@ -26,10 +26,9 @@ def upload_file_to_cdn(file_path: str, file_type: Literal['image', 'video']) -> 
         raise ValueError('Invalid file type. Must be "image" or "video"')
 
     file_name = os.path.basename(file_path)
-
+    import requests
     try:
         from requests_toolbelt.multipart.encoder import MultipartEncoder
-        import requests
         m = MultipartEncoder(
             fields={
                 'file': (file_name, open(file_path, 'rb'), 'image/png' if file_type == 'image' else 'video/mp4'),
@@ -63,20 +62,15 @@ class AppiumAction:
         self.driver = None
         self.desired_caps = {
             "platformName": "Android",
-            "appium:deviceName": "Android",  # 建议替换为具体设备名，如 "emulator-5554"
             "appium:appPackage": "com.alibaba.android.rimet",
             "appium:appActivity": ".biz.LaunchHomeActivity",
             "appium:automationName": "Uiautomator2",
             "appium:chromeOptions": {
                 "androidProcess": "com.alibaba.android:rimet"
             },
-            # "appium:ensureWebviewsHavePages": True,
-            # "appium:chromedriverExecutable": "/home/ecs-user/.appium/drivers/chromedriver/chrome-linux64",  # 替换为你的chromedriver路径
-            "appium:unicodeKeyboard": False,
-            "appium:resetKeyboard": False,
-            "appium:noReset": True,
-            "appium:forceAppLaunch": True,
-            "appium:newCommandTimeout": 0,
+            "appium:noReset": True, # 防止重置应用
+            "appium:forceAppLaunch": True, # 每次启动强制重启app
+            "appium:newCommandTimeout": 300, # 5分钟
         }
         self.molecular = None
 
@@ -155,7 +149,6 @@ class AppiumAction:
                     actions.w3c_actions.pointer_action.pause(0.1)
                     actions.w3c_actions.pointer_action.release()
                     actions.perform()
-                    self.molecular.show_toast(f"click at ({x}, {y})")
                     return {"message": f"Clicked at ({x}, {y})", "success": True}
                 return {"message": "Error: Missing x or y coordinates", "success": False}
             elif action == "long_press":
@@ -283,8 +276,6 @@ class AppiumAction:
             logger.error(f"Execution error: {str(e)}\n{traceback.format_exc()}")
             return {"message": f"Error: {str(e)}", "success": False}
 
-    def quit(self):
-        if self.driver:
-            self.driver.quit()
-            self.driver = None
-            logger.info("Appium driver quit")
+    def show_toast(self, message):
+        if self.molecular:
+            self.molecular.show_toast(message)

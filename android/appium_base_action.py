@@ -161,10 +161,9 @@ class AppiumBaseAction:
 
         # Convert method_call to a properly escaped JSON string
         json_string = json.dumps(method_call, ensure_ascii=False)
-
+        full_command = f"am broadcast -a appium.to.dingtalk.ACTION -p com.alibaba.android.rimet --receiver-permission com.alibaba.android.rimet.APPIUM_PERMISSION --es methodCall '{json_string}'"
         broadcast_command = {
-            'command': 'am broadcast',
-            'args': ['-a', 'appium.to.dingtalk.ACTION', '--es', 'methodCall', json_string]
+            "command": full_command
         }
 
         try:

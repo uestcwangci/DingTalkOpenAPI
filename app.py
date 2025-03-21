@@ -26,8 +26,6 @@ WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/
 MJPEG_PORT = 8093  # Appium MJPEG流端口
 HLS_PORT = 5000    # HLS流服务端口
 PUBLIC_IP = "121.43.49.135"  # 公网IP地址
-task_time = 600 # 60s不操作，退出appium
-timer = None
 # 用于客户端的事件循环
 client_loop = asyncio.new_event_loop()
 # 全局变量存储FFmpeg进程
@@ -108,39 +106,6 @@ def screenshot(path):
     base_url = url_for('screenshot', path=path)
     files_list = list_files(full_directory, base_url)
     return f'<h1>Directory listing for {path if path else "root"}</h1>{files_list}'
-
-# @app.route('/files/<path:filename>')
-# def serve_file(filename):
-#     full_path = safe_join(screenshot_directory, filename)
-#     if not os.path.isfile(full_path):
-#         abort(404)
-#     return send_from_directory(screenshot_directory, filename)
-
-# @app.route('/screenshot')
-# def screenshot():
-#     files_list = list_files(screenshot_directory)
-#     return f'<h1>File List</h1><ul>{files_list}</ul>'
-
-# def list_files(base_path):
-#     file_tree = ""
-#     for dirpath, dirnames, filenames in os.walk(base_path):
-#         relative_dir = os.path.relpath(dirpath, base_path)
-        
-#         if relative_dir == ".":
-#             relative_dir = ""
-        
-#         file_tree += f'<li><strong>{relative_dir}</strong><ul>'
-        
-#         for dirname in dirnames:
-#             file_tree += f'<li>{dirname}/</li>'
-        
-#         for filename in filenames:
-#             full_path = os.path.join(relative_dir, filename)
-#             file_tree += f'<li><a href="/files/{full_path}">{filename}</a></li>'
-            
-#         file_tree += '</ul></li>'
-        
-#     return file_tree
 
 @app.route('/v1/actions/openapi/dingtalk/send_message', methods=['GET'])
 def send_message():
@@ -382,21 +347,6 @@ def serve_hls():
 def serve_hls_segment(filename):
     return app.send_static_file(filename)
 
-# 定时器相关函数
-def quit_appium():
-    global appium_handler
-    if appium_handler:
-        logger.info("Timeout: No action received in 60s, quitting Appium")
-        appium_handler.quit()
-        appium_handler = None
-
-def reset_timer():
-    global timer
-    if timer:
-        timer.cancel()
-    timer = threading.Timer(task_time, quit_appium)
-    timer.start()
-
 # WebSocket 客户端函数（连接外部服务器）
 def send_heartbeat(ws):
     while True:
@@ -415,53 +365,32 @@ def on_open(ws):
     logger.info("Connected to external WebSocket server")
     threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
 
-# 统一的异步消息处理函数
-async def on_message(ws, message):
+def process_message(message):
     try:
         action_data = json.loads(message)
     except json.JSONDecodeError:
-        response = json.dumps({"status": "error", "result": "Invalid JSON format"})
-        await ws.send(response)
-        return
+        return json.dumps({"status": "error", "result": "Invalid JSON format"})
 
     try:
         logger.info(f"Received action: {action_data}")
         action = action_data.get("action")
         if not action:
-            response = json.dumps({"status": "error", "result": "No action specified"})
-            await ws.send(response)
-            return
+            return json.dumps({"status": "error", "result": "No action specified"})
 
-        global appium_handler, timer
+        global appium_handler
         if action == "start" and appium_handler is None:
-            appium_handler = AppiumAction()  # 假设 AppiumAction 已定义
-            reset_timer()
-            response = json.dumps({
-                "data": {"videoUrl": "http://121.43.49.135:8093/"},
-                "action": "openVideo"
-            })
-            await ws.send(response)
-        elif action == "done":
-            if timer:
-                timer.cancel()
-            if appium_handler:
-                appium_handler.quit()
-                appium_handler = None
-                logger.info("Appium driver quit")
-            response = json.dumps({"status": "success", "result": "Appium driver quit"})
-            await ws.send(response)
-            return
+            appium_handler = AppiumAction()
 
         if appium_handler is None:
             logger.error("Appium driver not started")
-            response = json.dumps({"status": "error", "result": "Appium driver not started"})
-            await ws.send(response)
-            return
+            return json.dumps({"status": "error", "result": "Appium driver not started"})
 
-        reset_timer()
         result = appium_handler.execute(action_data)
+        desc = action_data.get("desc")
+        if desc:
+            appium_handler.show_toast(desc)
         logger.info(f"Action result: {result}")
-        response = json.dumps({
+        return json.dumps({
             "action": "execSuccess" if result.get("success") else "execFail",
             "data": {
                 "execAction": action,
@@ -469,26 +398,20 @@ async def on_message(ws, message):
             },
             "message": result.get("message", "Action executed")
         })
-        await ws.send(response)
-
     except Exception as e:
         logger.error(f"Error processing message: {str(e)}")
-        response = json.dumps({"status": "error", "result": str(e)})
-        await ws.send(response)
+        return json.dumps({"status": "error", "result": str(e)})
 
 def on_message_client(ws, message):
-    logger.info(f"Received from external server: {message}")
-    # 在客户端的同步线程中安全调用异步函数
-    asyncio.run_coroutine_threadsafe(on_message(ws, message), client_loop)
+    logger.info(f"Received from server: {message}")
+    response = process_message(message)
+    ws.send(response)
 
 def on_error(ws, error):
     logger.error(f"WebSocket client error: {str(error)}")
 
 def on_close(ws, close_status_code, close_msg):
     logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
-    global timer
-    if timer:
-        timer.cancel()
     if appium_handler:
         appium_handler.quit()
         logger.info("on_close Appium driver quit")
@@ -511,22 +434,22 @@ def run_websocket_client():
     ws.run_forever()
 
 # WebSocket 服务器处理函数
+async def on_message_server(websocket, message):
+    logger.info(f"Received from client: {message}")
+    response = process_message(message)
+    await websocket.send(response)
+
 async def handle_connection(websocket):
     try:
         await websocket.send("欢迎连接到WebSocket服务器!")
         logger.info(f"新的客户端已连接: {websocket.remote_address}")
         async for message in websocket:
-            await on_message(websocket, message)
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            logger.info(f"[{current_time}] 收到消息: {message}")
-            # 可选：添加额外的服务器响应
-            # await websocket.send(f"服务器收到: {message}")
+            await on_message_server(websocket, message)
     except websockets.ConnectionClosed:
         logger.info(f"客户端断开连接: {websocket.remote_address}")
     except Exception as e:
         logger.error(f"发生错误: {e}")
 
-# 运行 WebSocket 服务器
 async def run_websocket_server():
     WS_HOST = "0.0.0.0"
     WS_PORT = 8765

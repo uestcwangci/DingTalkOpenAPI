@@ -1,0 +1,168 @@
+import asyncio
+import json
+import threading
+import time
+import traceback
+
+import websocket
+import websockets
+
+# 假设这些是自定义模块，确保正确导入
+from android import logger
+from android.appium_action import AppiumAction
+
+WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
+
+# 全局 Appium 实例和线程锁
+appium_handler = None
+appium_lock = threading.Lock()
+
+
+# WebSocket 客户端的心跳机制
+def send_heartbeat(ws):
+    while True:
+        try:
+            if ws.sock and ws.sock.connected:
+                ws.send(json.dumps({"action": "ping"}))
+                logger.debug("Sent heartbeat: ping")
+            else:
+                logger.warning("WebSocket disconnected, stopping heartbeat")
+                break
+        except Exception as e:
+            logger.error(f"Heartbeat error: {str(e)}")
+            break
+        time.sleep(30)
+
+
+def on_open(ws):
+    logger.info("Connected to external WebSocket server")
+    threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
+
+
+def process_message(message):
+    """处理消息的核心逻辑，线程安全"""
+    logger.info(f"Processing message: {message}")
+    try:
+        action_data = json.loads(message)
+        logger.debug(f"Parsed action data: {action_data}")
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to parse JSON: {str(e)}")
+        return json.dumps({"status": "error", "result": "Invalid JSON format"})
+
+    try:
+        action = action_data.get("action")
+        if not action:
+            logger.error("No action specified in message")
+            return json.dumps({"status": "error", "result": "No action specified"})
+
+        global appium_handler
+        with appium_lock:  # 保护 appium_handler 的访问
+            if action == "start" and appium_handler is None:
+                logger.info("Initializing Appium handler")
+                appium_handler = AppiumAction()
+            if appium_handler is None:
+                logger.error("Appium driver not started")
+                return json.dumps({"status": "error", "result": "Appium driver not started"})
+
+            result = appium_handler.execute(action_data)
+
+        desc = action_data.get("desc")
+        if desc:
+            appium_handler.show_toast(desc)
+
+        logger.info(f"Action result: {result}")
+        return json.dumps({
+            "action": "execSuccess" if result.get("success") else "execFail",
+            "data": {
+                "execAction": action,
+                "url": result.get("screenshot", "")
+            },
+            "message": result.get("message", "Action executed")
+        })
+    except Exception as e:
+        logger.error(f"Error processing message: {traceback.format_exc()}")
+        return json.dumps({"status": "error", "result": str(e)})
+
+
+def on_message_client(ws, message):
+    logger.info(f"Received from server: {message}")
+    response = process_message(message)
+    ws.send(response)
+
+
+def on_error(error):
+    logger.error(f"WebSocket client error: {str(error)}")
+
+
+def on_close(close_status_code, close_msg):
+    logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
+    with appium_lock:
+        if appium_handler:
+            appium_handler.quit()
+            logger.info("Appium driver quit in on_close")
+
+
+def run_websocket_client():
+    ws = websocket.WebSocketApp(
+        WS_URL,
+        on_open=on_open,
+        on_message=on_message_client,
+        on_error=on_error,
+        on_close=on_close
+    )
+    ws.run_forever()
+
+
+# WebSocket 服务器处理函数
+async def on_message_server(websocket, message):
+    logger.info(f"Received from client: {message}")
+    # 将阻塞操作移到线程中，避免阻塞事件循环
+    response = await asyncio.to_thread(process_message, message)
+    await websocket.send(response)
+
+
+async def handle_connection(websocket):
+    try:
+        await websocket.send("Welcome to websocket server!")
+        logger.info(f"New client connection: {websocket.remote_address}")
+        async for message in websocket:
+            await on_message_server(websocket, message)
+    except websockets.ConnectionClosed:
+        logger.info(f"Client connection closed: {websocket.remote_address}")
+    except Exception as e:
+        logger.error(f"handle_connection error: {traceback.format_exc()}")
+
+
+async def run_websocket_server():
+    WS_HOST = "0.0.0.0"
+    WS_PORT = 8765
+    server = await websockets.serve(handle_connection, WS_HOST, WS_PORT)
+    logger.info(f"WebSocket server running at ws://{WS_HOST}:{WS_PORT}")
+    await server.wait_closed()
+
+
+# 主程序
+async def main():
+    try:
+        # 启动 WebSocket 客户端（在新线程中运行）
+        ws_client_thread = threading.Thread(target=run_websocket_client, daemon=True)
+        ws_client_thread.start()
+
+        # 启动 WebSocket 服务器（在主事件循环中运行）
+        await run_websocket_server()
+    except Exception as e:
+        logger.error(f"Main loop error: {traceback.format_exc()}")
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Server stopped by user")
+    except Exception as e:
+        logger.error(f"Server startup error: {traceback.format_exc()}")
+    finally:
+        with appium_lock:
+            if appium_handler:
+                appium_handler.quit()
+                logger.info("Appium driver quit in finally block")
