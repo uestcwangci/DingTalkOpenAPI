@@ -58,7 +58,7 @@ def upload_file_to_cdn(file_path: str, file_type: Literal['image', 'video']) -> 
         raise
 
 class AppiumAction:
-    def __init__(self):
+    def __init__(self, udid: str = None):
         self.driver = None
         self.desired_caps = {
             "platformName": "Android",
@@ -71,6 +71,7 @@ class AppiumAction:
             "appium:noReset": True, # 防止重置应用
             "appium:forceAppLaunch": True, # 每次启动强制重启app
             "appium:newCommandTimeout": 300, # 5分钟
+            "appium:udid": udid
         }
         self.molecular = None
 

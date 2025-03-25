@@ -55,6 +55,31 @@ class Molecular(AppiumBaseAction):
             ).click()
             return {"message": f"Entered {chat_type} chat with {value}", "success": True}
 
+    def _reset_group_mute(self, mute: bool = False):
+        self.scroll_into_text("com.alibaba.android.rimet:id/scroll_view", "消息免打扰")
+        parent = self.wait_for_find(AppiumBy.ANDROID_UIAUTOMATOR, "new UiSelector().description(\"消息免打扰\")")
+        toggle = parent.find_element(AppiumBy.ID, "com.alibaba.android.rimet:id/menu_item_toggle")
+        if mute != (toggle.get_attribute('checked') == 'true'):
+            toggle.click()
+        return {"message": "Reset group mute", "success": True}
+
+    def _reset_work_status(self):
+        # 点击头像
+        self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/my_avatar").click()
+        # 点击工作状态
+        self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/user_person_status").click()
+        # 滑动到最顶部
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        # 点击“无状态”
+        self.wait_for_find(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("无状态")').click()
+        # 点击确定
+        self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/more_text").click()
+        return {"message": "Reset work status", "success": True}
+
+
     def execute(self, action, data):
         value = data.get("value")
 
@@ -64,6 +89,12 @@ class Molecular(AppiumBaseAction):
             return self._enter_chat("group", value)
         elif action == "enter_app":
             return self._enter_chat("workapp", value)
+        elif action == "reset_group_mute":
+            # 重置群聊消息免打扰
+            return self._reset_group_mute(value)
+        elif action == "reset_work_status":
+            # 重置工作状态
+            return self._reset_work_status()
         else:
             logger.error(f"Unknown molecular: {action}")
             return {"message": f"Error: Unsupported actionType '{action}'", "success": True}

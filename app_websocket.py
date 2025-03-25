@@ -14,7 +14,7 @@ from android.appium_action import AppiumAction
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
 
 # 全局 Appium 实例和线程锁
-appium_handler = None
+appium_action = None
 appium_lock = threading.Lock()
 
 
@@ -55,20 +55,20 @@ def process_message(message):
             logger.error("No action specified in message")
             return json.dumps({"status": "error", "result": "No action specified"})
 
-        global appium_handler
+        global appium_action
         with appium_lock:  # 保护 appium_handler 的访问
-            if action == "start" and appium_handler is None:
+            if action == "start" and appium_action is None:
                 logger.info("Initializing Appium handler")
-                appium_handler = AppiumAction()
-            if appium_handler is None:
+                appium_action = AppiumAction()
+            if appium_action is None:
                 logger.error("Appium driver not started")
                 return json.dumps({"status": "error", "result": "Appium driver not started"})
 
-            result = appium_handler.execute(action_data)
+            result = appium_action.execute(action_data)
 
         desc = action_data.get("desc")
         if desc:
-            appium_handler.show_toast(desc)
+            appium_action.show_toast(desc)
 
         logger.info(f"Action result: {result}")
         return json.dumps({
@@ -90,15 +90,15 @@ def on_message_client(ws, message):
     ws.send(response)
 
 
-def on_error(error):
+def on_error(ws, error):
     logger.error(f"WebSocket client error: {str(error)}")
 
 
-def on_close(close_status_code, close_msg):
+def on_close(ws, close_status_code, close_msg):
     logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
     with appium_lock:
-        if appium_handler:
-            appium_handler.quit()
+        if appium_action:
+            appium_action.quit()
             logger.info("Appium driver quit in on_close")
 
 
@@ -163,6 +163,6 @@ if __name__ == "__main__":
         logger.error(f"Server startup error: {traceback.format_exc()}")
     finally:
         with appium_lock:
-            if appium_handler:
-                appium_handler.quit()
+            if appium_action:
+                appium_action.quit()
                 logger.info("Appium driver quit in finally block")

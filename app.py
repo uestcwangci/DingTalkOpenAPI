@@ -1,39 +1,27 @@
 import asyncio
-import json
-from android import logger
 import os
 import socket
 import subprocess
-import threading
 import time
 from threading import Thread
 
 import requests
-import websockets
-from datetime import datetime
 from flask import Flask, request, jsonify, render_template, send_from_directory, abort, url_for
 from werkzeug.utils import safe_join
 
+from android import logger
 from android.dt_msg_helper import MessageHelper
 from android.lang_ch import LanguageHelper
+
 # from android.aqara_home import CameraHelper
-from android.appium_action import AppiumAction
-import websocket
-import sys
 
 app = Flask(__name__, static_folder="static")
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
 MJPEG_PORT = 8093  # Appium MJPEG流端口
 HLS_PORT = 5000    # HLS流服务端口
 PUBLIC_IP = "121.43.49.135"  # 公网IP地址
-# 用于客户端的事件循环
-client_loop = asyncio.new_event_loop()
 # 全局变量存储FFmpeg进程
 ffmpeg_process = None
-# 全局Appium实例（避免每次请求都创建新实例）
-appium_handler = None
-message_helper = None
-
 
 def run_async(func, *args, **kwargs):
     """
@@ -347,143 +335,12 @@ def serve_hls():
 def serve_hls_segment(filename):
     return app.send_static_file(filename)
 
-# WebSocket 客户端函数（连接外部服务器）
-def send_heartbeat(ws):
-    while True:
-        try:
-            if ws.sock and ws.sock.connected:
-                ws.send(json.dumps({"action": "ping"}))
-                logger.debug("Sent heartbeat: ping")
-            else:
-                break
-        except Exception as e:
-            logger.error(f"Heartbeat error: {str(e)}")
-            break
-        time.sleep(30)
-
-def on_open(ws):
-    logger.info("Connected to external WebSocket server")
-    threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
-
-def process_message(message):
-    try:
-        action_data = json.loads(message)
-    except json.JSONDecodeError:
-        return json.dumps({"status": "error", "result": "Invalid JSON format"})
-
-    try:
-        logger.info(f"Received action: {action_data}")
-        action = action_data.get("action")
-        if not action:
-            return json.dumps({"status": "error", "result": "No action specified"})
-
-        global appium_handler
-        if action == "start" and appium_handler is None:
-            appium_handler = AppiumAction()
-
-        if appium_handler is None:
-            logger.error("Appium driver not started")
-            return json.dumps({"status": "error", "result": "Appium driver not started"})
-
-        result = appium_handler.execute(action_data)
-        desc = action_data.get("desc")
-        if desc:
-            appium_handler.show_toast(desc)
-        logger.info(f"Action result: {result}")
-        return json.dumps({
-            "action": "execSuccess" if result.get("success") else "execFail",
-            "data": {
-                "execAction": action,
-                "url": result.get("screenshot", "")
-            },
-            "message": result.get("message", "Action executed")
-        })
-    except Exception as e:
-        logger.error(f"Error processing message: {str(e)}")
-        return json.dumps({"status": "error", "result": str(e)})
-
-def on_message_client(ws, message):
-    logger.info(f"Received from server: {message}")
-    response = process_message(message)
-    ws.send(response)
-
-def on_error(ws, error):
-    logger.error(f"WebSocket client error: {str(error)}")
-
-def on_close(ws, close_status_code, close_msg):
-    logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
-    if appium_handler:
-        appium_handler.quit()
-        logger.info("on_close Appium driver quit")
-
-def run_websocket_client():
-    # 在单独的线程中运行客户端事件循环
-    def run_client_loop():
-        asyncio.set_event_loop(client_loop)
-        client_loop.run_forever()
-
-    threading.Thread(target=run_client_loop, daemon=True).start()
-
-    ws = websocket.WebSocketApp(
-        WS_URL,
-        on_open=on_open,
-        on_message=on_message_client,
-        on_error=on_error,
-        on_close=on_close
-    )
-    ws.run_forever()
-
-# WebSocket 服务器处理函数
-async def on_message_server(websocket, message):
-    logger.info(f"Received from client: {message}")
-    response = process_message(message)
-    await websocket.send(response)
-
-async def handle_connection(websocket):
-    try:
-        await websocket.send("欢迎连接到WebSocket服务器!")
-        logger.info(f"新的客户端已连接: {websocket.remote_address}")
-        async for message in websocket:
-            await on_message_server(websocket, message)
-    except websockets.ConnectionClosed:
-        logger.info(f"客户端断开连接: {websocket.remote_address}")
-    except Exception as e:
-        logger.error(f"发生错误: {e}")
-
-async def run_websocket_server():
-    WS_HOST = "0.0.0.0"
-    WS_PORT = 8765
-    server = await websockets.serve(handle_connection, WS_HOST, WS_PORT)
-    logger.info(f"WebSocket服务器启动在 ws://{WS_HOST}:{WS_PORT}")
-    await server.wait_closed()
-
-def start_websocket_server():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(run_websocket_server())
-
 if __name__ == '__main__':
     try:
-        import os
-
-        if not os.path.exists("static"):
-            os.makedirs("static")
-        # 启动 WebSocket 客户端（连接外部服务器）
-        ws_client_thread = threading.Thread(target=run_websocket_client, daemon=True)
-        ws_client_thread.start()
-
-        # 启动 WebSocket 服务器
-        server_thread = threading.Thread(target=start_websocket_server, daemon=True)
-        server_thread.start()
-
         # 启动 Flask HTTP 服务器
         logger.info("启动HTTP服务器...")
         app.run(host="0.0.0.0", port=HLS_PORT)
     except KeyboardInterrupt:
         logger.info("Server stopped")
-        if appium_handler:
-            appium_handler.quit()
     except Exception as e:
         logger.error(f"Server startup error: {str(e)}")
-        if appium_handler:
-            appium_handler.quit()
