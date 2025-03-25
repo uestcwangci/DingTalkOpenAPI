@@ -8,6 +8,10 @@ from android.appium_base_action import AppiumBaseAction
 
 
 class Molecular(AppiumBaseAction):
+    def __init__(self, udid, driver=None):
+        super().__init__(udid)
+        self.driver = driver
+
     def _enter_chat(self, chat_type: str, value: str):
         """
         进入聊天（单聊或群聊）
@@ -100,6 +104,9 @@ class Molecular(AppiumBaseAction):
             return {"message": f"Error: Unsupported actionType '{action}'", "success": True}
 
     def show_toast(self, message: str):
+        if not self.driver:
+            logger.error("Driver is None, cannot show toast")
+            return
         try:
             self.call_static(class_name="com.alibaba.android.dingtalkbase.tools.AndTools", method="showToast",
                              params=[{"type": "string", "value": message}])

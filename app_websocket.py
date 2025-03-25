@@ -45,7 +45,6 @@ def on_open(ws):
 
 def process_message(message):
     """处理消息的核心逻辑，线程安全"""
-    logger.info(f"Processing message: {message}")
     try:
         action_data = json.loads(message)
         logger.debug(f"Parsed action data: {action_data}")

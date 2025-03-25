@@ -54,10 +54,9 @@ def upload_file_to_cdn(file_path: str, file_type: Literal['image', 'video']) -> 
 
 class AppiumAction(AppiumBaseAction):
     def execute(self, action_data):
-        """根据actionType执行不同操作"""
         action = action_data.get("action")
         data = action_data.get("data", {})
-        logger.info(f"Executing action: {action} with data: {data}")
+        logger.info(f"Executing action: #{action}# with data: {data}")
 
         try:
             if action != "start" and self.driver is None:
@@ -67,13 +66,13 @@ class AppiumAction(AppiumBaseAction):
                     self.driver = webdriver.Remote('http://localhost:4723',
                                                    options=UiAutomator2Options().load_capabilities(self.desired_caps))
                     logger.info("Appium driver initialized")
-                    # 等待应用的主Activity加载完成
                     WebDriverWait(self.driver, timeout=30).until(
                         lambda driver: driver.current_activity == self.desired_caps["appium:appActivity"]
                     )
                     logger.info(f"Application {self.desired_caps['appium:appActivity']} is ready")
                     time.sleep(3)
-                    self.molecular = Molecular(self)
+                    # 传递 driver 给 Molecular
+                    self.molecular = Molecular(self.udid, driver=self.driver)
                     return {"message": f"Appium driver {self.driver.capabilities['udid']} started", "success": True}
                 return {"message": "Appium driver already started", "success": True}
             elif action == "done":

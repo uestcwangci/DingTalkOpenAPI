@@ -14,6 +14,7 @@ class AppiumBaseAction:
     def __init__(self, udid = None):
         self.driver = None
         self.molecular = None
+        self.udid = udid
         self.desired_caps = {
             "platformName": "Android",
             "appium:appPackage": "com.alibaba.android.rimet",
