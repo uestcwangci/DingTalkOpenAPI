@@ -1,21 +1,16 @@
-import sys
+import base64
+import os
 import tempfile
+import time
+from typing import Literal
 
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.actions import interaction
-from selenium.webdriver.common.actions.action_builder import ActionBuilder
-from selenium.webdriver.common.actions.pointer_input import PointerInput
-import time
-import base64
-from android import logger
-from typing import Literal
-import os
-from android.molecular import Molecular
-
 from selenium.webdriver.support.wait import WebDriverWait
 
+from android import logger
+from android.appium_base_action import AppiumBaseAction
+from android.molecular import Molecular
 
 ACCESS_TOKEN = "lGqMusyvAMqNJEJLmgZanGPAgPNdEtNBwZJAnAxndkE"  # 替换为你的DingTalk token
 
@@ -57,24 +52,7 @@ def upload_file_to_cdn(file_path: str, file_type: Literal['image', 'video']) -> 
         logger.error(f'文件上传失败: {error_message}')
         raise
 
-class AppiumAction:
-    def __init__(self, udid: str = None):
-        self.driver = None
-        self.desired_caps = {
-            "platformName": "Android",
-            "appium:appPackage": "com.alibaba.android.rimet",
-            "appium:appActivity": ".biz.LaunchHomeActivity",
-            "appium:automationName": "Uiautomator2",
-            "appium:chromeOptions": {
-                "androidProcess": "com.alibaba.android:rimet"
-            },
-            "appium:noReset": True, # 防止重置应用
-            "appium:forceAppLaunch": True, # 每次启动强制重启app
-            "appium:newCommandTimeout": 300, # 5分钟
-            "appium:udid": udid
-        }
-        self.molecular = None
-
+class AppiumAction(AppiumBaseAction):
     def execute(self, action_data):
         """根据actionType执行不同操作"""
         action = action_data.get("action")
@@ -82,6 +60,8 @@ class AppiumAction:
         logger.info(f"Executing action: {action} with data: {data}")
 
         try:
+            if action != "start" and self.driver is None:
+                return {"message": "Error: Appium driver not started", "success": False}
             if action == "start":
                 if self.driver is None:
                     self.driver = webdriver.Remote('http://localhost:4723',
@@ -93,45 +73,34 @@ class AppiumAction:
                     )
                     logger.info(f"Application {self.desired_caps['appium:appActivity']} is ready")
                     time.sleep(3)
-                    self.molecular = Molecular(self.driver)
-                    return {"message": "Appium driver started", "success": True}
+                    self.molecular = Molecular(self)
+                    return {"message": f"Appium driver {self.driver.capabilities['udid']} started", "success": True}
                 return {"message": "Appium driver already started", "success": True}
             elif action == "done":
-                if self.driver:
-                    self.driver.quit()
-                    self.driver = None
-                    return {"message": "Appium driver quit", "success": True}
-                return {"message": "No Appium driver to quit", "success": False}
+                self.driver.quit()
+                self.driver = None
+                self.molecular = None
+                return {"message": "Appium driver quit", "success": True}
             elif action == "home":
                 # 重新启动应用
-                self.driver.terminate_app(self.desired_caps["appium:appPackage"])  # 先关闭应用
-                self.driver.activate_app(self.desired_caps["appium:appPackage"])  # 重新启动应用
-
-                # 等待主页面加载
-                WebDriverWait(self.driver, timeout=30).until(
-                    lambda driver: driver.current_activity == self.desired_caps["appium:appActivity"]
-                )
-                time.sleep(3)  # 等待页面完全加载
-
+                self.home()
                 return {"message": "Successfully returned to home page", "success": True}
             elif action == "screenshot":
-                if self.driver:
-                    # 获取base64截图并保存为临时文件
-                    screenshot_base64 = self.driver.get_screenshot_as_base64()
-                    logger.info("Screenshot captured")
-                    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
-                        temp_file.write(base64.b64decode(screenshot_base64))
-                        temp_file_path = temp_file.name
-                    try:
-                        # 上传到CDN
-                        cdn_url = upload_file_to_cdn(temp_file_path, "image")
-                        return {"message": "Screenshot captured", "screenshot": cdn_url, "success": True}
-                    except Exception as e:
-                        logger.error(f"Error uploading screenshot: {str(e)}")
-                        return {"message": f"Error uploading screenshot: {str(e)}", "success": False}
-                    finally:
-                        os.remove(temp_file_path)  # 清理临时文件
-                return {"message": "Appium driver not started", "success": False}
+                # 获取base64截图并保存为临时文件
+                screenshot_base64 = self.driver.get_screenshot_as_base64()
+                logger.info("Screenshot captured")
+                with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
+                    temp_file.write(base64.b64decode(screenshot_base64))
+                    temp_file_path = temp_file.name
+                try:
+                    # 上传到CDN
+                    cdn_url = upload_file_to_cdn(temp_file_path, "image")
+                    return {"message": "Screenshot captured", "screenshot": cdn_url, "success": True}
+                except Exception as e:
+                    logger.error(f"Error uploading screenshot: {str(e)}")
+                    return {"message": f"Error uploading screenshot: {str(e)}", "success": False}
+                finally:
+                    os.remove(temp_file_path)  # 清理临时文件
             elif action == "wait":
                 seconds = data.get("value", 2)
                 if seconds > 0:
@@ -141,131 +110,44 @@ class AppiumAction:
             elif action == "click":
                 x = data.get("x")
                 y = data.get("y")
-                if x is not None and y is not None:
-                    actions = ActionChains(self.driver)
-                    pointer = PointerInput(interaction.POINTER_TOUCH, "touch")
-                    actions.w3c_actions = ActionBuilder(self.driver, mouse=pointer)
-                    actions.w3c_actions.pointer_action.move_to_location(x, y)
-                    actions.w3c_actions.pointer_action.pointer_down()
-                    actions.w3c_actions.pointer_action.pause(0.1)
-                    actions.w3c_actions.pointer_action.release()
-                    actions.perform()
-                    return {"message": f"Clicked at ({x}, {y})", "success": True}
-                return {"message": "Error: Missing x or y coordinates", "success": False}
+                if x is None or y is None:
+                    return {"message": "Error: Missing x or y coordinates", "success": False}
+                self.click(x, y)
+                return {"message": f"Clicked at ({x}, {y})", "success": True}
             elif action == "long_press":
                 x = data.get("x")
                 y = data.get("y")
-                if x is not None and y is not None:
-                    actions = ActionChains(self.driver)
-                    pointer = PointerInput(interaction.POINTER_TOUCH, "touch")
-                    actions.w3c_actions = ActionBuilder(self.driver, mouse=pointer)
-                    actions.w3c_actions.pointer_action.move_to_location(x, y)
-                    actions.w3c_actions.pointer_action.pointer_down()
-                    actions.w3c_actions.pointer_action.pause(1)
-                    actions.w3c_actions.pointer_action.release()
-                    actions.perform()
-                    return {"message": f"Long pressed at ({x}, {y})", "success": True}
-                return {"message": "Error: Missing x or y coordinates", "success": False}
+                if x is None or y is None:
+                    return {"message": "Error: Missing x or y coordinates", "success": False}
+                self.long_press(x, y)
+                return {"message": f"Long pressed at ({x}, {y})", "success": True}
             elif action == "type":
                 x = data.get("x")
                 y = data.get("y")
                 text = data.get("value")
                 if x is None or y is None or text is None:
                     return {"message": "Error: Missing x, y, or value", "success": False}
-
-                # 点击输入框位置
-                actions = ActionChains(self.driver)
-                pointer = PointerInput(interaction.POINTER_TOUCH, "touch")
-                actions.w3c_actions = ActionBuilder(self.driver, mouse=pointer)
-                actions.w3c_actions.pointer_action.move_to_location(x, y)
-                actions.w3c_actions.pointer_action.pointer_down()
-                actions.w3c_actions.pointer_action.pause(0.1)
-                actions.w3c_actions.pointer_action.release()
-                actions.perform()
-
-                # 动态等待输入框就绪
-                try:
-                    WebDriverWait(self.driver, 5).until(
-                        lambda driver: driver.switch_to.active_element.tag_name in ["input", "textarea"]
-                    )
-                    logger.info("Input field is ready")
-                except Exception as wait_error:
-                    logger.warning(f"Failed to wait for input field: {wait_error}")
-                    time.sleep(1)  # 备用等待
-
-                # 获取当前活跃元素
-                element = self.driver.switch_to.active_element
-
-                # 方法 1：尝试 send_keys
-                try:
-                    element.send_keys(text)
-                    logger.info("Text input via send_keys succeeded")
-                except Exception as e:
-                    logger.info(f"Send_keys failed: {e}")
-                    # 方法 2：使用 ADB 输入（适合英文和简单字符）
-                    try:
-                        adb_text = text.replace(" ", "%s")  # 处理空格
-                        self.driver.execute_script("mobile: shell", {
-                            "command": "input",
-                            "args": ["text", adb_text]
-                        })
-                        logger.info("Text input via ADB succeeded")
-                    except Exception as adb_error:
-                        logger.error(f"ADB input failed: {adb_error}")
-                        # 方法 3：使用剪贴板输入（支持中文）
-                        try:
-                            self.driver.set_clipboard_text(text)
-                            element.click()  # 确保焦点
-                            self.driver.execute_script("mobile: shell", {
-                                "command": "input",
-                                "args": ["keyevent", "279"]  # KEYCODE_PASTE
-                            })
-                            logger.info("Text input via clipboard succeeded")
-                        except Exception as clipboard_error:
-                            logger.error(f"Clipboard input failed: {clipboard_error}")
-                            # 方法 4：备用方案，使用 JavaScript（H5 页面）
-                            try:
-                                self.driver.execute_script("arguments[0].value = arguments[1];", element, text)
-                                logger.info("Text input via JavaScript succeeded")
-                            except Exception as js_error:
-                                logger.error(f"JavaScript input failed: {js_error}")
-                                return {"message": f"Error: {js_error}", "success": False}
+                self.type(x, y, text)
                 return {"message": "Text input successful", "success": True}
             elif action == "scroll":
                 from_coords = data.get("start", [])
                 to_coords = data.get("end", [])
-                from_x = from_coords[0]
-                from_y = from_coords[1]
-                to_x = to_coords[0]
-                to_y = to_coords[1]
-                if all([from_x, from_y, to_x, to_y]):
-                    actions = ActionChains(self.driver)
-                    pointer = PointerInput(interaction.POINTER_TOUCH, "touch")
-                    actions.w3c_actions = ActionBuilder(self.driver, mouse=pointer)
-                    actions.w3c_actions.pointer_action.move_to_location(from_x, from_y)
-                    actions.w3c_actions.pointer_action.pointer_down()
-                    actions.w3c_actions.pointer_action.move_to_location(to_x, to_y)
-                    actions.w3c_actions.pointer_action.release()
-                    actions.perform()
-                    return {"message": f"Scrolled from ({from_x}, {from_y}) to ({to_x}, {to_y})", "success": True}
-                return {"message": "Error: Missing from or to coordinates"}
+                if not from_coords or not to_coords:
+                    return {"message": "Error: Missing from or to coordinates", "success": False}
+                self.scroll(from_coords, to_coords)
+                return {"message": "Scroll successful", "success": True}
             elif action == "startScreenStreaming":
-                if self.driver:
-                    stream_args = {
-                        "host": "0.0.0.0",
-                        "quality": 45,
-                        "bitRate": 500000,
-                        "considersRotation": True
-                    }
-                    self.driver.execute_script("mobile: startScreenStreaming", stream_args)
-                    # return {"message": f"Screen streaming started at http://121.43.49.135:5000/stream.m3u8"}
-                    return {"message": f"Screen streaming started at http://121.43.49.135:8093/", "success": True}
-                return {"message": "Error: Appium driver not started", "success": False}
-
+                stream_args = {
+                    "host": "0.0.0.0",
+                    "quality": 45,
+                    "bitRate": 500000,
+                    "considersRotation": True
+                }
+                self.driver.execute_script("mobile: startScreenStreaming", stream_args)
+                return {"message": f"Screen streaming started at http://121.43.49.135:8093/", "success": True}
             elif action == "stopScreenStreaming":
-                if self.driver:
-                    self.driver.execute_script("mobile: stopScreenStreaming")
-                    return {"message": "Screen streaming stopped", "success": True}
+                self.driver.execute_script("mobile: stopScreenStreaming")
+                return {"message": "Screen streaming stopped", "success": True}
             elif self.molecular.execute(action, data):
                 return {"message": f"Molecular action '{action}' executed successfully", "success": True}
             else:
@@ -280,3 +162,12 @@ class AppiumAction:
     def show_toast(self, message):
         if self.molecular:
             self.molecular.show_toast(message)
+
+    def quit(self):
+        if self.driver:
+            self.driver.quit()
+            self.driver = None
+            self.molecular = None
+            logger.info("Appium driver quit")
+        else:
+            logger.info("No Appium driver to quit")

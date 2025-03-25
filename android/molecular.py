@@ -101,8 +101,8 @@ class Molecular(AppiumBaseAction):
 
     def show_toast(self, message: str):
         try:
-            self.call_native(call_type="static", class_name="com.alibaba.android.dingtalkbase.tools.AndTools", method="showToast"
-                             , params=[{"type": "string", "value": message}])
+            self.call_static(class_name="com.alibaba.android.dingtalkbase.tools.AndTools", method="showToast",
+                             params=[{"type": "string", "value": message}])
         except Exception as e:
             logger.error(f"Failed to show toast: {e}")
         

@@ -1,4 +1,5 @@
 import json
+import time
 from typing import Union, Dict, List
 
 from appium.webdriver import WebElement
@@ -10,8 +11,22 @@ from android import logger
 
 
 class AppiumBaseAction:
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self, udid = None):
+        self.driver = None
+        self.molecular = None
+        self.desired_caps = {
+            "platformName": "Android",
+            "appium:appPackage": "com.alibaba.android.rimet",
+            "appium:appActivity": ".biz.LaunchHomeActivity",
+            "appium:automationName": "Uiautomator2",
+            "appium:chromeOptions": {
+                "androidProcess": "com.alibaba.android:rimet"
+            },
+            "appium:noReset": True,  # 防止重置应用
+            "appium:forceAppLaunch": True,  # 每次启动强制重启app
+            "appium:newCommandTimeout": 300,  # 5分钟
+            "appium:udid": udid
+        }
         self.webview_context = "WEBVIEW_com.alibaba.android.rimet"  # 可配置的 WebView 上下文
 
     def _switch_context_for_by(self, by: str) -> None:
@@ -103,7 +118,7 @@ class AppiumBaseAction:
             logger.error(f"Could not find element with text '{text}' in {timeout} seconds")
             raise TimeoutException(f"Failed to scroll to element with text '{text}'")
 
-    def call_native(self, call_type: str, **kwargs):
+    def _call_native(self, call_type: str, **kwargs):
         """
         Consolidated method to call native functionality via broadcast intents.
 
@@ -174,3 +189,128 @@ class AppiumBaseAction:
             import traceback
             logger.error(f"Call native error: {str(e)}\n{traceback.format_exc()}")
             raise
+
+    def call_static(self, class_name: str, method: str, params: List = None):
+        """
+        调用静态方法。
+
+        Args:
+            class_name: 类名。
+            method: 方法名。
+            params: 参数。
+
+        Returns:
+            None
+        """
+        self._call_native("static", class_name=class_name, method=method, params=params)
+
+    def call_instance(self, class_name: str, method: str, instance_method: str = "getInstance", params: List = None):
+        """
+        调用实例方法。
+
+        Args:
+            class_name: 类名。
+            method: 方法名。
+            instance_method: 获取实例的方法名。
+            params: 参数。
+
+        Returns:
+            None
+        """
+        self._call_native("instance", class_name=class_name, method=method, instance_method=instance_method, params=params)
+
+    def call_jsapi(self, service_name: str, action_name: str, params: Dict = None):
+        """
+        调用 JSAPI。
+
+        Args:
+            service_name: 服务名。
+            action_name: 动作名。
+            params: 参数。
+
+        Returns:
+            None
+        """
+        self._call_native("jsapi", service_name=service_name, action_name=action_name, params=params)
+
+    def click(self, x: int, y: int) -> None:
+        """
+        点击指定坐标。
+        """
+        self.driver.tap([(x, y)], 100)
+
+    def long_press(self, x: int, y: int, duration: int = 1000) -> None:
+        """
+        长按指定坐标。
+        """
+        self.driver.tap([(x, y)], duration)
+
+    def type(self, x: int, y: int, text: str) -> None:
+        """
+        在指定坐标输入文本。
+        """
+        self.driver.tap([(x, y)], 100)
+        # 动态等待输入框就绪
+        try:
+            WebDriverWait(self.driver, 5).until(
+                lambda driver: driver.switch_to.active_element.tag_name in ["input", "textarea"]
+            )
+            logger.info("Input field is ready")
+        except Exception as wait_error:
+            logger.warning(f"Failed to wait for input field: {wait_error}")
+            time.sleep(1)  # 备用等待
+
+        # 获取当前活跃元素
+        element = self.driver.switch_to.active_element
+
+        # 方法 1：尝试 send_keys
+        try:
+            element.send_keys(text)
+            logger.info("Text input via send_keys succeeded")
+        except Exception as e:
+            logger.info(f"Send_keys failed: {e}")
+            # 方法 2：使用 ADB 输入（适合英文和简单字符）
+            try:
+                adb_text = text.replace(" ", "%s")  # 处理空格
+                self.driver.execute_script("mobile: shell", {
+                    "command": "input",
+                    "args": ["text", adb_text]
+                })
+                logger.info("Text input via ADB succeeded")
+            except Exception as adb_error:
+                logger.error(f"ADB input failed: {adb_error}")
+                # 方法 3：使用剪贴板输入（支持中文）
+                try:
+                    self.driver.set_clipboard_text(text)
+                    element.click()  # 确保焦点
+                    self.driver.execute_script("mobile: shell", {
+                        "command": "input",
+                        "args": ["keyevent", "279"]  # KEYCODE_PASTE
+                    })
+                    logger.info("Text input via clipboard succeeded")
+                except Exception as clipboard_error:
+                    logger.error(f"Clipboard input failed: {clipboard_error}")
+                    # 方法 4：备用方案，使用 JavaScript（H5 页面）
+                    try:
+                        self.driver.execute_script("arguments[0].value = arguments[1];", element, text)
+                        logger.info("Text input via JavaScript succeeded")
+                    except Exception as js_error:
+                        logger.error(f"JavaScript input failed: {js_error}")
+    def scroll(self, start: tuple, end: tuple, duration: int = 500) -> None:
+        """
+        滑动操作。
+        """
+        self.driver.swipe(start[0], start[1], end[0], end[1], duration)
+    def home(self) -> None:
+        """
+        回到应用主页。
+        """
+        # 重新启动应用
+        self.driver.terminate_app(self.desired_caps["appium:appPackage"])  # 先关闭应用
+        self.driver.activate_app(self.desired_caps["appium:appPackage"])  # 重新启动应用
+
+        # 等待主页面加载
+        WebDriverWait(self.driver, timeout=30).until(
+            lambda driver: driver.current_activity == self.desired_caps["appium:appActivity"]
+        )
+        time.sleep(3)  # 等待页面完全加载

@@ -13,10 +13,14 @@ from android.appium_action import AppiumAction
 
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
 
-# 全局 Appium 实例和线程锁
-appium_action = None
-appium_lock = threading.Lock()
+all_clients = ["121.43.49.135:5555", "47.96.90.145:1001"]
+active_clients: dict[str, AppiumAction] = {}
 
+def get_available_clients() -> list[str]:
+    return list(set(all_clients) - set(active_clients.keys()))
+
+def is_client_available(udid: str) -> bool:
+    return udid in get_available_clients()
 
 # WebSocket 客户端的心跳机制
 def send_heartbeat(ws):
@@ -53,18 +57,35 @@ def process_message(message):
         action = action_data.get("action")
         if not action:
             logger.error("No action specified in message")
-            return json.dumps({"status": "error", "result": "No action specified"})
+            return json.dumps({"action": "execFail","data": {"execAction": action,},"message": "No action specified in message"})
 
-        global appium_action
-        with appium_lock:  # 保护 appium_handler 的访问
-            if action == "start" and appium_action is None:
-                logger.info("Initializing Appium handler")
-                appium_action = AppiumAction()
-            if appium_action is None:
-                logger.error("Appium driver not started")
-                return json.dumps({"status": "error", "result": "Appium driver not started"})
+        udid = action_data.get("data").get("udid")
+        if not udid:
+            logger.warn("No udid specified in message")
+            return json.dumps({"action": "execFail", "data": {"execAction": action}, "message": "No udid specified"})
 
-            result = appium_action.execute(action_data)
+        if action == "getAvailableClients":
+            return json.dumps({"action": "execSuccess", "data": get_available_clients()})
+        elif action == "isClientAvailable":
+            return json.dumps({"action": "execSuccess", "data": is_client_available(udid)})
+
+        appium_action: AppiumAction
+        if action == "start":
+            # 如果不存在则创建新实例，否则使用现有实例
+            active_clients[udid] = active_clients.get(udid) or AppiumAction(udid)
+            appium_action = active_clients[udid]
+        elif action == "done":
+            # 如果存在则移除并返回，否则返回 None
+            appium_action = active_clients.pop(udid, None)
+        else:
+            appium_action = active_clients.get(udid)
+
+        if appium_action is None:
+            logger.error("Appium driver not started")
+            return json.dumps(
+                {"action": "execFail", "data": {"execAction": action}, "message": "Appium driver not started"})
+
+        result = appium_action.execute(action_data)
 
         desc = action_data.get("desc")
         if desc:
@@ -96,10 +117,6 @@ def on_error(ws, error):
 
 def on_close(ws, close_status_code, close_msg):
     logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
-    with appium_lock:
-        if appium_action:
-            appium_action.quit()
-            logger.info("Appium driver quit in on_close")
 
 
 def run_websocket_client():
@@ -161,8 +178,3 @@ if __name__ == "__main__":
         logger.info("Server stopped by user")
     except Exception as e:
         logger.error(f"Server startup error: {traceback.format_exc()}")
-    finally:
-        with appium_lock:
-            if appium_action:
-                appium_action.quit()
-                logger.info("Appium driver quit in finally block")
