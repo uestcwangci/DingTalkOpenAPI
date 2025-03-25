@@ -176,5 +176,7 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("Server stopped by user")
+        for appium in active_clients.values():
+            appium.quit()
     except Exception as e:
         logger.error(f"Server startup error: {traceback.format_exc()}")
