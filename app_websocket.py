@@ -13,14 +13,14 @@ from android.appium_action import AppiumAction
 
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
 
-all_clients = ["121.43.49.135:5555", "47.96.90.145:1001"]
+all_clients = ["121.43.49.135:5555", "47.96.90.145:1001", "47.96.90.145:1002"]
 active_clients: dict[str, AppiumAction] = {}
 
-def get_available_clients() -> list[str]:
+def get_available_devices() -> list[str]:
     return list(set(all_clients) - set(active_clients.keys()))
 
-def is_client_available(udid: str) -> bool:
-    return udid in get_available_clients()
+def is_device_available(device_id: str) -> bool:
+    return device_id in get_available_devices()
 
 # WebSocket 客户端的心跳机制
 def send_heartbeat(ws):
@@ -58,26 +58,26 @@ def process_message(message):
             logger.error("No action specified in message")
             return json.dumps({"action": "execFail","data": {"execAction": action,},"message": "No action specified in message"})
 
-        udid = action_data.get("data").get("udid")
-        if not udid:
-            logger.warn("No udid specified in message")
-            return json.dumps({"action": "execFail", "data": {"execAction": action}, "message": "No udid specified"})
+        device_id = action_data.get("data").get("deviceId")
+        if not device_id:
+            logger.warn("No device_id specified in message")
+            return json.dumps({"action": "execFail", "data": {"execAction": action}, "message": "No device_id specified"})
 
-        if action == "getAvailableClients":
-            return json.dumps({"action": "execSuccess", "data": get_available_clients()})
-        elif action == "isClientAvailable":
-            return json.dumps({"action": "execSuccess", "data": is_client_available(udid)})
+        if action == "getAvailableDevices":
+            return json.dumps({"action": "execSuccess", "data": get_available_devices()})
+        elif action == "isDeviceAvailable":
+            return json.dumps({"action": "execSuccess", "data": is_device_available(device_id)})
 
         appium_action: AppiumAction
         if action == "start":
             # 如果不存在则创建新实例，否则使用现有实例
-            active_clients[udid] = active_clients.get(udid) or AppiumAction(udid)
-            appium_action = active_clients[udid]
+            active_clients[device_id] = active_clients.get(device_id) or AppiumAction(udid=device_id)
+            appium_action = active_clients[device_id]
         elif action == "done":
             # 如果存在则移除并返回，否则返回 None
-            appium_action = active_clients.pop(udid, None)
+            appium_action = active_clients.pop(device_id, None)
         else:
-            appium_action = active_clients.get(udid)
+            appium_action = active_clients.get(device_id)
 
         if appium_action is None:
             logger.error("Appium driver not started")
