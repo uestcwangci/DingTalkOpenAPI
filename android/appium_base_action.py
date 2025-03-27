@@ -248,7 +248,6 @@ class AppiumBaseAction:
         except Exception as e:
             import traceback
             logger.error(f"Call native error: {str(e)}\n{traceback.format_exc()}")
-            raise
 
     def call_static(self, class_name: str, method: str, params: List = None):
         """

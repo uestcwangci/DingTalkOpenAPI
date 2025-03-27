@@ -58,7 +58,7 @@ def process_message(message):
             logger.error("No action specified in message")
             return json.dumps({"action": "execFail","data": {"execAction": action,},"message": "No action specified in message"})
 
-        device_id = action_data.get("data").get("deviceId")
+        device_id = action_data.get("deviceId")
         if not device_id:
             logger.warn("No device_id specified in message")
             return json.dumps({"action": "execFail", "data": {"execAction": action}, "message": "No device_id specified"})
