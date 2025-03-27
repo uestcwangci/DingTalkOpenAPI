@@ -1,7 +1,10 @@
 import json
 import time
+from threading import Event
 from typing import Union, Dict, List
 
+from appium.options.common import AppiumOptions
+from appium.webdriver import Remote
 from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common import TimeoutException
@@ -9,6 +12,62 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from android import logger
 
+session_timeout_seconds = 300
+
+class AppiumDriverWrapper(Remote):
+    def __init__(self, command_executor, options: AppiumOptions=None, timeout_seconds=session_timeout_seconds,
+                 callback=None):
+        # 调用父类 Remote 的初始化方法
+        super().__init__(command_executor=command_executor, options=options)
+        # 添加自定义属性
+        logger.info('__init__ AppiumDriverWrapper')
+        self.timeout_seconds = timeout_seconds
+        self.last_command_time = time.time()
+        self.callback = callback if callback else lambda: print("超时回调未定义，默认打印此消息")
+        self.timeout_event = Event()
+        self._initializing = False  # 初始化完成后关闭标志
+
+    def __getattribute__(self, name):
+        # 直接从 self 获取属性或方法（会通过 Python 的属性查找机制访问父类）
+        parent_getattribute = super(AppiumDriverWrapper, self).__getattribute__
+        attr = parent_getattribute(name)
+
+        try:
+            initializing = parent_getattribute('_initializing')
+        except AttributeError:
+            # 如果 _initializing 不存在，说明对象还未初始化完成
+            return attr
+
+        # 如果是方法，包装它以添加超时检查
+        if callable(attr) and not name.startswith('__') and not name.startswith('_'):
+            def wrapper(*args, **kwargs):
+                logger.debug(f"__wrapper__ called for method: {name}")
+                # 获取实例属性
+                timeout_seconds = parent_getattribute('timeout_seconds')
+                last_command_time = parent_getattribute('last_command_time')
+                callback = parent_getattribute('callback')
+                timeout_event = parent_getattribute('timeout_event')
+
+                current_time = time.time()
+                elapsed_time = current_time - last_command_time
+                if elapsed_time > timeout_seconds:
+                    if callback:
+                        callback()
+                    timeout_event.set()
+                    raise Exception(f"Session timeout, no commands in {timeout_seconds} seconds, please start again")
+                try:
+                    result = attr(*args, **kwargs)
+                    # 更新 last_command_time
+                    parent_getattribute('__dict__')['last_command_time'] = time.time()
+                    return result
+                except Exception as e:
+                    if callback:
+                        callback()
+                    timeout_event.set()
+                    raise e
+
+            return wrapper
+        return attr
 
 class AppiumBaseAction:
     def __init__(self, udid = None):
@@ -25,7 +84,7 @@ class AppiumBaseAction:
             },
             "appium:noReset": True,  # 防止重置应用
             "appium:forceAppLaunch": True,  # 每次启动强制重启app
-            "appium:newCommandTimeout": 300,  # 5分钟
+            "appium:newCommandTimeout": session_timeout_seconds,  # 5分钟
             "appium:udid": udid
         }
         self.webview_context = "WEBVIEW_com.alibaba.android.rimet"  # 可配置的 WebView 上下文

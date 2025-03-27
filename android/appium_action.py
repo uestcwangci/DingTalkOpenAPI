@@ -9,7 +9,7 @@ from appium.options.android import UiAutomator2Options
 from selenium.webdriver.support.wait import WebDriverWait
 
 from android import logger
-from android.appium_base_action import AppiumBaseAction
+from android.appium_base_action import AppiumBaseAction, AppiumDriverWrapper, session_timeout_seconds
 from android.molecular import Molecular
 
 ACCESS_TOKEN = "lGqMusyvAMqNJEJLmgZanGPAgPNdEtNBwZJAnAxndkE"  # 替换为你的DingTalk token
@@ -45,12 +45,17 @@ def upload_file_to_cdn(file_path: str, file_type: Literal['image', 'video']) -> 
         data = response.json()
         if 'cdnUrl' not in data:
             raise ValueError('Upload response missing CDN URL')
-        logger.info(f"{'截屏' if file_type == 'image' else '视频'}文件上传成功 {data['cdnUrl']}")
+        logger.info(f"{'image' if file_type == 'image' else 'video'}upload success {data['cdnUrl']}")
         return data['cdnUrl']
     except requests.RequestException as error:
         error_message = error.response.json() if error.response and error.response.text else str(error)
-        logger.error(f'文件上传失败: {error_message}')
+        logger.error(f'upload fail: {error_message}')
         raise
+
+
+def on_timeout(device_id):
+    logger.warn(f"{device_id} Timeout or session disconnect detected！")
+
 
 class AppiumAction(AppiumBaseAction):
     def execute(self, action_data):
@@ -58,13 +63,18 @@ class AppiumAction(AppiumBaseAction):
         data = action_data.get("data", {})
         logger.info(f"Executing action: #{action}# with data: {data}")
 
+        # 检查超时事件
+        if self.driver and self.driver.timeout_event.is_set():
+            return {"message": "Timeout occurred previously, please start again", "success": False, "timeout": True}
         try:
             if action != "start" and self.driver is None:
                 return {"message": "Error: Appium driver not started", "success": False}
             if action == "start":
                 if self.driver is None:
-                    self.driver = webdriver.Remote('http://localhost:4723',
-                                                   options=UiAutomator2Options().load_capabilities(self.desired_caps))
+                    self.driver = AppiumDriverWrapper('http://localhost:4723',
+                                                      options=UiAutomator2Options().load_capabilities(self.desired_caps),
+                                                      timeout_seconds=session_timeout_seconds,
+                                                      callback=on_timeout)
                     logger.info("Appium driver initialized")
                     WebDriverWait(self.driver, timeout=30).until(
                         lambda driver: driver.current_activity == self.desired_caps["appium:appActivity"]
@@ -153,6 +163,8 @@ class AppiumAction(AppiumBaseAction):
                 # PS: 未识别的action要求返回成功，以便后端处理
                 return {"message": f"Error: Unsupported actionType '{action}'", "success": True}
         except Exception as e:
+            if self.driver.timeout_event.is_set():
+                return {"message": f"Timeout occurred: {str(e)}", "success": False, "timeout": True}
             import traceback
             # Replace the selected line with this
             logger.error(f"Execution error: {str(e)}\n{traceback.format_exc()}")

@@ -13,7 +13,7 @@ from android.appium_action import AppiumAction
 
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
 
-all_clients = ["121.43.49.135:5555", "47.96.90.145:1001", "47.96.90.145:1002"]
+all_clients = ["121.43.49.135:5555", "121.43.49.135:5557", "47.96.90.145:1001", "47.96.90.145:1002"]
 active_clients: dict[str, AppiumAction] = {}
 
 def get_available_devices() -> list[str]:
@@ -85,6 +85,8 @@ def process_message(message):
                 {"action": "execFail", "data": {"execAction": action}, "message": "Appium driver not started"})
 
         result = appium_action.execute(action_data)
+        if result.get('timeout', False): # 超时引起的错误
+            active_clients.pop(device_id)
 
         desc = action_data.get("desc")
         if desc:
