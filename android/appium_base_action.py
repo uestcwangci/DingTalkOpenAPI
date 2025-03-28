@@ -9,6 +9,7 @@ from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
+from appium.webdriver.applicationstate import ApplicationState
 
 from android import logger
 
@@ -39,10 +40,10 @@ class AppiumDriverWrapper(Remote):
             return attr
 
         # 如果是方法，包装它以添加超时检查
-        if callable(attr) and not name.startswith('__') and not name.startswith('_'):
+        internal_method = ['execute', 'terminate_app', 'activate_app']
+        if callable(attr) and not name.startswith('__') and not name.startswith('_') and not name in internal_method:
             def wrapper(*args, **kwargs):
                 logger.debug(f"__wrapper__ called for method: {name}")
-                # 获取实例属性
                 timeout_seconds = parent_getattribute('timeout_seconds')
                 last_command_time = parent_getattribute('last_command_time')
                 callback = parent_getattribute('callback')
@@ -54,17 +55,11 @@ class AppiumDriverWrapper(Remote):
                     if callback:
                         callback()
                     timeout_event.set()
-                    raise Exception(f"Session timeout, no commands in {timeout_seconds} seconds, please start again")
-                try:
-                    result = attr(*args, **kwargs)
-                    # 更新 last_command_time
-                    parent_getattribute('__dict__')['last_command_time'] = time.time()
-                    return result
-                except Exception as e:
-                    if callback:
-                        callback()
-                    timeout_event.set()
-                    raise e
+                    raise Exception(f"会话超时，已超过 {timeout_seconds} 秒未发送命令")
+
+                result = attr(*args, **kwargs)
+                parent_getattribute('__dict__')['last_command_time'] = time.time()
+                return result
 
             return wrapper
         return attr
@@ -82,6 +77,8 @@ class AppiumBaseAction:
             "appium:chromeOptions": {
                 "androidProcess": "com.alibaba.android:rimet"
             },
+            "appium:unicodeKeyboard": True, # 使用 Unicode 输入法
+            "appium:resetKeyboard": True, # 测试结束后重置输入法
             "appium:noReset": True,  # 防止重置应用
             "appium:forceAppLaunch": True,  # 每次启动强制重启app
             "appium:newCommandTimeout": session_timeout_seconds,  # 5分钟
@@ -246,8 +243,7 @@ class AppiumBaseAction:
             logger.info(f"Shell command result: {result}")
             return result
         except Exception as e:
-            import traceback
-            logger.error(f"Call native error: {str(e)}\n{traceback.format_exc()}")
+            logger.error(f"Call native error: {str(e)}")
 
     def call_static(self, class_name: str, method: str, params: List = None):
         """
@@ -308,16 +304,17 @@ class AppiumBaseAction:
         """
         在指定坐标输入文本。
         """
-        self.driver.tap([(x, y)], 100)
-        # 动态等待输入框就绪
-        try:
-            WebDriverWait(self.driver, 5).until(
-                lambda driver: driver.switch_to.active_element.tag_name in ["input", "textarea"]
-            )
-            logger.info("Input field is ready")
-        except Exception as wait_error:
-            logger.warning(f"Failed to wait for input field: {wait_error}")
-            time.sleep(1)  # 备用等待
+        if x is not None and y is not None:
+            self.driver.tap([(x, y)], 100)
+            # 动态等待输入框就绪
+            try:
+                WebDriverWait(self.driver, 2).until(
+                    lambda driver: driver.switch_to.active_element.get_attribute("class").endswith("EditText")
+                )
+                logger.info("Input field is ready")
+            except Exception as wait_error:
+                logger.warning(f"Failed to wait for input field: {wait_error}")
+                time.sleep(1)  # 备用等待
 
         # 获取当前活跃元素
         element = self.driver.switch_to.active_element
@@ -355,6 +352,7 @@ class AppiumBaseAction:
                         logger.info("Text input via JavaScript succeeded")
                     except Exception as js_error:
                         logger.error(f"JavaScript input failed: {js_error}")
+
     def scroll(self, start: tuple, end: tuple, duration: int = 500) -> None:
         """
         滑动操作。
@@ -364,9 +362,38 @@ class AppiumBaseAction:
         """
         回到应用主页。
         """
-        # 重新启动应用
-        self.driver.terminate_app(self.desired_caps["appium:appPackage"])  # 先关闭应用
-        self.driver.activate_app(self.desired_caps["appium:appPackage"])  # 重新启动应用
+        app_package = self.desired_caps["appium:appPackage"]
+
+        # 综合检查应用状态
+        try:
+            # 检查应用状态
+            app_state = self.driver.query_app_state(app_package)
+            if app_state in [ApplicationState.NOT_RUNNING, ApplicationState.NOT_INSTALLED]:
+                logger.info(f"App is not running (state: {app_state}), starting it")
+                self.driver.activate_app(app_package)
+                return
+
+            # 尝试获取当前activity
+            try:
+                current_activity = self.driver.current_activity
+                if not current_activity:
+                    logger.info("App might be starting, skipping home action")
+                    return
+            except Exception:
+                logger.info("Unable to get current activity, app might be starting")
+                return
+
+            # 执行重启操作
+            self.driver.terminate_app(app_package)
+            self.driver.activate_app(app_package)
+
+        except Exception as e:
+            logger.warning(f"Error during home operation: {str(e)}")
+            # 如果出错，尝试直接启动应用
+            try:
+                self.driver.activate_app(app_package)
+            except Exception as e2:
+                logger.error(f"Failed to activate app: {str(e2)}")
 
         # 等待主页面加载
         WebDriverWait(self.driver, timeout=30).until(

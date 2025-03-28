@@ -45,65 +45,105 @@ def on_open(ws):
 
 def process_message(message):
     """处理消息的核心逻辑，线程安全"""
+
+    def build_response(action_type, action_uuid, ext, action=None, message="Action executed", data=None):
+        """构建标准响应格式"""
+        response = {
+            "action": action_type,
+            "actionUuid": action_uuid,
+            "ext": ext,
+            "data": data or {"execAction": action} if action else {},
+            "message": message
+        }
+        return json.dumps(response)
+
+    # 解析JSON
     try:
         action_data = json.loads(message)
         logger.debug(f"Parsed action data: {action_data}")
     except json.JSONDecodeError as e:
         logger.error(f"Failed to parse JSON: {str(e)}")
-        return json.dumps({"status": "error", "result": "Invalid JSON format"})
+        return build_response("error", None, None, message="Invalid JSON format")
 
+    # 提取基本字段
+    action = action_data.get("action")
+    action_uuid = action_data.get("actionUuid")
+    ext = action_data.get("ext")
+    device_id = action_data.get("deviceId")
+
+    # 验证必要字段
+    if not action:
+        logger.error("No action specified in message")
+        return build_response("execFail", action_uuid, ext, action, "No action specified in message")
+
+    if not device_id and action not in ["getAvailableDevices"]:
+        logger.warning("No device_id specified in message")
+        return build_response("execFail", action_uuid, ext, action, "No deviceId specified")
+
+    # 处理不需要Appium实例的动作
+    if action == "getAvailableDevices":
+        return build_response("execSuccess", action_uuid, ext, action, data=get_available_devices())
+    elif action == "isDeviceAvailable":
+        return build_response("execSuccess", action_uuid, ext, action, data=is_device_available(device_id))
+
+    # 处理Appium相关动作
     try:
-        action = action_data.get("action")
-        if not action:
-            logger.error("No action specified in message")
-            return json.dumps({"action": "execFail","data": {"execAction": action,},"message": "No action specified in message"})
+        appium_action = _handle_appium_instance(action, device_id, active_clients)
 
-        device_id = action_data.get("deviceId")
-        if not device_id:
-            logger.warn("No device_id specified in message")
-            return json.dumps({"action": "execFail", "data": {"execAction": action}, "message": "No device_id specified"})
-
-        if action == "getAvailableDevices":
-            return json.dumps({"action": "execSuccess", "data": get_available_devices()})
-        elif action == "isDeviceAvailable":
-            return json.dumps({"action": "execSuccess", "data": is_device_available(device_id)})
-
-        appium_action: AppiumAction
-        if action == "start":
-            # 如果不存在则创建新实例，否则使用现有实例
-            active_clients[device_id] = active_clients.get(device_id) or AppiumAction(udid=device_id)
-            appium_action = active_clients[device_id]
-        elif action == "done":
-            # 如果存在则移除并返回，否则返回 None
-            appium_action = active_clients.pop(device_id, None)
-        else:
-            appium_action = active_clients.get(device_id)
-
-        if appium_action is None:
+        if appium_action is None and action != "done":
             logger.error("Appium driver not started")
-            return json.dumps(
-                {"action": "execFail", "data": {"execAction": action}, "message": "Appium driver not started"})
+            return build_response("execFail", action_uuid, ext, action, "Appium driver not started")
+
+        if action == "done":
+            return build_response("execSuccess", action_uuid, ext, action, "Device session ended")
 
         result = appium_action.execute(action_data)
-        if result.get('timeout', False): # 超时引起的错误
-            active_clients.pop(device_id)
-
-        desc = action_data.get("desc")
-        if desc:
-            appium_action.show_toast(desc)
-
-        logger.info(f"Action result: {result}")
-        return json.dumps({
-            "action": "execSuccess" if result.get("success") else "execFail",
-            "data": {
-                "execAction": action,
-                "url": result.get("screenshot", "")
-            },
-            "message": result.get("message", "Action executed")
-        })
+        return _process_action_result(result, action_data, appium_action)
     except Exception as e:
         logger.error(f"Error processing message: {traceback.format_exc()}")
-        return json.dumps({"status": "error", "result": str(e)})
+        return build_response("error", action_uuid, ext, message=str(e))
+
+
+def _handle_appium_instance(action, device_id, active_clients):
+    """处理Appium实例的创建和销毁"""
+    if action == "start":
+        active_clients[device_id] = active_clients.get(device_id) or AppiumAction(udid=device_id)
+        return active_clients[device_id]
+    elif action == "done":
+        return active_clients.pop(device_id, None)
+    return active_clients.get(device_id)
+
+
+def _process_action_result(result, action_data, appium_action):
+    """处理动作执行结果"""
+    action_uuid = action_data.get("actionUuid")
+    ext = action_data.get("ext")
+    action = action_data.get("action")
+
+    def build_response(action_type, message="Action executed", data=None):
+        response = {
+            "action": action_type,
+            "actionUuid": action_uuid,
+            "ext": ext,
+            "data": data or {"execAction": action, "url": result.get("screenshot", "")},
+            "message": message
+        }
+        return json.dumps(response)
+
+    if result.get('timeout', False):
+        active_clients.pop(action_data.get("deviceId"))
+
+    desc = (action_data.get("desc") or
+            (action_data.get("descData", {}).get("text") if action_data.get("descData") else None))
+    if desc:
+        threading.Timer(2, lambda: appium_action.show_toast(desc)).start()
+
+    logger.info(f"Action result: {result}")
+    return build_response(
+        "execSuccess" if result.get("success") else "execFail",
+        result.get("message", "Action executed"),
+        {"execAction": action, "url": result.get("screenshot", "")}
+    )
 
 
 def on_message_client(ws, message):
@@ -121,14 +161,27 @@ def on_close(ws, close_status_code, close_msg):
 
 
 def run_websocket_client():
-    ws = websocket.WebSocketApp(
-        WS_URL,
-        on_open=on_open,
-        on_message=on_message_client,
-        on_error=on_error,
-        on_close=on_close
-    )
-    ws.run_forever()
+    while True:
+        try:
+            logger.info(f"Attempting to connect to {WS_URL}")
+            ws = websocket.WebSocketApp(
+                WS_URL,
+                on_open=on_open,
+                on_message=on_message_client,
+                on_error = on_error,
+                on_close = on_close
+            )
+            # 运行WebSocket客户端
+            ws.run_forever(
+                ping_interval=30,  # 每30秒发送ping保持连接
+                ping_timeout=10,  # ping超时时间
+            )
+        except Exception as e:
+            logger.error(f"WebSocket client error: {traceback.format_exc()}")
+
+        # 连接断开后等待30秒再重连
+        logger.info("Connection lost. Reconnecting in 30 seconds...")
+        time.sleep(30)
 
 
 # WebSocket 服务器处理函数
