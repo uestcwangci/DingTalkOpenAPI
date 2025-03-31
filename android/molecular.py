@@ -93,6 +93,14 @@ class Molecular(AppiumBaseAction):
             return self._enter_chat("group", value)
         elif action == "enter_app":
             return self._enter_chat("workapp", value)
+        elif action == "show_toast":
+            return self.show_toast(value)
+        elif action == "show_action_pointer":
+            return self.show_action_pointer()
+        elif action == "dismiss_action_pointer":
+            return self.dismiss_action_pointer()
+        elif action == "move_action_pointer":
+            return self.move_action_pointer(data.get("x"), data.get("y"))
         elif action == "reset_group_mute":
             # 重置群聊消息免打扰
             return self._reset_group_mute(value)
@@ -106,10 +114,45 @@ class Molecular(AppiumBaseAction):
     def show_toast(self, message: str):
         if not self.driver:
             logger.error("Driver is None, cannot show toast")
-            return
+            return {"message": "Driver is None, cannot show toast", "success": False}
         try:
             self.call_static(class_name="com.alibaba.android.dingtalkbase.tools.AndTools", method="showToast",
                              params=[{"type": "string", "value": message}])
+            return {"message": f"Showed toast: {message}", "success": True}
         except Exception as e:
             logger.error(f"Failed to show toast: {e}")
+            return {"message": f"Failed to show toast: {e}", "success": False}
+
+    def show_action_pointer(self):
+        if not self.driver:
+            logger.error("Driver is None, cannot show action pointer")
+            return {"message": "Driver is None, cannot show action pointer", "success": False}
+        try:
+            self.call_jsapi(service_name="internal.automator", action_name="showActionPointer")
+            return {"message": "Showed action pointer", "success": True}
+        except Exception as e:
+            logger.error(f"Failed to show action pointer: {e}")
+            return {"message": f"Failed to show action pointer: {e}", "success": False}
+
+    def dismiss_action_pointer(self):
+        if not self.driver:
+            logger.error("Driver is None, cannot dismiss action pointer")
+            return {"message": "Driver is None, cannot dismiss action pointer", "success": False}
+        try:
+            self.call_jsapi(service_name="internal.automator", action_name="dismissActionPointer")
+            return {"message": "Dismiss action pointer", "success": True}
+        except Exception as e:
+            logger.error(f"Failed to dismiss action pointer: {e}")
+            return {"message": f"Failed to dismiss action pointer: {e}", "success": False}
+
+    def move_action_pointer(self, x: int, y: int):
+        if not self.driver:
+            logger.error("Driver is None, cannot move action pointer")
+            return {"message": "Driver is None, cannot move action pointer", "success": False}
+        try:
+            self.call_jsapi(service_name="internal.automator", action_name="moveActionPointer", params={"x": x, "y": y})
+            return {"message": "Move action pointer", "success": True}
+        except Exception as e:
+            logger.error(f"Failed to move action pointer: {e}")
+            return {"message": f"Failed to move action pointer: {e}", "success": False}
         

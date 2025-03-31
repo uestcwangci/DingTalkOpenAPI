@@ -113,7 +113,10 @@ class AppiumAction(AppiumBaseAction):
         action = action_data.get("action")
         data = action_data.get("data", {})
         logger.info(f"Executing action: #{action}# with data: {data}")
-
+        x = data.get("x")
+        y = data.get("y")
+        if x is not None and y is not None:
+            self.move_action_pointer(x, y)
         # 检查超时事件
         if self.driver and self.driver.timeout_event.is_set():
             return {"message": "Timeout occurred previously, please start again", "success": False, "timeout": True}
@@ -134,9 +137,11 @@ class AppiumAction(AppiumBaseAction):
                     time.sleep(3)
                     # 传递 driver 给 Molecular
                     self.molecular = Molecular(self.udid, driver=self.driver)
+                    self.show_action_pointer()
                     return {"message": f"Appium driver {self.driver.capabilities['udid']} started", "success": True}
                 return {"message": "Appium driver already started", "success": True}
             elif action == "done":
+                self.dismiss_action_pointer()
                 self.driver.quit()
                 self.driver = None
                 self.molecular = None
@@ -240,6 +245,18 @@ class AppiumAction(AppiumBaseAction):
     def show_toast(self, message):
         if self.molecular:
             self.molecular.show_toast(message)
+
+    def show_action_pointer(self):
+        if self.molecular:
+            self.molecular.show_action_pointer()
+
+    def dismiss_action_pointer(self):
+        if self.molecular:
+            self.molecular.dismiss_action_pointer()
+
+    def move_action_pointer(self, x, y):
+        if self.molecular:
+            self.molecular.move_action_pointer(x, y)
 
     def quit(self):
         if self.driver:

@@ -90,12 +90,9 @@ def process_message(message):
     try:
         appium_action = _handle_appium_instance(action, device_id, active_clients)
 
-        if appium_action is None and action != "done":
+        if appium_action is None:
             logger.error("Appium driver not started")
             return build_response("execFail", action_uuid, ext, action, "Appium driver not started")
-
-        if action == "done":
-            return build_response("execSuccess", action_uuid, ext, action, "Device session ended")
 
         result = appium_action.execute(action_data)
         return _process_action_result(result, action_data, appium_action)
