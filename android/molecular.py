@@ -82,7 +82,23 @@ class Molecular(AppiumBaseAction):
         # 点击确定
         self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/more_text").click()
         return {"message": "Reset work status", "success": True}
-
+    
+    def _set_work_status_to_vacation(self):
+        # 点击头像
+        self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/my_avatar").click()
+        # 点击工作状态
+        self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/user_person_status").click()
+        # 滑动到最顶部
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.driver.swipe(0, 250, 0, 1000, 500)
+        # 点击“无状态”
+        self.wait_for_find(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("休假")').click()
+        # 点击确定
+        self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/more_text").click()
+        return {"message": "Set work status to vacation", "success": True}
+        
 
     def execute(self, action, data):
         value = data.get("value")
@@ -105,8 +121,11 @@ class Molecular(AppiumBaseAction):
             # 重置群聊消息免打扰
             return self._reset_group_mute(value)
         elif action == "reset_work_status":
-            # 重置工作状态
+            # 重置工作状态为无状态
             return self._reset_work_status()
+        elif action == "set_work_status_to_vacation":
+            # 设置工作状态为休假
+            return self._set_work_status_to_vacation()
         else:
             logger.error(f"Unknown molecular: {action}")
             return {"message": f"Error: Unsupported actionType '{action}'", "success": True}
