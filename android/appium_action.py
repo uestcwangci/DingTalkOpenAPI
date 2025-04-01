@@ -113,10 +113,6 @@ class AppiumAction(AppiumBaseAction):
         action = action_data.get("action")
         data = action_data.get("data", {})
         logger.info(f"Executing action: #{action}# with data: {data}")
-        x = data.get("x")
-        y = data.get("y")
-        if x is not None and y is not None:
-            self.move_action_pointer(x, y)
         # 检查超时事件
         if self.driver and self.driver.timeout_event.is_set():
             return {"message": "Timeout occurred previously, please start again", "success": False, "timeout": True}
@@ -246,18 +242,6 @@ class AppiumAction(AppiumBaseAction):
     def show_toast(self, message):
         if self.molecular:
             self.molecular.show_toast(message)
-
-    def show_action_pointer(self):
-        if self.molecular:
-            self.molecular.show_action_pointer()
-
-    def dismiss_action_pointer(self):
-        if self.molecular:
-            self.molecular.dismiss_action_pointer()
-
-    def move_action_pointer(self, x, y):
-        if self.molecular:
-            self.molecular.move_action_pointer(x, y)
 
     def quit(self):
         if self.driver:
