@@ -73,10 +73,10 @@ class Molecular(AppiumBaseAction):
         # 点击工作状态
         self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/user_person_status").click()
         # 滑动到最顶部
-        self.driver.swipe(0, 250, 0, 1000, 500)
-        self.driver.swipe(0, 250, 0, 1000, 500)
-        self.driver.swipe(0, 250, 0, 1000, 500)
-        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.scroll((0, 250), (0, 1000))
+        self.scroll((0, 250), (0, 1000))
+        self.scroll((0, 250), (0, 1000))
+        self.scroll((0, 250), (0, 1000))
         # 点击“无状态”
         self.wait_for_find(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("无状态")').click()
         # 点击确定
@@ -89,10 +89,10 @@ class Molecular(AppiumBaseAction):
         # 点击工作状态
         self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/user_person_status").click()
         # 滑动到最顶部
-        self.driver.swipe(0, 250, 0, 1000, 500)
-        self.driver.swipe(0, 250, 0, 1000, 500)
-        self.driver.swipe(0, 250, 0, 1000, 500)
-        self.driver.swipe(0, 250, 0, 1000, 500)
+        self.scroll((0, 250), (0, 1000))
+        self.scroll((0, 250), (0, 1000))
+        self.scroll((0, 250), (0, 1000))
+        self.scroll((0, 250), (0, 1000))
         # 点击“无状态”
         self.wait_for_find(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("休假")').click()
         # 点击确定
@@ -128,7 +128,7 @@ class Molecular(AppiumBaseAction):
             return self._set_work_status_to_vacation()
         else:
             logger.error(f"Unknown molecular: {action}")
-            return {"message": f"Error: Unsupported actionType '{action}'", "success": True}
+            return {"message": f"Error: Unsupported actionType '{action}'", "success": False}
 
     def show_toast(self, message: str):
         if not self.driver:
@@ -141,37 +141,3 @@ class Molecular(AppiumBaseAction):
         except Exception as e:
             logger.error(f"Failed to show toast: {e}")
             return {"message": f"Failed to show toast: {e}", "success": False}
-
-    def show_action_pointer(self):
-        if not self.driver:
-            logger.error("Driver is None, cannot show action pointer")
-            return {"message": "Driver is None, cannot show action pointer", "success": False}
-        try:
-            self.call_jsapi(service_name="internal.automator", action_name="showActionPointer")
-            return {"message": "Showed action pointer", "success": True}
-        except Exception as e:
-            logger.error(f"Failed to show action pointer: {e}")
-            return {"message": f"Failed to show action pointer: {e}", "success": False}
-
-    def dismiss_action_pointer(self):
-        if not self.driver:
-            logger.error("Driver is None, cannot dismiss action pointer")
-            return {"message": "Driver is None, cannot dismiss action pointer", "success": False}
-        try:
-            self.call_jsapi(service_name="internal.automator", action_name="dismissActionPointer")
-            return {"message": "Dismiss action pointer", "success": True}
-        except Exception as e:
-            logger.error(f"Failed to dismiss action pointer: {e}")
-            return {"message": f"Failed to dismiss action pointer: {e}", "success": False}
-
-    def move_action_pointer(self, x: int, y: int):
-        if not self.driver:
-            logger.error("Driver is None, cannot move action pointer")
-            return {"message": "Driver is None, cannot move action pointer", "success": False}
-        try:
-            self.call_jsapi(service_name="internal.automator", action_name="moveActionPointer", params={"x": x, "y": y})
-            return {"message": "Move action pointer", "success": True}
-        except Exception as e:
-            logger.error(f"Failed to move action pointer: {e}")
-            return {"message": f"Failed to move action pointer: {e}", "success": False}
-        

@@ -13,7 +13,7 @@ from android.appium_action import AppiumAction
 
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
 
-all_clients = ["121.43.49.135:5555", "121.43.49.135:5557", "47.96.90.145:1001", "47.96.90.145:1002"]
+all_clients = ["121.43.49.135:5555", "121.43.49.135:5557", "47.97.156.72:1000", "47.97.156.72:1001", "47.97.156.72:1002"]
 active_clients: dict[str, AppiumAction] = {}
 
 def get_available_devices() -> list[str]:
@@ -130,10 +130,10 @@ def _process_action_result(result, action_data, appium_action):
     if result.get('timeout', False):
         active_clients.pop(action_data.get("deviceId"))
 
-    desc = (action_data.get("desc") or
-            (action_data.get("descData", {}).get("text") if action_data.get("descData") else None))
-    if desc:
-        threading.Timer(2, lambda: appium_action.show_toast(desc)).start()
+    # desc = (action_data.get("desc") or
+    #         (action_data.get("descData", {}).get("text") if action_data.get("descData") else None))
+    # if desc:
+    #     threading.Timer(2, lambda: appium_action.show_toast(desc)).start()
 
     logger.info(f"Action result: {result}")
     return build_response(
@@ -150,11 +150,11 @@ def on_message_client(ws, message):
 
 
 def on_error(ws, error):
-    logger.error(f"WebSocket client error: {str(error)}")
+    logger.error(f"WebSocket {ws.url} client error: {str(error)}")
 
 
 def on_close(ws, close_status_code, close_msg):
-    logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
+    logger.info(f"WebSocket {ws.url} client closed: {close_status_code} - {close_msg}")
 
 
 def run_websocket_client():

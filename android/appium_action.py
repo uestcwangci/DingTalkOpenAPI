@@ -142,6 +142,7 @@ class AppiumAction(AppiumBaseAction):
                 return {"message": "Appium driver already started", "success": True}
             elif action == "done":
                 self.dismiss_action_pointer()
+                self.driver.terminate_app(self.desired_caps["appium:appPackage"])
                 self.driver.quit()
                 self.driver = None
                 self.molecular = None
@@ -229,13 +230,13 @@ class AppiumAction(AppiumBaseAction):
                 return {"message": "Screen streaming stopped", "success": True}
             elif action == "dingtalk_open":
                 return {"message": "dingtalk_open", "success": True}
-            elif self.molecular.execute(action, data):
-                return {"message": f"Molecular action '{action}' executed successfully", "success": True}
             else:
-                # PS: 未识别的action要求返回成功，以便后端处理
-                return {"message": f"Error: Unsupported actionType '{action}'", "success": True}
+                result = self.molecular.execute(action, data)
+                molecular_msg = result["message"]
+                success = result["success"]
+                return {"message": molecular_msg, "success": success}
         except Exception as e:
-            if self.driver.timeout_event.is_set():
+            if self.driver.timeout_event and self.driver.timeout_event.is_set():
                 return {"message": f"Timeout occurred: {str(e)}", "success": False, "timeout": True}
             import traceback
             # Replace the selected line with this

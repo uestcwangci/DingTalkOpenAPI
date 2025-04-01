@@ -1,6 +1,6 @@
 import json
 import time
-from threading import Event
+from threading import Event, Thread, Timer
 from typing import Union, Dict, List
 
 from appium.options.common import AppiumOptions
@@ -64,6 +64,13 @@ class AppiumDriverWrapper(Remote):
             return wrapper
         return attr
 
+
+def get_element_center(element):
+    rect = element.rect
+    center_x = rect['x'] + (rect['width'] / 2)
+    center_y = rect['y'] + (rect['height'] / 2)
+    return center_x, center_y
+
 class AppiumBaseAction:
     def __init__(self, udid = None):
         self.driver = None
@@ -108,6 +115,39 @@ class AppiumBaseAction:
                 logger.info(f"Switching context from '{current_context} to 'NATIVE_APP'")
                 self.driver.switch_to.context("NATIVE_APP")
 
+    def show_action_pointer(self):
+        if not self.driver:
+            logger.error("Driver is None, cannot show action pointer")
+            return {"message": "Driver is None, cannot show action pointer", "success": False}
+        try:
+            self.call_jsapi(service_name="internal.automator", action_name="showActionPointer")
+            return {"message": "Showed action pointer", "success": True}
+        except Exception as e:
+            logger.error(f"Failed to show action pointer: {e}")
+            return {"message": f"Failed to show action pointer: {e}", "success": False}
+
+    def dismiss_action_pointer(self):
+        if not self.driver:
+            logger.error("Driver is None, cannot dismiss action pointer")
+            return {"message": "Driver is None, cannot dismiss action pointer", "success": False}
+        try:
+            self.call_jsapi(service_name="internal.automator", action_name="dismissActionPointer")
+            return {"message": "Dismiss action pointer", "success": True}
+        except Exception as e:
+            logger.error(f"Failed to dismiss action pointer: {e}")
+            return {"message": f"Failed to dismiss action pointer: {e}", "success": False}
+
+    def move_action_pointer(self, x: int, y: int):
+        if not self.driver:
+            logger.error("Driver is None, cannot move action pointer")
+            return {"message": "Driver is None, cannot move action pointer", "success": False}
+        try:
+            self.call_jsapi(service_name="internal.automator", action_name="moveActionPointer", params={"x": x, "y": y})
+            return {"message": "Move action pointer", "success": True}
+        except Exception as e:
+            logger.error(f"Failed to move action pointer: {e}")
+            return {"message": f"Failed to move action pointer: {e}", "success": False}
+
     def wait_for_find(self, by: str = AppiumBy.ID, value: Union[str, Dict, None] = None, timeout: int = 5) -> WebElement:
         """
         等待并查找单个元素，自动切换上下文。
@@ -120,6 +160,10 @@ class AppiumBaseAction:
         element = WebDriverWait(self.driver, timeout).until(
             lambda x: self.driver.find_element(by=by, value=value)
         )
+        if element:
+            center = get_element_center(element)
+            move_thread = Thread(target=self.move_action_pointer, args=(center[0], center[1]))
+            move_thread.start()
         return element
 
     def wait_for_finds(self, by: str = AppiumBy.ID, value: Union[str, Dict, None] = None, timeout: int = 5) -> List[WebElement]:
@@ -292,12 +336,16 @@ class AppiumBaseAction:
         """
         点击指定坐标。
         """
+        move_thread = Thread(target=self.move_action_pointer, args=(x, y))
+        move_thread.start()
         self.driver.tap([(x, y)], 100)
 
     def long_press(self, x: int, y: int, duration: int = 1000) -> None:
         """
         长按指定坐标。
         """
+        move_thread = Thread(target=self.move_action_pointer, args=(x, y))
+        move_thread.start()
         self.driver.tap([(x, y)], duration)
 
     def type(self, x: int, y: int, text: str) -> None:
@@ -318,6 +366,10 @@ class AppiumBaseAction:
 
         # 获取当前活跃元素
         element = self.driver.switch_to.active_element
+        if element:
+            center = get_element_center(element)
+            move_thread = Thread(target=self.move_action_pointer, args=(center[0], center[1]))
+            move_thread.start()
 
         # 方法 1：尝试 send_keys
         try:
@@ -357,7 +409,13 @@ class AppiumBaseAction:
         """
         滑动操作。
         """
+        move1_thread = Thread(target=self.move_action_pointer, args=(end[0], end[1]))
+        move1_thread.start()
+        # 延迟执行第二次移动
+        delay = duration / 1000 / 2  # 将duration转换为秒并取一半作为延时
+        Timer(delay, self.move_action_pointer, args=(start[0], start[1])).start()
         self.driver.swipe(start[0], start[1], end[0], end[1], duration)
+
     def home(self) -> None:
         """
         回到应用主页。
