@@ -87,18 +87,14 @@ def process_message(message):
         return build_response("execSuccess", action_uuid, ext, action, data=is_device_available(device_id))
 
     # 处理Appium相关动作
-    try:
-        appium_action = _handle_appium_instance(action, device_id, active_clients)
+    appium_action = _handle_appium_instance(action, device_id, active_clients)
 
-        if appium_action is None:
-            logger.error("Appium driver not started")
-            return build_response("execFail", action_uuid, ext, action, "Appium driver not started")
+    if appium_action is None:
+        logger.error("Appium driver not started")
+        return build_response("execFail", action_uuid, ext, action, "Appium driver not started")
 
-        result = appium_action.execute(action_data)
-        return _process_action_result(result, action_data, appium_action)
-    except Exception as e:
-        logger.error(f"Error processing message: {traceback.format_exc()}")
-        return build_response("error", action_uuid, ext, message=str(e))
+    result = appium_action.execute(action_data)
+    return _process_action_result(result, action_data, appium_action)
 
 
 def _handle_appium_instance(action, device_id, active_clients):
@@ -198,7 +194,7 @@ async def handle_connection(websocket):
     except websockets.ConnectionClosed:
         logger.info(f"Client connection closed: {websocket.remote_address}")
     except Exception as e:
-        logger.error(f"handle_connection error: {traceback.format_exc()}")
+        logger.error(f"handle_connection error: {e}")
 
 
 async def run_websocket_server():

@@ -24,7 +24,7 @@ class AppiumDriverWrapper(Remote):
         logger.info('__init__ AppiumDriverWrapper')
         self.timeout_seconds = timeout_seconds
         self.last_command_time = time.time()
-        self.callback = callback if callback else lambda: print("超时回调未定义，默认打印此消息")
+        self.callback = callback if callback else lambda: print("Timeout callback executed")
         self.timeout_event = Event()
         self._initializing = False  # 初始化完成后关闭标志
 
@@ -40,7 +40,7 @@ class AppiumDriverWrapper(Remote):
             return attr
 
         # 如果是方法，包装它以添加超时检查
-        internal_method = ['execute', 'terminate_app', 'activate_app']
+        internal_method = ['execute', 'terminate_app', 'activate_app', 'quit', 'stop_client']
         if callable(attr) and not name.startswith('__') and not name.startswith('_') and not name in internal_method:
             def wrapper(*args, **kwargs):
                 logger.debug(f"__wrapper__ called for method: {name}")
@@ -55,7 +55,7 @@ class AppiumDriverWrapper(Remote):
                     if callback:
                         callback()
                     timeout_event.set()
-                    raise Exception(f"会话超时，已超过 {timeout_seconds} 秒未发送命令")
+                    raise Exception(f"Timeout {timeout_seconds} seconds exceeded for method: {name}")
 
                 result = attr(*args, **kwargs)
                 parent_getattribute('__dict__')['last_command_time'] = time.time()
@@ -282,12 +282,9 @@ class AppiumBaseAction:
             "command": full_command
         }
 
-        try:
-            result = self.driver.execute_script('mobile: shell', broadcast_command)
-            logger.info(f"Shell command result: {result}")
-            return result
-        except Exception as e:
-            logger.error(f"Call native error: {str(e)}")
+        result = self.driver.execute_script('mobile: shell', broadcast_command)
+        logger.info(f"Shell command result: {result}")
+        return result
 
     def call_static(self, class_name: str, method: str, params: List = None):
         """

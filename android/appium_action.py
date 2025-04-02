@@ -120,7 +120,7 @@ class AppiumAction(AppiumBaseAction):
             if action != "start" and self.driver is None:
                 return {"message": "Error: Appium driver not started", "success": False}
             if action == "start":
-                if self.driver is None:
+                if self.driver is None or self.driver.timeout_event.is_set():
                     self.driver = AppiumDriverWrapper('http://localhost:4723',
                                                       options=UiAutomator2Options().load_capabilities(self.desired_caps),
                                                       timeout_seconds=session_timeout_seconds,
@@ -232,11 +232,12 @@ class AppiumAction(AppiumBaseAction):
                 success = result["success"]
                 return {"message": molecular_msg, "success": success}
         except Exception as e:
-            if self.driver.timeout_event and self.driver.timeout_event.is_set():
+            if self.driver and self.driver.timeout_event and self.driver.timeout_event.is_set():
+                self.driver = None
+                self.molecular = None
                 return {"message": f"Timeout occurred: {str(e)}", "success": False, "timeout": True}
-            import traceback
             # Replace the selected line with this
-            logger.error(f"Execution error: {str(e)}\n{traceback.format_exc()}")
+            logger.error(f"Execution error: {str(e)}")
             return {"message": f"Error: {str(e)}", "success": False}
 
     def show_toast(self, message):
@@ -245,7 +246,10 @@ class AppiumAction(AppiumBaseAction):
 
     def quit(self):
         if self.driver:
-            self.driver.quit()
+            try:
+                self.driver.quit()
+            except Exception as e:
+                logger.error(f"Error quitting Appium driver: {str(e)}")
             self.driver = None
             self.molecular = None
             logger.info("Appium driver quit")
