@@ -109,6 +109,52 @@ def on_timeout(device_id):
 
 
 class AppiumAction(AppiumBaseAction):
+    def check_driver_state(self):
+        """
+        检查 driver 状态的综合方法
+        """
+        try:
+            if not self.driver:
+                logger.debug("Driver instance is None")
+                return False
+
+            # 检查 session_id
+            if not self.driver.session_id:
+                logger.debug("No active session ID")
+                return False
+
+            # 尝试执行一个简单的命令
+            try:
+                self.driver.current_activity
+                return True
+            except Exception as e:
+                logger.debug(f"Failed to execute command: {str(e)}")
+                return False
+
+        except Exception as e:
+            logger.error(f"Error checking driver state: {str(e)}")
+            return False
+
+    def safe_quit(self):
+        """
+        安全地关闭 driver
+        Returns:
+            dict: {'success': bool, 'message': str}
+        """
+        if not self.driver:
+            return {'success': True, 'message': 'Driver already None'}
+
+        try:
+            self.driver.quit()
+            self.driver = None
+            self.molecular = None
+            return {'success': True, 'message': 'Driver quit successfully'}
+        except Exception as e:
+                return {
+                    'success': False,
+                    'message': f'Failed to quit driver {str(e)}'
+                }
+
     def execute(self, action_data):
         action = action_data.get("action")
         data = action_data.get("data", {})
@@ -120,7 +166,7 @@ class AppiumAction(AppiumBaseAction):
             if action != "start" and self.driver is None:
                 return {"message": "Error: Appium driver not started", "success": False}
             if action == "start":
-                if self.driver is None or self.driver.timeout_event.is_set():
+                if not self.check_driver_state():
                     self.driver = AppiumDriverWrapper('http://localhost:4723',
                                                       options=UiAutomator2Options().load_capabilities(self.desired_caps),
                                                       timeout_seconds=session_timeout_seconds,
@@ -135,7 +181,8 @@ class AppiumAction(AppiumBaseAction):
                     self.molecular = Molecular(self.udid, driver=self.driver)
                     self.show_action_pointer()
                     return {"message": f"Appium driver {self.driver.capabilities['udid']} started", "success": True}
-                return {"message": "Appium driver already started", "success": True}
+                else:
+                    return {"message": "Appium driver already started", "success": True}
             elif action == "done":
                 self.dismiss_action_pointer()
                 self.driver.terminate_app(self.desired_caps["appium:appPackage"])
@@ -235,7 +282,7 @@ class AppiumAction(AppiumBaseAction):
             if self.driver and self.driver.timeout_event and self.driver.timeout_event.is_set():
                 self.driver = None
                 self.molecular = None
-                return {"message": f"Timeout occurred: {str(e)}", "success": False, "timeout": True}
+                return {"message": f"Timeout occurred please start again: {str(e)}", "success": False, "timeout": True}
             # Replace the selected line with this
             logger.error(f"Execution error: {str(e)}")
             return {"message": f"Error: {str(e)}", "success": False}
@@ -245,13 +292,5 @@ class AppiumAction(AppiumBaseAction):
             self.molecular.show_toast(message)
 
     def quit(self):
-        if self.driver:
-            try:
-                self.driver.quit()
-            except Exception as e:
-                logger.error(f"Error quitting Appium driver: {str(e)}")
-            self.driver = None
-            self.molecular = None
-            logger.info("Appium driver quit")
-        else:
-            logger.info("No Appium driver to quit")
+        self.safe_quit()
+        logger.info("Appium driver quit")

@@ -38,11 +38,6 @@ def send_heartbeat(ws):
         time.sleep(30)
 
 
-def on_open(ws):
-    logger.info("Connected to external WebSocket server")
-    threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
-
-
 def process_message(message):
     """处理消息的核心逻辑，线程安全"""
 
@@ -139,42 +134,107 @@ def _process_action_result(result, action_data, appium_action):
     )
 
 
-def on_message_client(ws, message):
-    logger.info(f"Received from server: {message}")
-    response = process_message(message)
-    ws.send(response)
+class WebSocketClient:
+    def __init__(self, url):
+        self.url = url
+        self.ws = None
+        self.is_running = True
+        self.heartbeat_thread = None
 
+    def send_heartbeat(self):
+        """发送心跳包"""
+        while self.ws and self.is_running:
+            try:
+                self.ws.send('{"type": "heartbeat"}')
+                time.sleep(30)
+            except Exception as e:
+                logger.error(f"Heartbeat error: {e}")
+                break
 
-def on_error(ws, error):
-    logger.error(f"WebSocket {ws.url} client error: {str(error)}")
+    def on_open(self, ws):
+        """连接建立时的回调"""
+        logger.info("Connected to external WebSocket server")
+        # 启动心跳线程
+        threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
 
+    def on_message(self, ws, message):
+        """收到消息时的回调"""
+        try:
+            logger.info(f"Received from server: {message}")
+            response = process_message(message)
+            if response:
+                ws.send(response)
+        except Exception as e:
+            logger.error(f"Message processing error: {e}")
 
-def on_close(ws, close_status_code, close_msg):
-    logger.info(f"WebSocket {ws.url} client closed: {close_status_code} - {close_msg}")
+    def on_error(self, ws, error):
+        """发生错误时的回调"""
+        logger.error(f"WebSocket {ws.url} client error: {str(error)}")
+
+    def on_close(self, ws, close_status_code, close_msg):
+        """连接关闭时的回调"""
+        logger.info(f"WebSocket {ws.url} client closed: {close_status_code} - {close_msg}")
+        # 停止心跳线程
+        self.is_running = False
+        if self.heartbeat_thread:
+            self.heartbeat_thread.join(timeout=1)
+
+    def cleanup(self):
+        """清理资源"""
+        self.is_running = False
+        if self.ws:
+            try:
+                self.ws.close()
+            except:
+                pass
+            self.ws = None
+        if self.heartbeat_thread:
+            self.heartbeat_thread.join(timeout=1)
+
+    def run(self):
+        """运行WebSocket客户端"""
+        while self.is_running:
+            try:
+                self.cleanup()  # 清理旧连接
+
+                logger.info(f"Attempting to connect to {self.url}")
+                self.is_running = True  # 重置运行状态
+                self.ws = websocket.WebSocketApp(
+                    self.url,
+                    on_open=self.on_open,
+                    on_message=self.on_message,
+                    on_error=self.on_error,
+                    on_close=self.on_close
+                )
+
+                # 运行WebSocket客户端
+                self.ws.run_forever(
+                    ping_interval=30,  # 每30秒发送ping保持连接
+                    ping_timeout=10,  # ping超时时间
+                )
+            except Exception as e:
+                logger.error(f"WebSocket client error: {e}")
+            finally:
+                self.cleanup()
+
+            if self.is_running:
+                logger.info("Connection lost. Reconnecting in 30 seconds...")
+                time.sleep(30)
+
+    def stop(self):
+        """停止客户端"""
+        self.is_running = False
+        self.cleanup()
 
 
 def run_websocket_client():
-    while True:
-        try:
-            logger.info(f"Attempting to connect to {WS_URL}")
-            ws = websocket.WebSocketApp(
-                WS_URL,
-                on_open=on_open,
-                on_message=on_message_client,
-                on_error = on_error,
-                on_close = on_close
-            )
-            # 运行WebSocket客户端
-            ws.run_forever(
-                ping_interval=30,  # 每30秒发送ping保持连接
-                ping_timeout=10,  # ping超时时间
-            )
-        except Exception as e:
-            logger.error(f"WebSocket client error: {traceback.format_exc()}")
-
-        # 连接断开后等待30秒再重连
-        logger.info("Connection lost. Reconnecting in 30 seconds...")
-        time.sleep(30)
+    """主运行函数"""
+    client = WebSocketClient(WS_URL)
+    try:
+        client.run()
+    except KeyboardInterrupt:
+        logger.info("Stopping client...")
+        client.stop()
 
 
 # WebSocket 服务器处理函数
