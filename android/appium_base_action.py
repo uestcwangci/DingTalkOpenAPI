@@ -89,6 +89,7 @@ class AppiumBaseAction:
             "appium:noReset": True,  # 防止重置应用
             "appium:forceAppLaunch": True,  # 每次启动强制重启app
             "appium:newCommandTimeout": session_timeout_seconds,  # 5分钟
+            "appium:autoGrantPermissions": True, # 自动授予权限
             "appium:udid": udid
         }
         self.webview_context = "WEBVIEW_com.alibaba.android.rimet"  # 可配置的 WebView 上下文
