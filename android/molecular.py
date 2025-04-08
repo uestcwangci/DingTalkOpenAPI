@@ -21,6 +21,10 @@ class Molecular(AppiumBaseAction):
         if value is None:
             raise ValueError(f"Value for enter_{chat_type} is required")
 
+        # 回到首页
+        self.call_jsapi("internal.automator", "navigateToHome")
+        time.sleep(2)
+
         # 点击搜索按钮
         self.wait_for_find(AppiumBy.ID, "com.alibaba.android.rimet:id/search_btn").click()
 

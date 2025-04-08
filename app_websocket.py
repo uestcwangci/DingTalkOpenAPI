@@ -10,33 +10,21 @@ import websockets
 # 假设这些是自定义模块，确保正确导入
 from android import logger
 from android.appium_action import AppiumAction
+from concurrent.futures import ThreadPoolExecutor
+executor = ThreadPoolExecutor(max_workers=5)
 
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
 
 all_clients = ["121.43.49.135:5555", "121.43.49.135:5557", "47.97.156.72:1000", "47.97.156.72:1001", "47.97.156.72:1002"]
 active_clients: dict[str, AppiumAction] = {}
+active_clients_lock = threading.Lock()
 
 def get_available_devices() -> list[str]:
-    return list(set(all_clients) - set(active_clients.keys()))
+    with active_clients_lock:
+        return list(set(all_clients) - set(active_clients.keys()))
 
 def is_device_available(device_id: str) -> bool:
     return device_id in get_available_devices()
-
-# WebSocket 客户端的心跳机制
-def send_heartbeat(ws):
-    while True:
-        try:
-            if ws.sock and ws.sock.connected:
-                ws.send(json.dumps({"action": "ping"}))
-                logger.debug("Sent heartbeat: ping")
-            else:
-                logger.warning("WebSocket disconnected, stopping heartbeat")
-                break
-        except Exception as e:
-            logger.error(f"Heartbeat error: {str(e)}")
-            break
-        time.sleep(30)
-
 
 def process_message(message):
     """处理消息的核心逻辑，线程安全"""
@@ -94,12 +82,13 @@ def process_message(message):
 
 def _handle_appium_instance(action, device_id, active_clients):
     """处理Appium实例的创建和销毁"""
-    if action == "start":
-        active_clients[device_id] = active_clients.get(device_id) or AppiumAction(udid=device_id)
-        return active_clients[device_id]
-    elif action == "done":
-        return active_clients.pop(device_id, None)
-    return active_clients.get(device_id)
+    with active_clients_lock:
+        if action == "start":
+            active_clients[device_id] = active_clients.get(device_id) or AppiumAction(udid=device_id)
+            return active_clients[device_id]
+        elif action == "done":
+            return active_clients.pop(device_id, None)
+        return active_clients.get(device_id)
 
 
 def _process_action_result(result, action_data, appium_action):
@@ -155,7 +144,8 @@ class WebSocketClient:
         """连接建立时的回调"""
         logger.info("Connected to external WebSocket server")
         # 启动心跳线程
-        threading.Thread(target=send_heartbeat, args=(ws,), daemon=True).start()
+        self.heartbeat_thread = threading.Thread(target=self.send_heartbeat,daemon=True)
+        self.heartbeat_thread.start()
 
     def on_message(self, ws, message):
         """收到消息时的回调"""
@@ -195,10 +185,7 @@ class WebSocketClient:
         """运行WebSocket客户端"""
         while self.is_running:
             try:
-                self.cleanup()  # 清理旧连接
-
                 logger.info(f"Attempting to connect to {self.url}")
-                self.is_running = True  # 重置运行状态
                 self.ws = websocket.WebSocketApp(
                     self.url,
                     on_open=self.on_open,
@@ -213,7 +200,7 @@ class WebSocketClient:
                     ping_timeout=10,  # ping超时时间
                 )
             except Exception as e:
-                logger.error(f"WebSocket client error: {e}")
+                logger.error(f"WebSocket client error: {traceback.format_exc()}")
             finally:
                 self.cleanup()
 
@@ -222,9 +209,10 @@ class WebSocketClient:
                 time.sleep(30)
 
     def stop(self):
-        """停止客户端"""
         self.is_running = False
         self.cleanup()
+        if self.heartbeat_thread and self.heartbeat_thread.is_alive():
+            self.heartbeat_thread.join(timeout=2)
 
 
 def run_websocket_client():
@@ -240,10 +228,8 @@ def run_websocket_client():
 # WebSocket 服务器处理函数
 async def on_message_server(websocket, message):
     logger.info(f"Received from client: {message}")
-    # 将阻塞操作移到线程中，避免阻塞事件循环
-    response = await asyncio.to_thread(process_message, message)
+    response = await asyncio.get_event_loop().run_in_executor(executor, process_message, message)
     await websocket.send(response)
-
 
 async def handle_connection(websocket):
     try:
@@ -283,7 +269,9 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("Server stopped by user")
-        for appium in active_clients.values():
-            appium.quit()
+        with active_clients_lock:
+            for appium in active_clients.values():
+                appium.quit()
+            active_clients.clear()
     except Exception as e:
         logger.error(f"Server startup error: {traceback.format_exc()}")
