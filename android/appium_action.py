@@ -105,7 +105,7 @@ def upload_file_source_to_cdn(source: str | bytes, file_type: Literal['image', '
 
 
 def on_timeout(device_id):
-    logger.warn(f"{device_id} Timeout or session disconnect detected！")
+    logger.warning(f"{device_id} Timeout or session disconnect detected！")
 
 
 class AppiumAction(AppiumBaseAction):

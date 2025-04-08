@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from android import logger
 from android.appium_base_action import AppiumBaseAction
+from android.swipe_helper import ScrollAction
 
 
 class Molecular(AppiumBaseAction):
@@ -130,10 +131,16 @@ class Molecular(AppiumBaseAction):
         elif action == "set_work_status_to_vacation":
             # 设置工作状态为休假
             return self._set_work_status_to_vacation()
+        elif action == "swipe":
+            scroll_action = ScrollAction(self.driver)
+            # 示例调用
+            point = data.get("point")
+            direction = data.get("direction")
+            result = scroll_action.swipe(direction, point)
+            return {"message": "Text swipe action performed", "success": result}
         else:
             logger.error(f"Unknown molecular: {action}")
             return {"message": f"Error: Unsupported actionType '{action}'", "success": False}
-
     def show_toast(self, message: str):
         if not self.driver:
             logger.error("Driver is None, cannot show toast")
