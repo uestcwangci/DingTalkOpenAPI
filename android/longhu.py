@@ -19,7 +19,7 @@ class LongHuHelper:
             forceAppLaunch=True,
             autoGrantPermissions=True,
             newCommandTimeout=300,  # 5分钟
-            udid="47.97.156.72:1000"
+            udid="47.97.156.72:1001"
         )
 
         appium_server_url = 'http://localhost:4723'

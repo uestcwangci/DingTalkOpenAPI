@@ -124,27 +124,40 @@ def _process_action_result(result, action_data, appium_action):
 
 
 class WebSocketClient:
-    def __init__(self, url):
+    def __init__(self, url, max_retries=None, initial_retry_delay=5):
         self.url = url
         self.ws = None
         self.is_running = True
         self.heartbeat_thread = None
+        self.max_retries = max_retries  # None表示无限重试
+        self.retry_delay = initial_retry_delay  # 初始重试延迟（秒）
+        self.retry_count = 0
+        self.reconnect_event = threading.Event()
 
     def send_heartbeat(self):
         """发送心跳包"""
-        while self.ws and self.is_running:
+        while self.ws and self.is_running and not self.reconnect_event.is_set():
             try:
                 self.ws.send('{"type": "heartbeat"}')
                 time.sleep(30)
             except Exception as e:
                 logger.error(f"Heartbeat error: {e}")
+                self.reconnect_event.set()  # 通知主线程需要重连
                 break
 
     def on_open(self, ws):
         """连接建立时的回调"""
         logger.info("Connected to external WebSocket server")
+        self.retry_count = 0  # 连接成功，重置重试计数
+        self.retry_delay = 5  # 重置重试延迟
+        self.reconnect_event.clear()
+
         # 启动心跳线程
-        self.heartbeat_thread = threading.Thread(target=self.send_heartbeat,daemon=True)
+        if self.heartbeat_thread and self.heartbeat_thread.is_alive():
+            # 如果之前的线程还在运行，先确保它结束
+            self.heartbeat_thread.join(timeout=1)
+
+        self.heartbeat_thread = threading.Thread(target=self.send_heartbeat, daemon=True)
         self.heartbeat_thread.start()
 
     def on_message(self, ws, message):
@@ -159,33 +172,33 @@ class WebSocketClient:
 
     def on_error(self, ws, error):
         """发生错误时的回调"""
-        logger.error(f"WebSocket {ws.url} client error: {str(error)}")
+        logger.error(f"WebSocket client error: {str(error)}")
+        self.reconnect_event.set()  # 标记需要重连
 
     def on_close(self, ws, close_status_code, close_msg):
         """连接关闭时的回调"""
-        logger.info(f"WebSocket {ws.url} client closed: {close_status_code} - {close_msg}")
-        # 停止心跳线程
-        self.is_running = False
-        if self.heartbeat_thread:
-            self.heartbeat_thread.join(timeout=1)
+        logger.info(f"WebSocket client closed: {close_status_code} - {close_msg}")
+        self.reconnect_event.set()  # 标记需要重连
 
     def cleanup(self):
         """清理资源"""
-        self.is_running = False
         if self.ws:
             try:
                 self.ws.close()
             except:
                 pass
             self.ws = None
-        if self.heartbeat_thread:
-            self.heartbeat_thread.join(timeout=1)
 
     def run(self):
         """运行WebSocket客户端"""
         while self.is_running:
             try:
-                logger.info(f"Attempting to connect to {self.url}")
+                if self.max_retries and self.retry_count >= self.max_retries:
+                    logger.info(f"Reached the maximum number of retries {self.max_retries}, stopped reconnecting")
+                    break
+
+                logger.info(f"Try connecting to {self.url}")
+                self.reconnect_event.clear()  # 连接前清除重连事件标志
                 self.ws = websocket.WebSocketApp(
                     self.url,
                     on_open=self.on_open,
@@ -196,20 +209,34 @@ class WebSocketClient:
 
                 # 运行WebSocket客户端
                 self.ws.run_forever(
-                    ping_interval=30,  # 每30秒发送ping保持连接
-                    ping_timeout=10,  # ping超时时间
+                    ping_interval=30,
+                    ping_timeout=10,
                 )
-            except Exception as e:
-                logger.error(f"WebSocket client error: {traceback.format_exc()}")
-            finally:
+
+                # 如果连接断开，检查是否应该重新连接
+                if not self.is_running:
+                    break
+
+                self.retry_count += 1
+                retry_time = min(self.retry_delay * (2 ** min(self.retry_count, 5)), 300)  # 指数退避，最大5分钟
+                logger.info(f"Disconnected, trying to reconnect {self.retry_count} times after {retry_time} seconds...")
+
+                # 清理旧连接资源
                 self.cleanup()
 
-            if self.is_running:
-                logger.info("Connection lost. Reconnecting in 30 seconds...")
-                time.sleep(30)
+                # 关键修改：直接使用 sleep 等待重连时间，不使用 event
+                time.sleep(retry_time)
+
+            except Exception as e:
+                logger.error(f"WebSocket client error: {e}")
+                self.retry_count += 1
+                self.cleanup()
+                time.sleep(min(self.retry_delay * (2 ** min(self.retry_count, 5)), 300))
 
     def stop(self):
+        """停止客户端"""
         self.is_running = False
+        self.reconnect_event.set()  # 唤醒任何等待的线程
         self.cleanup()
         if self.heartbeat_thread and self.heartbeat_thread.is_alive():
             self.heartbeat_thread.join(timeout=2)
