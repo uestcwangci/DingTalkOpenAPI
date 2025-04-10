@@ -13,7 +13,7 @@ from appium.webdriver.applicationstate import ApplicationState
 
 from android import logger
 
-session_timeout_seconds = 300
+session_timeout_seconds = 1800 # 30min无操作，自动释放appium session
 
 class AppiumDriverWrapper(Remote):
     def __init__(self, command_executor, options: AppiumOptions=None, timeout_seconds=session_timeout_seconds,

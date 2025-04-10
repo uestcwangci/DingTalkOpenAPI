@@ -13,7 +13,7 @@ from aliyun.instance_manager import InstanceManager
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(max_workers=5)
 
-WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510-prod?token=lippi-node-devops-token&platform=android"
+WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510-prod?token=lippi-node-devops-token&platform=android&envTag=20250409-pre-6q23yo"
 instance_manager = InstanceManager()
 
 def process_message(message):

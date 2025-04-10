@@ -4,6 +4,7 @@ from typing import Dict, Any, List, Set
 
 from android.appium_action import AppiumAction
 from aliyun.client import AliyunClient
+from android import logger
 
 
 """
@@ -34,6 +35,7 @@ class InstanceManager:
         instances = await self.aliyun_client.describe_android_instances()
         for instance in instances:
             self.all_clients[instance.android_instance_id] = instance.network_interface_ip
+        logger.info(f"all clients: {self.all_clients}")
 
     def get_all_instances(self) -> dict[Any, Any]:
         return self.all_clients
