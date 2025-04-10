@@ -194,7 +194,7 @@ class WebSocketClient:
                 # 运行WebSocket客户端
                 self.ws.run_forever(
                     ping_interval=30,
-                    ping_timeout=10,
+                    ping_timeout=20,
                 )
 
                 # 如果连接断开，检查是否应该重新连接
