@@ -3,7 +3,8 @@
 import os
 import sys
 
-from alibabacloud_eds_aic20230930.models import BatchGetAcpConnectionTicketResponseBodyInstanceConnectionModels
+from alibabacloud_eds_aic20230930.models import BatchGetAcpConnectionTicketResponseBodyInstanceConnectionModels, \
+    DescribeAndroidInstancesResponseBodyInstanceModel
 from dotenv import load_dotenv
 from android import logger
 
@@ -19,10 +20,10 @@ from alibabacloud_tea_util.client import Client as UtilClient
 
 class AliyunClient:
     def __init__(self):
-        print("Current working directory:", os.getcwd())
+        print("Current working directory:", os.path.dirname(os.path.dirname(__file__)))
 
         # 确认 .env 文件存在
-        env_path = os.path.join(os.getcwd(), '.env')
+        env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
         print("Looking for .env file at:", env_path)
         print("File exists:", os.path.exists(env_path))
         load_dotenv()
@@ -76,4 +77,25 @@ class AliyunClient:
             return None
         except Exception as e:
             logger.error(f"Failed to get ACP connection ticket: {e}")
+            return None
+
+    async def describe_android_instances(self) -> Optional[List[DescribeAndroidInstancesResponseBodyInstanceModel]]:
+        describe_android_instances_request = eds_aic_20230930_models.DescribeAndroidInstancesRequest(
+            instance_group_id=os.environ['INSTANCE_GROUP_ID']
+        )
+        runtime = util_models.RuntimeOptions()
+        try:
+            # 复制代码运行请自行打印 API 的返回值
+            resp = await self.client.describe_android_instances_with_options_async(describe_android_instances_request, runtime)
+            # 记录响应
+            logger.debug(f"API response: {UtilClient.to_jsonstring(resp)}")
+            # 检查响应状态
+            if resp.status_code != 200:
+                logger.error(f"API request failed with status code: {resp.status_code}")
+                return None
+
+            # 返回实例连接模型列表
+            return resp.body.instance_model
+        except Exception as e:
+            logger.error(f"Failed to describe Android instances: {e}")
             return None

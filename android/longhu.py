@@ -30,7 +30,7 @@ class LongHuHelper:
         wait_for_find = self.appium_helper.wait_for_find
         wait_for_finds = self.appium_helper.wait_for_finds
         # 点击设备按钮
-        sleep(5)
+        sleep(2)
         # 点击“会员”按钮
         tabs = wait_for_finds(by=AppiumBy.ID, value="com.longfor.supera:id/tab_text")
         for tab in tabs:
@@ -46,10 +46,16 @@ class LongHuHelper:
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("点击抽奖")').click()
         # 点击“去签到”按钮
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("去签到")').click()
-        # 返回
-        self.appium_helper.driver.back()
         # 点击“点击抽奖”按钮
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("点击抽奖")').click()
+        sleep(10)
+        # 返回
+        self.appium_helper.driver.back()
+        # 点击“签到”按钮
+        wait_for_finds(by=AppiumBy.ID, value="com.longfor.supera:id/img_item")[0].click()
+        sleep(3)
+        # 退出
+        self.appium_helper.driver.quit()
 
 if __name__ == '__main__':
     longhu_helper = LongHuHelper()

@@ -7,24 +7,14 @@ import traceback
 import websocket
 import websockets
 
-# 假设这些是自定义模块，确保正确导入
 from android import logger
 from android.appium_action import AppiumAction
+from aliyun.instance_manager import InstanceManager
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(max_workers=5)
 
-WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
-
-all_clients = ["121.43.49.135:5555", "121.43.49.135:5557", "47.97.156.72:1000", "47.97.156.72:1001", "47.97.156.72:1002"]
-active_clients: dict[str, AppiumAction] = {}
-active_clients_lock = threading.Lock()
-
-def get_available_devices() -> list[str]:
-    with active_clients_lock:
-        return list(set(all_clients) - set(active_clients.keys()))
-
-def is_device_available(device_id: str) -> bool:
-    return device_id in get_available_devices()
+WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510-prod?token=lippi-node-devops-token&platform=android"
+instance_manager = InstanceManager()
 
 def process_message(message):
     """处理消息的核心逻辑，线程安全"""
@@ -63,14 +53,8 @@ def process_message(message):
         logger.warning("No device_id specified in message")
         return build_response("execFail", action_uuid, ext, action, "No deviceId specified")
 
-    # 处理不需要Appium实例的动作
-    if action == "getAvailableDevices":
-        return build_response("execSuccess", action_uuid, ext, action, data=get_available_devices())
-    elif action == "isDeviceAvailable":
-        return build_response("execSuccess", action_uuid, ext, action, data=is_device_available(device_id))
-
     # 处理Appium相关动作
-    appium_action = _handle_appium_instance(action, device_id, active_clients)
+    appium_action = _handle_appium_instance(action, device_id, instance_manager.active_clients)
 
     if appium_action is None:
         logger.error("Appium driver not started")
@@ -82,7 +66,7 @@ def process_message(message):
 
 def _handle_appium_instance(action, device_id, active_clients):
     """处理Appium实例的创建和销毁"""
-    with active_clients_lock:
+    with instance_manager.active_clients_lock:
         if action == "start":
             active_clients[device_id] = active_clients.get(device_id) or AppiumAction(udid=device_id)
             return active_clients[device_id]
@@ -108,7 +92,7 @@ def _process_action_result(result, action_data, appium_action):
         return json.dumps(response)
 
     if result.get('timeout', False):
-        active_clients.pop(action_data.get("deviceId"))
+        instance_manager.active_clients.pop(action_data.get("deviceId"))
 
     # desc = (action_data.get("desc") or
     #         (action_data.get("descData", {}).get("text") if action_data.get("descData") else None))
@@ -296,9 +280,9 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("Server stopped by user")
-        with active_clients_lock:
-            for appium in active_clients.values():
+        with instance_manager.active_clients_lock:
+            for appium in instance_manager.active_clients.values():
                 appium.quit()
-            active_clients.clear()
+            instance_manager.active_clients.clear()
     except Exception as e:
         logger.error(f"Server startup error: {traceback.format_exc()}")

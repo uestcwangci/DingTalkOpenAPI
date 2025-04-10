@@ -15,13 +15,10 @@ from android.lang_ch import LanguageHelper
 
 # from android.aqara_home import CameraHelper
 
-app = Flask(__name__, static_folder="static")
+app = Flask(__name__)
 WS_URL = "wss://devtool.dingtalk.com/cloud/ding8196cd9a2b2405da24f2f5cc6abecb85/221510?token=lippi-node-devops-token&platform=android"
-MJPEG_PORT = 8093  # Appium MJPEG流端口
 HLS_PORT = 5000    # HLS流服务端口
 PUBLIC_IP = "121.43.49.135"  # 公网IP地址
-# 全局变量存储FFmpeg进程
-ffmpeg_process = None
 
 def run_async(func, *args, **kwargs):
     """
@@ -276,64 +273,6 @@ def get_dingtalk_access_token():
         logger.error("请求失败，状态码:", response.status_code)
         logger.error("响应内容:", response.text)
         return None
-
-def start_ffmpeg_transcoding():
-    global ffmpeg_process
-    hls_output = "static/stream.m3u8"
-    if ffmpeg_process is None or ffmpeg_process.poll() is not None:
-        mjpeg_url = f"http://localhost:{MJPEG_PORT}"
-        # 等待MJPEG流就绪
-        import requests
-        for _ in range(10):  # 最多等待10秒
-            try:
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.settimeout(1)
-                result = sock.connect_ex(('localhost', MJPEG_PORT))
-                sock.close()
-
-                if result == 0:
-                    logger.info(f"MJPEG stream ready at port {MJPEG_PORT}")
-                    break
-            except Exception as e:
-                logger.error(f"MJPEG stream not ready: {str(e)}")
-                time.sleep(1)
-        else:
-            logger.error("MJPEG stream not available after 10 seconds")
-
-        cmd = [
-            "ffmpeg",
-            "-i", mjpeg_url,
-            "-c:v", "libx264",
-            "-preset", "ultrafast",
-            "-f", "hls",
-            "-hls_time", "2",
-            "-hls_list_size", "10",
-            "-hls_wrap", "0",
-            hls_output
-        ]
-        ffmpeg_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        logger.info(f"Started FFmpeg transcoding MJPEG to HLS at {hls_output}")
-        time.sleep(2)
-        if ffmpeg_process.poll() is not None:
-            stdout, stderr = ffmpeg_process.communicate()
-            logger.error(f"FFmpeg failed: {stderr.decode()}")
-
-def stop_ffmpeg_transcoding():
-    global ffmpeg_process
-    if ffmpeg_process and ffmpeg_process.poll() is None:
-        ffmpeg_process.terminate()
-        ffmpeg_process.wait()
-        logger.info("Stopped FFmpeg transcoding")
-        ffmpeg_process = None
-
-@app.route('/stream.m3u8')
-def serve_hls():
-    return app.send_static_file('stream.m3u8')
-
-
-@app.route('/<path:filename>')
-def serve_hls_segment(filename):
-    return app.send_static_file(filename)
 
 if __name__ == '__main__':
     try:
