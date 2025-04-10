@@ -46,6 +46,9 @@ class LongHuHelper:
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("点击抽奖")').click()
         # 点击“去签到”按钮
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("去签到")').click()
+        sleep(2)
+        # 返回
+        self.appium_helper.driver.back()
         # 点击“点击抽奖”按钮
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("点击抽奖")').click()
         sleep(10)
@@ -55,7 +58,10 @@ class LongHuHelper:
         wait_for_finds(by=AppiumBy.ID, value="com.longfor.supera:id/img_item")[0].click()
         sleep(3)
         # 退出
-        self.appium_helper.driver.quit()
+        try:
+            self.appium_helper.driver.quit()
+        except Exception as e:
+            pass
 
 if __name__ == '__main__':
     longhu_helper = LongHuHelper()
