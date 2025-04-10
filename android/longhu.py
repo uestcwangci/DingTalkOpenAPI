@@ -66,4 +66,3 @@ class LongHuHelper:
 if __name__ == '__main__':
     longhu_helper = LongHuHelper()
     longhu_helper.qian_dao()
-    longhu_helper.appium_helper.driver.quit()
