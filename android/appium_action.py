@@ -145,6 +145,7 @@ class AppiumAction(AppiumBaseAction):
             return {'success': True, 'message': 'Driver already None'}
 
         try:
+            self.driver.terminate_app(self.desired_caps["appium:appPackage"])
             self.driver.quit()
             self.driver = None
             self.molecular = None
@@ -166,23 +167,23 @@ class AppiumAction(AppiumBaseAction):
             if action != "start" and self.driver is None:
                 return {"message": "Error: Appium driver not started", "success": False}
             if action == "start":
-                if not self.check_driver_state():
-                    self.driver = AppiumDriverWrapper('http://localhost:4723',
-                                                      options=UiAutomator2Options().load_capabilities(self.desired_caps),
-                                                      timeout_seconds=session_timeout_seconds,
-                                                      callback=lambda:on_timeout(self.desired_caps["appium:udid"]))
-                    logger.info("Appium driver initialized")
-                    WebDriverWait(self.driver, timeout=30).until(
-                        lambda driver: driver.current_activity == self.desired_caps["appium:appActivity"]
-                    )
-                    logger.info(f"Application {self.desired_caps['appium:appActivity']} is ready")
-                    time.sleep(3)
-                    # 传递 driver 给 Molecular
-                    self.molecular = Molecular(self.udid, driver=self.driver)
-                    self.show_action_pointer()
-                    return {"message": f"Appium driver {self.driver.capabilities['udid']} started", "success": True}
-                else:
-                    return {"message": "Appium driver already started", "success": True}
+                if self.check_driver_state():
+                    self.quit()
+                self.driver = AppiumDriverWrapper('http://localhost:4723',
+                                                  options=UiAutomator2Options().load_capabilities(
+                                                      self.desired_caps),
+                                                  timeout_seconds=session_timeout_seconds,
+                                                  callback=lambda: on_timeout(self.desired_caps["appium:udid"]))
+                logger.info("Appium driver initialized")
+                WebDriverWait(self.driver, timeout=30).until(
+                    lambda driver: driver.current_activity == self.desired_caps["appium:appActivity"]
+                )
+                logger.info(f"Application {self.desired_caps['appium:appActivity']} is ready")
+                time.sleep(3)
+                # 传递 driver 给 Molecular
+                self.molecular = Molecular(self.udid, driver=self.driver)
+                self.show_action_pointer()
+                return {"message": f"Appium driver {self.driver.capabilities['udid']} started", "success": True}
             elif action == "done":
                 self.dismiss_action_pointer()
                 self.driver.terminate_app(self.desired_caps["appium:appPackage"])
