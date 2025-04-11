@@ -193,9 +193,7 @@ class WebSocketClient:
 
                 # 运行WebSocket客户端
                 self.ws.run_forever(
-                    ping_interval=30,
-                    ping_timeout=20,
-                )
+                    ping_interval=0) # 禁用ping/pong机制，使用自定义心跳
 
                 # 如果连接断开，检查是否应该重新连接
                 if not self.is_running:

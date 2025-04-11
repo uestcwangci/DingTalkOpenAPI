@@ -274,6 +274,9 @@ class AppiumAction(AppiumBaseAction):
                 return {"message": "Screen streaming stopped", "success": True}
             elif action == "dingtalk_open":
                 return {"message": "dingtalk_open", "success": True}
+            elif action == "press_enter" or action == "press_search":
+                self.driver.press_keycode(66)  # 66 is the keycode for the KEYCODE_ENTER/DONE/SEARCH
+                return {"message": "Enter key pressed", "success": True}
             else:
                 result = self.molecular.execute(action, data)
                 molecular_msg = result["message"]

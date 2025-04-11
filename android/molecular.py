@@ -138,6 +138,11 @@ class Molecular(AppiumBaseAction):
             direction = data.get("direction")
             result = scroll_action.swipe(direction, point)
             return {"message": "Text swipe action performed", "success": result}
+        elif action == "open_link":
+            # 打开链接
+            url = data.get("url")
+            self.call_jsapi(service_name="biz.util", action_name="openLink", params={"url": url})
+            return {"message": f"Opened link: {url}", "success": True}
         else:
             logger.error(f"Unknown molecular: {action}")
             return {"message": f"Error: Unsupported actionType '{action}'", "success": False}
