@@ -374,7 +374,7 @@ class AppiumBaseAction:
             element.send_keys(text)
             logger.info("Text input via send_keys succeeded")
         except Exception as e:
-            logger.info(f"Send_keys failed: {e}")
+            logger.debug(f"Send_keys failed: {e}")
             # 方法 2：使用 ADB 输入（适合英文和简单字符）
             try:
                 adb_text = text.replace(" ", "%s")  # 处理空格
@@ -384,8 +384,10 @@ class AppiumBaseAction:
                 })
                 logger.info("Text input via ADB succeeded")
             except Exception as adb_error:
-                logger.error(f"ADB input failed: {adb_error}")
-                # 方法 3：使用剪贴板输入（支持中文）
+                logger.debug(f"ADB input failed: {adb_error}")
+                # 方法 3：使用剪贴板输入（支持中文和复杂字符）
+                # 先缓存剪贴板的内容
+                last_clip_text = self.driver.get_clipboard_text()
                 try:
                     self.driver.set_clipboard_text(text)
                     element.click()  # 确保焦点
@@ -395,13 +397,16 @@ class AppiumBaseAction:
                     })
                     logger.info("Text input via clipboard succeeded")
                 except Exception as clipboard_error:
-                    logger.error(f"Clipboard input failed: {clipboard_error}")
+                    logger.debug(f"Clipboard input failed: {clipboard_error}")
                     # 方法 4：备用方案，使用 JavaScript（H5 页面）
                     try:
                         self.driver.execute_script("arguments[0].value = arguments[1];", element, text)
                         logger.info("Text input via JavaScript succeeded")
                     except Exception as js_error:
                         logger.error(f"JavaScript input failed: {js_error}")
+                finally:
+                    # 恢复剪贴板内容
+                    self.driver.set_clipboard_text(last_clip_text)
 
     def scroll(self, start: tuple, end: tuple, duration: int = 500) -> None:
         """
