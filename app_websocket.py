@@ -249,7 +249,9 @@ async def handle_connection(websocket):
     except websockets.ConnectionClosed:
         logger.info(f"Client connection closed: {websocket.remote_address}")
     except Exception as e:
-        logger.error(f"handle_connection error: {e}")
+        logger.error(f"Client {websocket.remote_address} handle_connection error: {e}")
+    finally:
+        logger.info(f"Client {websocket.remote_address} disconnected")
 
 
 async def run_websocket_server():

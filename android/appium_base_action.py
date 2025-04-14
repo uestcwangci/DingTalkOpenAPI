@@ -338,6 +338,16 @@ class AppiumBaseAction:
         move_thread.start()
         self.driver.tap([(x, y)], 100)
 
+    def double_click(self, x: int, y: int) -> None:
+        """
+        双击指定坐标。
+        """
+        move_thread = Thread(target=self.move_action_pointer, args=(x, y))
+        move_thread.start()
+        self.driver.tap([(x, y)], 100)
+        time.sleep(0.1)
+        self.driver.tap([(x, y)], 100)
+
     def long_press(self, x: int, y: int, duration: int = 1000) -> None:
         """
         长按指定坐标。

@@ -52,9 +52,9 @@ def setup_logger(log_dir='logs'):
     )
 
     # 文件处理器（按天分割）
-    base_name = 'trace.log'
+    log_file = os.path.join(log_dir, 'trace.log')
     file_handler = CustomTimedRotatingFileHandler(
-        base_name=base_name,
+        base_name=log_file,
         when='midnight',  # 每天午夜分割
         interval=1,  # 间隔1天
         backupCount=30,  # 保留30天的日志

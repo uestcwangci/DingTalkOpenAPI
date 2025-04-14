@@ -238,6 +238,13 @@ class AppiumAction(AppiumBaseAction):
                     return {"message": "Error: Missing x or y coordinates", "success": False}
                 self.click(x, y)
                 return {"message": f"Clicked at ({x}, {y})", "success": True}
+            elif action == "double_click":
+                x = data.get("x")
+                y = data.get("y")
+                if x is None or y is None:
+                    return {"message": "Error: Missing x or y coordinates", "success": False}
+                self.double_click(x, y)
+                return {"message": f"Double clicked at ({x}, {y})", "success": True}
             elif action == "long_press":
                 x = data.get("x")
                 y = data.get("y")
