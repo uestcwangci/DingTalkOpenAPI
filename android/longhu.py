@@ -49,6 +49,8 @@ class LongHuHelper:
         sleep(2)
         # 返回
         self.appium_helper.driver.back()
+        # 再进入抽奖页面
+        wait_for_finds(by=AppiumBy.ID, value="com.longfor.supera:id/img_item")[1].click()
         # 点击“点击抽奖”按钮
         wait_for_find(by=AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("点击抽奖")').click()
         sleep(10)
@@ -59,6 +61,7 @@ class LongHuHelper:
         sleep(3)
         # 退出
         try:
+            self.appium_helper.driver.terminate_app(self.appium_helper.driver.capabilities["appPackage"])
             self.appium_helper.driver.quit()
         except Exception as e:
             pass
