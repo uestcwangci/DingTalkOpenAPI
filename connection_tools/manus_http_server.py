@@ -9,6 +9,7 @@ from aiocache import Cache
 from typing import Dict, Any, List
 from connection_tools.manus_websocket import WebSocketClient
 from urllib.parse import urlparse, parse_qs
+from app_websocket import  run_websocket_client
 
 http_server = Quart(__name__)
 aliyun_client = AliyunClient()
@@ -159,6 +160,22 @@ async def clear_cache():
     try:
         await cache.delete("tickets")
         return jsonify(APIResponse.success(message="Cache cleared"))
+    except Exception as e:
+        return jsonify(APIResponse.error(message=str(e)))
+
+
+@http_server.route('/live/connectWebsocket', methods=['POST'])
+async def live_connect_websocket():
+    """清除缓存的接口"""
+    try:
+        body = await request.get_json()
+        ws_address = body.get('wsAddress')
+        if not ws_address:
+            return jsonify(APIResponse.error(message="wsAddress is required")), 400
+        run_websocket_client(ws_address, max_retries=1)
+        return jsonify(APIResponse.success(message=f"WebSocket client started: {ws_address}"))
+    except KeyboardInterrupt:
+        return jsonify(APIResponse.error(message="WebSocket client interrupted by user"))
     except Exception as e:
         return jsonify(APIResponse.error(message=str(e)))
 

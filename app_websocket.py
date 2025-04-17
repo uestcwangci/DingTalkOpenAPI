@@ -177,12 +177,13 @@ class WebSocketClient:
         """运行WebSocket客户端"""
         while self.is_running:
             try:
+                # 先检查重试次数
                 if self.max_retries and self.retry_count >= self.max_retries:
                     logger.info(f"Reached the maximum number of retries {self.max_retries}, stopped reconnecting")
                     break
 
                 logger.info(f"Try connecting to {self.url}")
-                self.reconnect_event.clear()  # 连接前清除重连事件标志
+                self.reconnect_event.clear()
                 self.ws = websocket.WebSocketApp(
                     self.url,
                     on_open=self.on_open,
@@ -192,28 +193,43 @@ class WebSocketClient:
                 )
 
                 # 运行WebSocket客户端
-                self.ws.run_forever(
-                    ping_interval=0) # 禁用ping/pong机制，使用自定义心跳
+                self.ws.run_forever(ping_interval=0) # 禁用ping/pong机制，使用自定义心跳
 
                 # 如果连接断开，检查是否应该重新连接
                 if not self.is_running:
                     break
 
+                # 增加重试计数
                 self.retry_count += 1
-                retry_time = min(self.retry_delay * (2 ** min(self.retry_count, 5)), 300)  # 指数退避，最大5分钟
-                logger.info(f"Disconnected, trying to reconnect {self.retry_count} times after {retry_time} seconds...")
 
                 # 清理旧连接资源
                 self.cleanup()
 
-                # 关键修改：直接使用 sleep 等待重连时间，不使用 event
+                # 如果达到最大重试次数，直接退出
+                if self.max_retries and self.retry_count >= self.max_retries:
+                    logger.info(f"Reached the maximum number of retries {self.max_retries}, stopped reconnecting")
+                    break
+
+                # 只有在未达到最大重试次数时才等待重连
+                retry_time = min(self.retry_delay * (2 ** min(self.retry_count, 5)), 300)
+                logger.info(f"Disconnected, trying to reconnect {self.retry_count} times after {retry_time} seconds...")
                 time.sleep(retry_time)
 
             except Exception as e:
                 logger.error(f"WebSocket client error: {e}")
-                self.retry_count += 1
                 self.cleanup()
-                time.sleep(min(self.retry_delay * (2 ** min(self.retry_count, 5)), 300))
+
+                # 增加重试计数
+                self.retry_count += 1
+
+                # 如果达到最大重试次数，直接退出
+                if self.max_retries and self.retry_count >= self.max_retries:
+                    logger.info(f"Reached the maximum number of retries {self.max_retries}, stopped reconnecting")
+                    break
+
+                # 只有在未达到最大重试次数时才等待重连
+                retry_time = min(self.retry_delay * (2 ** min(self.retry_count, 5)), 300)
+                time.sleep(retry_time)
 
     def stop(self):
         """停止客户端"""
@@ -224,9 +240,9 @@ class WebSocketClient:
             self.heartbeat_thread.join(timeout=2)
 
 
-def run_websocket_client():
+def run_websocket_client(ws_url=WS_URL, max_retries=None):
     """主运行函数"""
-    client = WebSocketClient(WS_URL)
+    client = WebSocketClient(ws_url, max_retries=max_retries)
     try:
         client.run()
     except KeyboardInterrupt:
@@ -265,10 +281,6 @@ async def run_websocket_server():
 # 主程序
 async def main():
     try:
-        # 启动 WebSocket 客户端（在新线程中运行）
-        ws_client_thread = threading.Thread(target=run_websocket_client, daemon=True)
-        ws_client_thread.start()
-
         # 启动 WebSocket 服务器（在主事件循环中运行）
         await run_websocket_server()
     except Exception as e:
