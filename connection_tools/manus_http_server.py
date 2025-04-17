@@ -1,21 +1,23 @@
+import asyncio
 import threading
 
 from quart import Quart, jsonify, request
 
 from aliyun.instance_manager import InstanceManager
+from connection_tools.socket_manager import SocketManager
 from android import logger
 from aliyun.client import AliyunClient
 from aiocache import Cache
 from typing import Dict, Any, List
 from connection_tools.manus_websocket import WebSocketClient
 from urllib.parse import urlparse, parse_qs
-from app_websocket import  run_websocket_client
 
 http_server = Quart(__name__)
 aliyun_client = AliyunClient()
 cache = Cache(Cache.MEMORY)
 
 instance_manager = InstanceManager()
+socket_manager = SocketManager()
 
 class APIResponse:
     @staticmethod
@@ -172,7 +174,10 @@ async def live_connect_websocket():
         ws_address = body.get('wsAddress')
         if not ws_address:
             return jsonify(APIResponse.error(message="wsAddress is required")), 400
-        run_websocket_client(ws_address, max_retries=1)
+        logger.info(f"live/connectWebsocket called with wsAddress: {ws_address}")
+
+        ws_client_thread = threading.Thread(target=socket_manager.force_reconnect, args=(ws_address,), daemon=True)
+        ws_client_thread.start()
         return jsonify(APIResponse.success(message=f"WebSocket client started: {ws_address}"))
     except KeyboardInterrupt:
         return jsonify(APIResponse.error(message="WebSocket client interrupted by user"))

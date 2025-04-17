@@ -1,11 +1,10 @@
 import asyncio
 import threading
-from typing import Dict, Any, List, Set
+from typing import Any
 
-from android.appium_action import AppiumAction
 from aliyun.client import AliyunClient
 from android import logger
-
+from android.appium_action import AppiumAction
 
 """
 Singleton decorator to ensure only one instance of InstanceManager exists.
