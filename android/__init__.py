@@ -8,7 +8,8 @@ class CustomTimedRotatingFileHandler(TimedRotatingFileHandler):
     """
     自定义的TimedRotatingFileHandler类，用于直接创建指定格式的日志文件
     """
-    def __init__(self, base_name, *args, **kwargs):
+    def __init__(self, log_dir, base_name, *args, **kwargs):
+        self.log_dir = log_dir
         self.base_name = base_name
         # 生成当前日期的文件名
         current_file = self._get_current_filename()
@@ -17,7 +18,7 @@ class CustomTimedRotatingFileHandler(TimedRotatingFileHandler):
     def _get_current_filename(self):
         """生成当前日期的文件名"""
         current_date = datetime.now().strftime('%Y-%m-%d')
-        return f"{current_date}-{self.base_name}"
+        return os.path.join(self.log_dir, f"{current_date}-{self.base_name}")
 
     def doRollover(self):
         """
@@ -52,9 +53,9 @@ def setup_logger(log_dir='logs'):
     )
 
     # 文件处理器（按天分割）
-    log_file = os.path.join(log_dir, 'trace.log')
     file_handler = CustomTimedRotatingFileHandler(
-        base_name=log_file,
+        log_dir=log_dir,
+        base_name='trace.log',
         when='midnight',  # 每天午夜分割
         interval=1,  # 间隔1天
         backupCount=30,  # 保留30天的日志
