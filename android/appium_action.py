@@ -8,6 +8,7 @@ from http.client import HTTPConnection
 from typing import Literal
 from urllib.parse import urlparse
 
+import requests
 from appium.options.android import UiAutomator2Options
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -107,6 +108,38 @@ def upload_file_source_to_cdn(source: str | bytes, file_type: Literal['image', '
 def on_timeout(device_id):
     logger.warning(f"{device_id} Timeout or session disconnect detected！")
 
+"""
+在同一个设备（相同的 udid）上，即使 session ID 不同，它们的 newCommandTimeout 也会相互影响。这是因为：
+不同设备（不同 udid）的 session 是相互独立的，它们的 newCommandTimeout 不会互相影响
+1.实际上这些 session 共享同一个底层的 UiAutomator2 服务器实例（因为是同一个设备）
+2.最新创建的 session 会重置计时器，但计时器是在设备级别共享的
+3.当任何一个 session 的计时器触发超时，可能会影响到该设备上的其他 session
+"""
+class AppiumSessionManager:
+    def __init__(self):
+        self.base_url = 'http://localhost:4723'
+
+    def cleanup_device_sessions(self, udid):
+        try:
+            sessions = requests.get(f'{self.base_url}/sessions').json()['value']
+            for session in sessions:
+                if session['capabilities'].get('udid') == udid or \
+                        session['capabilities'].get('appium:udid') == udid:
+                    requests.delete(f'{self.base_url}/session/{session["id"]}')
+                    logger.info(f"Cleaned up session for {udid}: {session['id']}")
+        except Exception as e:
+            logger.error(f"Error cleaning up sessions for {udid}: {e}")
+
+    def create_session(self, desired_caps):
+        udid = desired_caps.get('appium:udid')
+        self.cleanup_device_sessions(udid)
+        driver = AppiumDriverWrapper(self.base_url,
+                                     options=UiAutomator2Options().load_capabilities(desired_caps),
+                                     timeout_seconds=session_timeout_seconds,
+                                     callback=lambda: on_timeout(udid))
+        return driver
+
+session_manager = AppiumSessionManager()
 
 class AppiumAction(AppiumBaseAction):
     def check_driver_state(self):
@@ -169,11 +202,8 @@ class AppiumAction(AppiumBaseAction):
             if action == "start":
                 if self.check_driver_state():
                     self.quit()
-                self.driver = AppiumDriverWrapper('http://localhost:4723',
-                                                  options=UiAutomator2Options().load_capabilities(
-                                                      self.desired_caps),
-                                                  timeout_seconds=session_timeout_seconds,
-                                                  callback=lambda: on_timeout(self.desired_caps["appium:udid"]))
+
+                self.driver = session_manager.create_session(self.desired_caps)
                 logger.info("Appium driver initialized")
                 WebDriverWait(self.driver, timeout=30).until(
                     lambda driver: driver.current_activity == self.desired_caps["appium:appActivity"]
